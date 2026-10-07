@@ -2,11 +2,7 @@ package com.pending.controller;
 
 import com.pending.model.PendingItem;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +29,36 @@ public class PendingController {
         item.setId(nextId++);
         items.add(item);
         return item;
+    }
+
+    @PutMapping("/items/{id}")
+    public PendingItem updateItem(
+            @PathVariable Long id,
+            @RequestBody PendingItem updatedItem) {
+
+        for (PendingItem item : items) {
+            if (item.getId().equals(id)) {
+                item.setTitle(updatedItem.getTitle());
+                item.setWaitingOn(updatedItem.getWaitingOn());
+                item.setDescription(updatedItem.getDescription());
+                item.setStatus(updatedItem.getStatus());
+
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    @DeleteMapping("/items/{id}")
+    public String deleteItem(@PathVariable Long id) {
+
+        boolean removed = items.removeIf(item -> item.getId().equals(id));
+
+        if (removed) {
+            return "Pending item deleted.";
+        }
+
+        return "Pending item not found.";
     }
 }
