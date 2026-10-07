@@ -1,18 +1,22 @@
 package com.pending.controller;
 
 import com.pending.model.PendingItem;
+import com.pending.repository.PendingItemRepository;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class PendingController {
 
-    private final List<PendingItem> items = new ArrayList<>();
-    private long nextId = 1;
+    private final PendingItemRepository repository;
+
+    public PendingController(PendingItemRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/test")
     public String testServer() {
@@ -21,44 +25,41 @@ public class PendingController {
 
     @GetMapping("/items")
     public List<PendingItem> getAllItems() {
-        return items;
+        return repository.findAll();
     }
 
     @PostMapping("/items")
     public PendingItem createItem(@RequestBody PendingItem item) {
-        item.setId(nextId++);
-        items.add(item);
-        return item;
+        item.setId(null);
+        return repository.save(item);
     }
 
     @PutMapping("/items/{id}")
-    public PendingItem updateItem(
+    public ResponseEntity<PendingItem> updateItem(
             @PathVariable Long id,
             @RequestBody PendingItem updatedItem) {
 
-        for (PendingItem item : items) {
-            if (item.getId().equals(id)) {
-                item.setTitle(updatedItem.getTitle());
-                item.setWaitingOn(updatedItem.getWaitingOn());
-                item.setDescription(updatedItem.getDescription());
-                item.setStatus(updatedItem.getStatus());
+        return repository.findById(id)
+                .map(item -> {
+                    item.setTitle(updatedItem.getTitle());
+                    item.setWaitingOn(updatedItem.getWaitingOn());
+                    item.setDescription(updatedItem.getDescription());
+                    item.setStatus(updatedItem.getStatus());
 
-                return item;
-            }
-        }
-
-        return null;
+                    PendingItem savedItem = repository.save(item);
+                    return ResponseEntity.ok(savedItem);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/items/{id}")
-    public String deleteItem(@PathVariable Long id) {
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
 
-        boolean removed = items.removeIf(item -> item.getId().equals(id));
-
-        if (removed) {
-            return "Pending item deleted.";
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
 
-        return "Pending item not found.";
+        repository.deleteById(id);
+        return ResponseEntity.ok("Pending item deleted.");
     }
 }
