@@ -28,6 +28,13 @@ public class PendingController {
         return repository.findAll();
     }
 
+    @GetMapping("/items/{id}")
+public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
+    return repository.findById(id)
+            .map(ResponseEntity::ok)
+            .orElseGet(() -> ResponseEntity.notFound().build());
+}
+
     @PostMapping("/items")
     public PendingItem createItem(@RequestBody PendingItem item) {
         item.setId(null);
