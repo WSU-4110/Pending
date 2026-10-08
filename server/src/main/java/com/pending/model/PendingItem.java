@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "pending_items")
 public class PendingItem {
@@ -19,16 +21,31 @@ public class PendingItem {
     private String description;
     private String status;
 
+    private LocalDate initiatedDate;
+    private LocalDate expectedResponseDate;
+    private LocalDate reminderDate;
+
     public PendingItem() {
     }
 
-    public PendingItem(Long id, String title, String waitingOn,
-                       String description, String status) {
+    public PendingItem(
+            Long id,
+            String title,
+            String waitingOn,
+            String description,
+            String status,
+            LocalDate initiatedDate,
+            LocalDate expectedResponseDate,
+            LocalDate reminderDate) {
+
         this.id = id;
         this.title = title;
         this.waitingOn = waitingOn;
         this.description = description;
         this.status = status;
+        this.initiatedDate = initiatedDate;
+        this.expectedResponseDate = expectedResponseDate;
+        this.reminderDate = reminderDate;
     }
 
     public Long getId() {
@@ -69,5 +86,29 @@ public class PendingItem {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDate getInitiatedDate() {
+        return initiatedDate;
+    }
+
+    public void setInitiatedDate(LocalDate initiatedDate) {
+        this.initiatedDate = initiatedDate;
+    }
+
+    public LocalDate getExpectedResponseDate() {
+        return expectedResponseDate;
+    }
+
+    public void setExpectedResponseDate(LocalDate expectedResponseDate) {
+        this.expectedResponseDate = expectedResponseDate;
+    }
+
+    public LocalDate getReminderDate() {
+        return reminderDate;
+    }
+
+    public void setReminderDate(LocalDate reminderDate) {
+        this.reminderDate = reminderDate;
     }
 }

@@ -46,6 +46,10 @@ public class PendingController {
                     item.setDescription(updatedItem.getDescription());
                     item.setStatus(updatedItem.getStatus());
 
+                    item.setInitiatedDate(updatedItem.getInitiatedDate());
+                    item.setExpectedResponseDate(updatedItem.getExpectedResponseDate());
+                    item.setReminderDate(updatedItem.getReminderDate());
+
                     PendingItem savedItem = repository.save(item);
                     return ResponseEntity.ok(savedItem);
                 })
@@ -60,6 +64,7 @@ public class PendingController {
         }
 
         repository.deleteById(id);
+
         return ResponseEntity.ok("Pending item deleted.");
     }
 }
