@@ -3,6 +3,8 @@ package com.pending.controller;
 import com.pending.model.PendingItem;
 import com.pending.repository.PendingItemRepository;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +31,14 @@ public class PendingController {
     }
 
     @GetMapping("/items/{id}")
-public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
-    return repository.findById(id)
-            .map(ResponseEntity::ok)
-            .orElseGet(() -> ResponseEntity.notFound().build());
-}
+    public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
+        return repository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @PostMapping("/items")
-    public PendingItem createItem(@RequestBody PendingItem item) {
+    public PendingItem createItem(@Valid @RequestBody PendingItem item) {
         item.setId(null);
         return repository.save(item);
     }
@@ -44,7 +46,7 @@ public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
     @PutMapping("/items/{id}")
     public ResponseEntity<PendingItem> updateItem(
             @PathVariable Long id,
-            @RequestBody PendingItem updatedItem) {
+            @Valid @RequestBody PendingItem updatedItem) {
 
         return repository.findById(id)
                 .map(item -> {
@@ -52,7 +54,6 @@ public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
                     item.setWaitingOn(updatedItem.getWaitingOn());
                     item.setDescription(updatedItem.getDescription());
                     item.setStatus(updatedItem.getStatus());
-
                     item.setInitiatedDate(updatedItem.getInitiatedDate());
                     item.setExpectedResponseDate(updatedItem.getExpectedResponseDate());
                     item.setReminderDate(updatedItem.getReminderDate());
@@ -71,7 +72,6 @@ public ResponseEntity<PendingItem> getItemById(@PathVariable Long id) {
         }
 
         repository.deleteById(id);
-
         return ResponseEntity.ok("Pending item deleted.");
     }
 }

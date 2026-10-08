@@ -6,6 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
 
 @Entity
@@ -16,9 +18,15 @@ public class PendingItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     private String title;
+
+    @NotBlank(message = "Waiting on is required")
     private String waitingOn;
+
     private String description;
+
+    @NotBlank(message = "Status is required")
     private String status;
 
     private LocalDate initiatedDate;
