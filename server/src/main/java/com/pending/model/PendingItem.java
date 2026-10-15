@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "pending_items")
+@Table(name = "tasks")
 public class PendingItem {
 
     @Id

@@ -133,7 +133,7 @@ The `ON DELETE CASCADE` relationship ensures that reminders belonging to a perma
 
 ---
 
-### 'user_preferences`
+### `user_preferences`
 
 The `user_preferences` table stores account-specific display information.
 
@@ -182,9 +182,6 @@ Like `user_preferences`, `user_id` is the primary key, making the relationship b
 The `CHECK` constraint on `theme` prevents invalid theme values from being stored.
 
 ---
-
-# 3. Relationships
-
 # 3. Relationships
 
 The database uses foreign keys to connect related information.
