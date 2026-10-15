@@ -58,9 +58,6 @@ public class PendingController {
                     item.setStatus(updatedItem.getStatus());
                     item.setNotes(updatedItem.getNotes());
                     item.setPriority(updatedItem.getPriority());
-
-                    // Assuming timestamps are passed in the update payload.
-                    // If you handle updatedAt automatically, you might prefer: item.setUpdatedAt(OffsetDateTime.now());
                     item.setUpdatedAt(updatedItem.getUpdatedAt());
                     item.setResolvedAt(updatedItem.getResolvedAt());
                     item.setDeletedAt(updatedItem.getDeletedAt());
