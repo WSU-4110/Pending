@@ -1,14 +1,11 @@
 package com.pending.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -18,20 +15,32 @@ public class PendingItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title is required")
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
+    @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Waiting on is required")
+    @Column(name = "waiting_on")
     private String waitingOn;
 
-    private String description;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @NotBlank(message = "Status is required")
-    private String status;
-
-    private LocalDate initiatedDate;
+    @Column(name = "expected_response_date")
     private LocalDate expectedResponseDate;
-    private LocalDate reminderDate;
+
+    @Column(nullable = false)
+    private Integer status = 0;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
+    @Column(nullable = false)
+    private Integer priority = 0;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
 
     public PendingItem() {
     }

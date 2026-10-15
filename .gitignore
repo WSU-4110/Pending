@@ -99,3 +99,4 @@ application-secret.yml
 
 # Spring Boot DevTools restart trigger marker
 .spring-boot-devtools.properties
+**/src/main/resources/applications.properties
