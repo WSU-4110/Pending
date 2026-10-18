@@ -1,8 +1,11 @@
 # Pending Server
 
+---
 Backend server for the Pending Android application.
 
 Pending helps users keep track of unresolved responsibilities, such as waiting for replies, refunds, decisions, follow-ups, and other pending tasks.
+
+---
 
 ## Technologies
 
@@ -13,6 +16,7 @@ Pending helps users keep track of unresolved responsibilities, such as waiting f
 - PostgreSQL
 - Supabase
 
+---
 ## Features
 
 The server supports:
@@ -28,20 +32,25 @@ The server supports:
 - Expected response dates
 - Initiated dates
 - Status tracking
-
+---
 ## Pending Item Fields
 
 Each Pending item contains:
 
-- `id`
-- `title`
-- `waitingOn`
-- `description`
-- `status`
-- `initiatedDate`
-- `expectedResponseDate`
-- `reminderDate`
-
+- `id: String`
+- `ownerId: Long`
+- `title: String`
+- `waitingOn: String`
+- `startDate: LocalDate`
+- `expectedResponseDate: LocalDate`
+- `status: Integer = 0`
+- `notes: String`
+- `priority: Integer = 0`
+- `createdAt: OffsetDateTime`
+- `updatedAt: OffsetDateTime`
+- `resolvedAt: OffsetDateTime`
+- `deletedAt: OffsetDateTime`
+---
 ## API Endpoints
 
 ### Test server

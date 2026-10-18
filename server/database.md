@@ -21,18 +21,18 @@ The schema uses foreign keys, `NOT NULL` constraints, `CHECK` constraints, index
 
 ## 2. Database Tables
 
-### `users`
+### `pending_users`
 
-The `users` table stores the information required for registered accounts.
+The `pending_users` table stores the information required for registered accounts.
 
 ```sql
-create table users (
+create table pending_users (
   id BIGINT generated always as identity primary key,
   email varchar(255) not null unique,
   password_hash text not null,
   first_name varchar(100) not null,
   last_name varchar(100) not null,
-  create_at timestamptz not null default current_timestamp,
+  created_at timestamptz not null default current_timestamp,
   updated_at timestamptz not null default current_timestamp
 );
 ```
@@ -44,7 +44,7 @@ create table users (
 | `password_hash` | Stores the password hash rather than the user's plain-text password. |
 | `first_name` | User's first name. Required. |
 | `last_name` | User's last name. Required. |
-| `create_at` | Timestamp showing when the account was created. |
+| `created_at` | Timestamp showing when the account was created. |
 | `updated_at` | Timestamp showing when the user record was last updated. |
 
 The `email unique` constraint prevents duplicate account registrations using the same email address.
@@ -60,7 +60,7 @@ The `tasks` table stores the application's main Pending items.
 ```sql
 create table tasks (
   id bigint generated always as identity primary key,
-  owner_id bigint not null references users(id) on delete cascade,
+  owner_id bigint not null references pending_users(id) on delete cascade,
   title varchar(255) not null,
   person_or_org varchar(255),
   start_date date,
@@ -69,7 +69,7 @@ create table tasks (
   notes text,
   priority integer not null default 0 check (priority in (0, 1, 2)),
   created_at timestamptz not null default current_timestamp,
-  update_at timestamptz not null default current_timestamp,
+  updated_at timestamptz not null default current_timestamp,
   resolved_at timestamptz,
   deleted_at timestamptz
 );
@@ -89,7 +89,7 @@ create table tasks (
 | `notes` | Additional task information. |
 | `priority` | Priority value. Restricted to `0`–`2`. |
 | `created_at` | Timestamp for when the task was created. |
-| `update_at` | Timestamp intended to represent the most recent task update. |
+| `updated_at` | Timestamp intended to represent the most recent task update. |
 | `resolved_at` | Timestamp for when the task was marked resolved. |
 | `deleted_at` | Timestamp used for soft deletion. A `NULL` value means the task has not been soft-deleted. |
 
@@ -139,7 +139,7 @@ The `user_preferences` table stores account-specific display information.
 
 ```sql
 create table user_preferences (
-  user_id bigint primary key references users(id) on delete cascade,
+  user_id bigint primary key references pending_users(id) on delete cascade,
   display_name varchar(100) not null
 );
 ```
@@ -153,7 +153,7 @@ create table user_preferences (
 
 Using `user_id` as the primary key creates a **one-to-one relationship** with `users`. A user can therefore have zero or one `user_preferences` row, rather than multiple preference rows.
 
-The account's email and password are kept in `users`, while the display name is separated into this preference table.
+The account's email and password are kept in `pending_users`, while the display name is separated into this preference table.
 
 ### `app_preferences`
 
@@ -161,7 +161,7 @@ The `app_preferences` table stores application behavior and appearance settings.
 
 ```sql
 create table app_preferences(
-  user_id bigint primary key references users(id) on delete cascade,
+  user_id bigint primary key references pending_users(id) on delete cascade,
   theme varchar(10) not null default 'LIGHT' check (theme in ('LIGHT', 'DARK')),
   notification_enabled boolean not null default true,
   notification_style varchar(100)
@@ -191,7 +191,7 @@ The database uses foreign keys to connect related information.
 A user can own many tasks:
 
 ```text
-users.id 1 ───────< tasks.owner_id
+pending_users.id 1 ───────< tasks.owner_id
 ```
 
 This is a **one-to-many** relationship.
@@ -211,7 +211,7 @@ This is also a **one-to-many** relationship.
 A user can have at most one account-preference record:
 
 ```text
-users.id 1 ─────── 0..1 user_preferences.user_id
+pending_users.id 1 ─────── 0..1 user_preferences.user_id
 ```
 
 ### User → App Preferences
@@ -219,7 +219,7 @@ users.id 1 ─────── 0..1 user_preferences.user_id
 A user can have at most one application-preference record:
 
 ```text
-users.id 1 ─────── 0..1 app_preferences.user_id
+pending_users.id 1 ─────── 0..1 app_preferences.user_id
 ```
 
 These relationships prevent orphaned records and make it possible for the backend to retrieve all information associated with a particular user.
@@ -346,7 +346,7 @@ on delete cascade
 For example:
 
 ```sql
-owner_id bigint not null references users(id) on delete cascade
+owner_id bigint not null references pending_users(id) on delete cascade
 ```
 
 This means deleting a user automatically deletes rows that depend on that user.
@@ -434,8 +434,8 @@ The function automatically changes `updated_at` whenever a row is updated.
 The user trigger is:
 
 ```sql
-create trigger trigger_users_update_at
-before update on users
+create trigger trigger_users_updated_at
+before update on pending_users
 for each row
 execute function update_modified_column();
 ```
@@ -443,7 +443,7 @@ execute function update_modified_column();
 The task trigger is intended to do the same:
 
 ```sql
-create trigger trigger_tasks_update_at
+create trigger trigger_tasks_updated_at
 before update on tasks
 for each row
 execute function update_modified_column();
