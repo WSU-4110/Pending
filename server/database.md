@@ -21,12 +21,12 @@ The schema uses foreign keys, `NOT NULL` constraints, `CHECK` constraints, index
 
 ## 2. Database Tables
 
-### `users`
+### `pending_users`
 
-The `users` table stores the information required for registered accounts.
+The `pending_users` table stores the information required for registered accounts.
 
 ```sql
-create table users (
+create table pending_users (
   id BIGINT generated always as identity primary key,
   email varchar(255) not null unique,
   password_hash text not null,
@@ -60,7 +60,7 @@ The `tasks` table stores the application's main Pending items.
 ```sql
 create table tasks (
   id bigint generated always as identity primary key,
-  owner_id bigint not null references users(id) on delete cascade,
+  owner_id bigint not null references pending_users(id) on delete cascade,
   title varchar(255) not null,
   person_or_org varchar(255),
   start_date date,
@@ -139,7 +139,7 @@ The `user_preferences` table stores account-specific display information.
 
 ```sql
 create table user_preferences (
-  user_id bigint primary key references users(id) on delete cascade,
+  user_id bigint primary key references pending_users(id) on delete cascade,
   display_name varchar(100) not null
 );
 ```
@@ -153,7 +153,7 @@ create table user_preferences (
 
 Using `user_id` as the primary key creates a **one-to-one relationship** with `users`. A user can therefore have zero or one `user_preferences` row, rather than multiple preference rows.
 
-The account's email and password are kept in `users`, while the display name is separated into this preference table.
+The account's email and password are kept in `pending_users`, while the display name is separated into this preference table.
 
 ### `app_preferences`
 
@@ -161,7 +161,7 @@ The `app_preferences` table stores application behavior and appearance settings.
 
 ```sql
 create table app_preferences(
-  user_id bigint primary key references users(id) on delete cascade,
+  user_id bigint primary key references pending_users(id) on delete cascade,
   theme varchar(10) not null default 'LIGHT' check (theme in ('LIGHT', 'DARK')),
   notification_enabled boolean not null default true,
   notification_style varchar(100)
@@ -194,7 +194,7 @@ The database uses foreign keys to connect related information.
 A user can own many tasks:
 
 ```text
-users.id 1 ───────< tasks.owner_id
+pending_users.id 1 ───────< tasks.owner_id
 ```
 
 This is a **one-to-many** relationship.
@@ -214,7 +214,7 @@ This is also a **one-to-many** relationship.
 A user can have at most one account-preference record:
 
 ```text
-users.id 1 ─────── 0..1 user_preferences.user_id
+pending_users.id 1 ─────── 0..1 user_preferences.user_id
 ```
 
 ### User → App Preferences
@@ -222,7 +222,7 @@ users.id 1 ─────── 0..1 user_preferences.user_id
 A user can have at most one application-preference record:
 
 ```text
-users.id 1 ─────── 0..1 app_preferences.user_id
+pending_users.id 1 ─────── 0..1 app_preferences.user_id
 ```
 
 These relationships prevent orphaned records and make it possible for the backend to retrieve all information associated with a particular user.
@@ -349,7 +349,7 @@ on delete cascade
 For example:
 
 ```sql
-owner_id bigint not null references users(id) on delete cascade
+owner_id bigint not null references pending_users(id) on delete cascade
 ```
 
 This means deleting a user automatically deletes rows that depend on that user.
@@ -438,7 +438,7 @@ The user trigger is:
 
 ```sql
 create trigger trigger_users_updated_at
-before update on users
+before update on pending_users
 for each row
 execute function update_modified_column();
 ```
