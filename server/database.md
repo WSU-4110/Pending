@@ -32,7 +32,7 @@ create table users (
   password_hash text not null,
   first_name varchar(100) not null,
   last_name varchar(100) not null,
-  create_at timestamptz not null default current_timestamp,
+  created_at timestamptz not null default current_timestamp,
   updated_at timestamptz not null default current_timestamp
 );
 ```
@@ -44,7 +44,7 @@ create table users (
 | `password_hash` | Stores the password hash rather than the user's plain-text password. |
 | `first_name` | User's first name. Required. |
 | `last_name` | User's last name. Required. |
-| `create_at` | Timestamp showing when the account was created. |
+| `created_at` | Timestamp showing when the account was created. |
 | `updated_at` | Timestamp showing when the user record was last updated. |
 
 The `email unique` constraint prevents duplicate account registrations using the same email address.
@@ -69,7 +69,7 @@ create table tasks (
   notes text,
   priority integer not null default 0 check (priority in (0, 1, 2)),
   created_at timestamptz not null default current_timestamp,
-  update_at timestamptz not null default current_timestamp,
+  updated_at timestamptz not null default current_timestamp,
   resolved_at timestamptz,
   deleted_at timestamptz
 );
@@ -89,7 +89,7 @@ create table tasks (
 | `notes` | Additional task information. |
 | `priority` | Priority value. Restricted to `0`–`2`. |
 | `created_at` | Timestamp for when the task was created. |
-| `update_at` | Timestamp intended to represent the most recent task update. |
+| `updated_at` | Timestamp intended to represent the most recent task update. |
 | `resolved_at` | Timestamp for when the task was marked resolved. |
 | `deleted_at` | Timestamp used for soft deletion. A `NULL` value means the task has not been soft-deleted. |
 
@@ -437,7 +437,7 @@ The function automatically changes `updated_at` whenever a row is updated.
 The user trigger is:
 
 ```sql
-create trigger trigger_users_update_at
+create trigger trigger_users_updated_at
 before update on users
 for each row
 execute function update_modified_column();
@@ -446,7 +446,7 @@ execute function update_modified_column();
 The task trigger is intended to do the same:
 
 ```sql
-create trigger trigger_tasks_update_at
+create trigger trigger_tasks_updated_at
 before update on tasks
 for each row
 execute function update_modified_column();
