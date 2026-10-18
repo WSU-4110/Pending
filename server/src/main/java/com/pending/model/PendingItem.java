@@ -1,59 +1,82 @@
 package com.pending.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
-import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "pending_items")
+@Table(name = "tasks")
 public class PendingItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Title is required")
+    @Column(name = "owner_id", nullable = false)
+    private Long ownerId;
+
+    @Column(nullable = false)
     private String title;
 
-    @NotBlank(message = "Waiting on is required")
+    @Column(name = "waiting_on")
     private String waitingOn;
 
-    private String description;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    @NotBlank(message = "Status is required")
-    private String status;
-
-    private LocalDate initiatedDate;
+    @Column(name = "expected_response_date")
     private LocalDate expectedResponseDate;
-    private LocalDate reminderDate;
+
+    @Column(nullable = false)
+    private Integer status = 0;
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;
+
+    @Column(nullable = false)
+    private Integer priority = 0;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
+
+    @Column(name = "resolved_at")
+    private OffsetDateTime resolvedAt;
+
+    @Column(name = "deleted_at")
+    private OffsetDateTime deletedAt;
 
     public PendingItem() {
     }
 
-    public PendingItem(
-            Long id,
-            String title,
-            String waitingOn,
-            String description,
-            String status,
-            LocalDate initiatedDate,
-            LocalDate expectedResponseDate,
-            LocalDate reminderDate) {
-
+    public PendingItem(Long ownerId,
+                       String title,
+                       String waitingOn,
+                       LocalDate startDate,
+                       LocalDate expectedResponseDate,
+                       Integer status, String notes,
+                       Integer priority,
+                       OffsetDateTime createdAt,
+                       OffsetDateTime updatedAt,
+                       OffsetDateTime resolvedAt,
+                       OffsetDateTime deletedAt) {
         this.id = id;
+        this.ownerId = ownerId;
         this.title = title;
         this.waitingOn = waitingOn;
-        this.description = description;
-        this.status = status;
-        this.initiatedDate = initiatedDate;
+        this.startDate = startDate;
         this.expectedResponseDate = expectedResponseDate;
-        this.reminderDate = reminderDate;
+        this.status = status;
+        this.notes = notes;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.resolvedAt = resolvedAt;
+        this.deletedAt = deletedAt;
     }
 
     public Long getId() {
@@ -80,30 +103,6 @@ public class PendingItem {
         this.waitingOn = waitingOn;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDate getInitiatedDate() {
-        return initiatedDate;
-    }
-
-    public void setInitiatedDate(LocalDate initiatedDate) {
-        this.initiatedDate = initiatedDate;
-    }
-
     public LocalDate getExpectedResponseDate() {
         return expectedResponseDate;
     }
@@ -112,11 +111,75 @@ public class PendingItem {
         this.expectedResponseDate = expectedResponseDate;
     }
 
-    public LocalDate getReminderDate() {
-        return reminderDate;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setReminderDate(LocalDate reminderDate) {
-        this.reminderDate = reminderDate;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public OffsetDateTime getResolvedAt() {
+        return resolvedAt;
+    }
+
+    public void setResolvedAt(OffsetDateTime resolvedAt) {
+        this.resolvedAt = resolvedAt;
+    }
+
+    public OffsetDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(OffsetDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

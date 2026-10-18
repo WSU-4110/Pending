@@ -50,13 +50,17 @@ public class PendingController {
 
         return repository.findById(id)
                 .map(item -> {
+                    item.setOwnerId(updatedItem.getOwnerId());
                     item.setTitle(updatedItem.getTitle());
                     item.setWaitingOn(updatedItem.getWaitingOn());
-                    item.setDescription(updatedItem.getDescription());
-                    item.setStatus(updatedItem.getStatus());
-                    item.setInitiatedDate(updatedItem.getInitiatedDate());
+                    item.setStartDate(updatedItem.getStartDate());
                     item.setExpectedResponseDate(updatedItem.getExpectedResponseDate());
-                    item.setReminderDate(updatedItem.getReminderDate());
+                    item.setStatus(updatedItem.getStatus());
+                    item.setNotes(updatedItem.getNotes());
+                    item.setPriority(updatedItem.getPriority());
+                    item.setUpdatedAt(updatedItem.getUpdatedAt());
+                    item.setResolvedAt(updatedItem.getResolvedAt());
+                    item.setDeletedAt(updatedItem.getDeletedAt());
 
                     PendingItem savedItem = repository.save(item);
                     return ResponseEntity.ok(savedItem);
