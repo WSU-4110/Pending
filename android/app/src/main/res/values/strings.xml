@@ -13,10 +13,22 @@
     <string name="taskDescrition">waiting on lena from legal</string>
     <string name="taskReminderTime">Reminded 9:00</string>
 
+    <string name="passwordQuality"></string>
+    <string name="passwordConfirmedFeedback"></string>
+
     <?Static strings?>
     <string name = "openPending">Open Pending</string>
     <string name = "overdue">Overdue</string>
     <string name = "ThisWeek">This week</string>
     <string name = "viewAll">View All</string>
     <string name="upcoming">Upcoming</string>
+    <string name="CreateAccount">Create an account</string>
+    <string name="IAlreadyHaveAnAccount">I already have an account</string>
+    <string name="AppPhrase">Keep every follow-up in sight</string>
+    <string name="AppDescription">Track what you\'re waiting on, schedule a erminder, and close the loop without mental clutter.</string>
+    <string name="Password">Password</string>
+    <string name="EmailAddress">Email address</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="Login">Log in</string>
+
 </resources>
