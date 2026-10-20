@@ -1,4 +1,6 @@
 package com.pending.repository;
 
-public class NetworkCallback {
+public interface NetworkCallback<T> {
+    void onSuccess(T result);
+    void onError(String errorMessage);
 }
