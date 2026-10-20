@@ -15,6 +15,7 @@ Pending helps users keep track of unresolved responsibilities, such as waiting f
 - Spring Data JPA
 - PostgreSQL
 - Supabase
+- JWT
 
 ---
 ## Features
@@ -37,7 +38,7 @@ The server supports:
 
 Each Pending item contains:
 
-- `id: String`
+- `id: Long`
 - `ownerId: Long`
 - `title: String`
 - `waitingOn: String`
@@ -51,13 +52,23 @@ Each Pending item contains:
 - `resolvedAt: OffsetDateTime`
 - `deletedAt: OffsetDateTime`
 ---
-## API Endpoints
 
-### Test server
+## Pending User Fields
 
-GET
+- `id: Long`
+- `email: String`
+- `passwordHash: String`
+- `firstName: String`
+- `lastName: String`
+- `createdAt: OffsetDateTime`
+- `updatedAt: OffsetDateTime`
 
-`/api/test`
+---
+# API Endpoints
+
+---
+
+## Pending Controller
 
 ### Get all Pending items
 
@@ -81,11 +92,70 @@ Example request:
 
 ```json
 {
+  "ownerId": 1,
   "title": "Follow up with recruiter",
   "waitingOn": "Recruiter",
-  "description": "Waiting for an update",
-  "status": "Pending",
-  "initiatedDate": "2026-10-07",
+  "startDate": "2026-10-07",
   "expectedResponseDate": "2026-10-14",
-  "reminderDate": "2026-10-12"
+  "status": 0,
+  "notes": "Waiting for an update",
+  "priority": 1
 }
+```
+
+---
+# Auth Controller
+
+### Register an Account
+
+POST
+
+`/api/auth/register`
+
+Example request:
+
+```json
+{
+  "email": "example@wayne.edu",
+  "password": "ThisIsAPassword122!",
+  "firstName": "John",
+  "lastName": "Smith"
+}
+```
+
+Example response:
+```json
+{
+  "userId": 1,
+  "email": "example@wayne.edu",
+  "firstName": "John",
+  "lastName": "Smith",
+  "token": "fudgfudaufiughd...",
+  "message": "Login successful"
+}
+```
+
+### User Login
+
+POST
+
+Example request:
+
+```json
+{
+  "email": "example@wayne.edu",
+  "password": "ThisIsAPassword122!"
+}
+```
+
+Example response:
+```json
+{
+  "userId": 1,
+  "email": "example@wayne.edu",
+  "firstName": "John",
+  "lastName": "Smith",
+  "token": "fudgfudaufiughd...",
+  "message": "Login successful"
+}
+```

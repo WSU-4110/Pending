@@ -26,19 +26,21 @@ public class PendingUser {
     @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
     public PendingUser() {}
 
-    public PendingUser(String email, String passwordHash, String firstName, String lastName) {
+    public PendingUser(String email, String passwordHash, String firstName, String lastName, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.email = email;
         this.passwordHash = passwordHash;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.createdAt =  createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getId() {
