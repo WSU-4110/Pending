@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Pending</string>
+    <string name="currentDate">Monday - Oct 19</string>
+    <string name="userGreeting">Good Morning, [name]</string>
+    <string name="tasksPending">5</string>
+    <string name="tasksOverdue">1</string>
+    <string name="tasksDueThisWeek">2</string>
+    <string name="tasksNeedingAttention">2 need attention</string>
+    <string name="tasksUpcoming">3 tasks</string>
+
+    <string name="taskName">Name</string>
+    <string name="taskDate">Sep 25 - 24 days late</string>
+    <string name="taskDescrition">waiting on lena from legal</string>
+    <string name="taskReminderTime">Reminded 9:00</string>
+
+    <?Static strings?>
+    <string name = "openPending">Open Pending</string>
+    <string name = "overdue">Overdue</string>
+    <string name = "ThisWeek">This week</string>
+    <string name = "viewAll">View All</string>
+    <string name="upcoming">Upcoming</string>
 </resources>
