@@ -24,10 +24,10 @@ public class PendingItem {
     private String waitingOn;
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private java.time.LocalDate startDate;
 
     @Column(name = "expected_response_date")
-    private LocalDate expectedResponseDate;
+    private java.time.LocalDate expectedResponseDate;
 
     @Column(nullable = false)
     private Integer status = 0;
