@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -36,10 +38,19 @@ public class PendingController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+/*
+    @PostMapping("/items")
+    public PendingItem createItem(@Valid @RequestBody PendingItem item) {
+        item.setId(null);
+        return repository.save(item);
+    }
+    */
 
     @PostMapping("/items")
     public PendingItem createItem(@Valid @RequestBody PendingItem item) {
         item.setId(null);
+        item.setCreatedAt(OffsetDateTime.now());
+        item.setUpdatedAt(OffsetDateTime.now());
         return repository.save(item);
     }
 
@@ -70,7 +81,6 @@ public class PendingController {
 
     @DeleteMapping("/items/{id}")
     public ResponseEntity<String> deleteItem(@PathVariable Long id) {
-
         if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
