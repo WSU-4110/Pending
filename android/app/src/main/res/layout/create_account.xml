@@ -7,24 +7,25 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="632dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/confirmCreateAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/createAccountPageTitle"
+            android:id="@+id/verifyEmailPageTitle"
             android:layout_width="match_parent"
             android:layout_height="80dp">
 
             <ImageButton
-                android:id="@+id/backButtonCreateAccount"
+                android:id="@+id/backButtonLogin"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="8dp"
@@ -36,7 +37,7 @@
                 app:srcCompat="?attr/actionModeCloseDrawable" />
 
             <TextView
-                android:id="@+id/createAccText"
+                android:id="@+id/LogInHeaderText"
                 android:layout_width="287dp"
                 android:layout_height="54dp"
                 android:layout_marginStart="16dp"
@@ -49,7 +50,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/backButtonCreateAccount"
+                app:layout_constraintStart_toEndOf="@+id/backButtonLogin"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -74,6 +75,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/emailFeedbackText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/emailQuality" />
 
         <TextView
             android:id="@+id/passwordText"
@@ -119,7 +126,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/confirmCreateAccountButton"
         android:layout_width="0dp"
         android:layout_height="67dp"
         android:layout_marginStart="16dp"

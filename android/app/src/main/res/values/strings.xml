@@ -15,6 +15,10 @@
 
     <string name="passwordQuality"></string>
     <string name="passwordConfirmedFeedback"></string>
+    <string name="emailQuality"></string>
+    <string name="userEmail"></string>
+    <string name="resendCodeTime">Resend code in 00:00</string>
+    <string name="codeExpiration">Code expires in 10 minutes. Check spam if needed.</string>
 
     <?Static strings?>
     <string name = "openPending">Open Pending</string>
@@ -30,5 +34,10 @@
     <string name="EmailAddress">Email address</string>
     <string name="confirmPassword">Confirm password</string>
     <string name="Login">Log in</string>
+    <string name="CheckInbox">Check your inbox</string>
+    <string name="checkInboxDescrition">Enter the 6-digit code sent to</string>
+    <string name="verifyEmail">Verify your email</string>
+    <string name="welcome">Welcome back</string>
+    <string name="welcomeDescription">Log in to review what\'s writing and what needs your attention today.</string>
 
 </resources>
