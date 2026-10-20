@@ -64,7 +64,6 @@ public class PendingItem {
                        OffsetDateTime updatedAt,
                        OffsetDateTime resolvedAt,
                        OffsetDateTime deletedAt) {
-        this.id = id;
         this.ownerId = ownerId;
         this.title = title;
         this.waitingOn = waitingOn;
