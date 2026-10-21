@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">Pending</string>
+    <string name="currentDate">Monday - Oct 19</string>
+    <string name="userGreeting">Good Morning, [name]</string>
+    <string name="tasksPending">5</string>
+    <string name="tasksOverdue">1</string>
+    <string name="tasksDueThisWeek">2</string>
+    <string name="tasksNeedingAttention">2 need attention</string>
+    <string name="tasksUpcoming">3 tasks</string>
+
+    <string name="taskName">Name</string>
+    <string name="taskDate">Sep 25 - 24 days late</string>
+    <string name="taskDescrition">waiting on lena from legal</string>
+    <string name="taskReminderTime">Reminded 9:00</string>
+
+    <string name="passwordQuality"></string>
+    <string name="passwordConfirmedFeedback"></string>
+    <string name="emailQuality"></string>
+    <string name="userEmail"></string>
+    <string name="resendCodeTime">Resend code in 00:00</string>
+    <string name="codeExpiration">Code expires in 10 minutes. Check spam if needed.</string>
+
+    <?Static strings?>
+    <string name = "openPending">Open Pending</string>
+    <string name = "overdue">Overdue</string>
+    <string name = "ThisWeek">This week</string>
+    <string name = "viewAll">View All</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="CreateAccount">Create an account</string>
+    <string name="IAlreadyHaveAnAccount">I already have an account</string>
+    <string name="AppPhrase">Keep every follow-up in sight</string>
+    <string name="AppDescription">Track what you\'re waiting on, schedule a erminder, and close the loop without mental clutter.</string>
+    <string name="Password">Password</string>
+    <string name="EmailAddress">Email address</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="Login">Log in</string>
+    <string name="CheckInbox">Check your inbox</string>
+    <string name="checkInboxDescrition">Enter the 6-digit code sent to</string>
+    <string name="verifyEmail">Verify your email</string>
+    <string name="welcome">Welcome back</string>
+    <string name="welcomeDescription">Log in to review what\'s writing and what needs your attention today.</string>
+
 </resources>
