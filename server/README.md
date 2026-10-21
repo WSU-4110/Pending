@@ -70,12 +70,6 @@ Each Pending item contains:
 
 ## Pending Controller
 
-### Test server
-
-GET
-
-`/api/test`
-
 ### Get all Pending items
 
 GET

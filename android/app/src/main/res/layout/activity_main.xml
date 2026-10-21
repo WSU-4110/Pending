@@ -7,13 +7,298 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addTaskButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/greeting"
+                android:layout_width="match_parent"
+                android:layout_height="84dp">
+
+                <TextView
+                    android:id="@+id/currentDateText"
+                    android:layout_width="200dp"
+                    android:layout_height="17dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/currentDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/morningText"
+                    android:layout_width="309dp"
+                    android:layout_height="41dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/userGreeting"
+                    android:textAlignment="viewStart"
+                    android:textIsSelectable="false"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/currentDateText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/overviewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="176dp">
+
+                <View
+                    android:id="@+id/overviewBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/titleOpenPending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/openPending"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tasksOpenPending"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/tasksPending"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titleOpenPending" />
+
+                <TextView
+                    android:id="@+id/tasksAttention"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/tasksNeedingAttention"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tasksOpenPending" />
+
+                <LinearLayout
+                    android:id="@+id/otherTaskStatusPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tasksAttention">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/overdueLayout"
+                        android:layout_width="178dp"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:id="@+id/overdueBackground"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@color/secondary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tasksOverdue"
+                            android:layout_width="0dp"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/tasksOverdue"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/titleTasksOverdue"
+                            android:layout_width="0dp"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/overdue"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/thisWeekLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <View
+                            android:id="@+id/thisWeekBackground"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@color/secondary"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tasksThisWeek"
+                            android:layout_width="0dp"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/tasksDueThisWeek"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/titleThisWeek"
+                            android:layout_width="0dp"
+                            android:layout_height="19dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/ThisWeek"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/overdueSectionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="38dp">
+
+                <TextView
+                    android:id="@+id/titleOverdue"
+                    android:layout_width="266dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/overdue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/overdueViewAll"
+                    android:layout_width="50dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/viewAll"
+                    android:textColorLink="@color/secondary"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView"
+                android:name="com.pending.PendingTaskFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/upcomingSectionOverview"
+                android:layout_width="match_parent"
+                android:layout_height="31dp">
+
+                <TextView
+                    android:id="@+id/upcomingTitle"
+                    android:layout_width="266dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:gravity="left|center_vertical"
+                    android:text="@string/upcoming"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/upcomingViewAll"
+                    android:layout_width="50dp"
+                    android:layout_height="26dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/viewAll"
+                    android:textColorLink="@color/secondary"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerView2"
+                android:name="com.pending.PendingTaskFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
