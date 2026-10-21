@@ -1,3 +1,4 @@
+/*
 package com.pending;
 
 import android.os.Bundle;
@@ -22,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+*/
 
-/*
 package com.pending;
 
 import android.os.Bundle;
@@ -78,4 +79,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-*/
+
