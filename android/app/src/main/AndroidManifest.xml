@@ -14,6 +14,15 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Pending">
+
+        <activity
+            android:name=".TaskDetailsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CreateTaskActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

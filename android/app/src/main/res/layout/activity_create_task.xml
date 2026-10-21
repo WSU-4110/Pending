@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F7FAF8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="‹   New pending task"
+            android:textSize="20sp"
+            android:textColor="#203D35"
+            android:paddingBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Capture what you're waiting on"
+            android:textSize="14sp"
+            android:textColor="#64736E" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="14sp"
+            android:textColor="#203D35"
+            android:layout_marginTop="28dp" />
+
+        <EditText
+            android:id="@+id/taskTitleInput"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Client proposal response"
+            android:inputType="textCapSentences"
+            android:textSize="15sp"
+            android:padding="12dp"
+            android:backgroundTint="#2B806B" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expected response date"
+            android:textSize="14sp"
+            android:textColor="#203D35"
+            android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/taskDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Select expected response date"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"
+            android:drawableStart="@android:drawable/ic_menu_my_calendar"
+            android:drawablePadding="12dp"
+            android:padding="12dp"
+            android:textSize="14sp"
+            android:backgroundTint="#2B806B" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textSize="14sp"
+            android:textColor="#203D35"
+            android:layout_marginTop="24dp" />
+
+        <EditText
+            android:id="@+id/taskDetailsInput"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="What are you waiting on?"
+            android:inputType="textMultiLine|textCapSentences"
+            android:gravity="top"
+            android:textSize="15sp"
+            android:padding="12dp"
+            android:backgroundTint="#2B806B" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reminder"
+            android:textSize="14sp"
+            android:textColor="#203D35"
+            android:layout_marginTop="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#EAF4EF"
+            android:padding="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="REMINDER"
+                android:textSize="12sp"
+                android:textColor="#648278" />
+
+            <TextView
+                android:id="@+id/taskReminderInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tap to choose reminder date and time"
+                android:textSize="14sp"
+                android:textColor="#203D35"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/btnSaveTask"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="✓  Save pending task"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2B806B"
+            android:layout_marginTop="40dp" />
+
+        <Button
+            android:id="@+id/btnCancelTask"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="#267A67"
+            android:backgroundTint="#F7FAF8"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+</ScrollView>
