@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F7FAF8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="‹   Pending details"
+            android:textSize="20sp"
+            android:textColor="#203D35"
+            android:paddingBottom="30dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:background="#FFFFFF">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Awaiting response"
+                android:textColor="#267A67"
+                android:background="#E2F3EC"
+                android:padding="8dp"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/taskTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Client proposal response"
+                android:textSize="24sp"
+                android:textColor="#203D35"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:id="@+id/taskDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Waiting for Lena to confirm the Q4 campaign scope, budget, and proposed kickoff date."
+                android:textSize="15sp"
+                android:textColor="#64736E"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:padding="18dp"
+            android:background="#EAF4EF">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EXPECTED RESPONSE"
+                android:textSize="12sp"
+                android:textColor="#648278" />
+
+            <TextView
+                android:id="@+id/taskDueDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thursday, Oct 1, 2026"
+                android:textSize="16sp"
+                android:textColor="#203D35"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NEXT REMINDER"
+                android:textSize="12sp"
+                android:textColor="#648278"
+                android:layout_marginTop="22dp" />
+
+            <TextView
+                android:id="@+id/taskReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wednesday, Sep 30 · 4:00 PM"
+                android:textSize="16sp"
+                android:textColor="#203D35"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CREATED"
+                android:textSize="12sp"
+                android:textColor="#648278"
+                android:layout_marginTop="22dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sep 22, 2026 · 10:18 AM"
+                android:textSize="16sp"
+                android:textColor="#203D35"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnComplete"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="✓  Mark as completed"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#2B806B"
+            android:layout_marginTop="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="✎  Edit task"
+                android:textAllCaps="false"
+                android:textColor="#267A67"
+                android:backgroundTint="#E2F3EC" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Delete"
+                android:textAllCaps="false"
+                android:textColor="#B33B3B"
+                android:backgroundTint="#FCECEC"
+                android:layout_marginStart="12dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
