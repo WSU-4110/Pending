@@ -40,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
     private PendingRepository repository;
     private SessionManager sessionManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      
+
         repository = new PendingRepository(this);
         sessionManager = SessionManager.getInstance(this);
 
@@ -52,14 +53,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showLandingScreen();
         }
-    
-        if (getPreferences(MODE_PRIVATE)
-                .getBoolean("logged_in", false)) {
-            showDashboard();
-        } else {
-            showWelcome();
-        }
     }
+
 
     private int dp(int value) {
         return (int) (value *
@@ -279,16 +274,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (content != null &&
-                getPreferences(MODE_PRIVATE)
-                        .getBoolean("logged_in", false)) {
-            showDashboard();
-        }
-    }
 
     private void showLandingScreen() {
         setContentView(R.layout.account_page);
