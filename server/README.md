@@ -159,3 +159,22 @@ Example response:
   "message": "Login successful"
 }
 ```
+
+### Verify
+
+GET
+
+Example request:
+```HTTP
+Authorization: Bearer guhguewufodf8749...
+```
+
+Successful Response:
+```HTTP
+JWT token is valid.
+```
+
+Failed Response:
+```HTTP
+Invalid or expired JWT token.
+```

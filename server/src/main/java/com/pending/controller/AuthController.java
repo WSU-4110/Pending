@@ -38,7 +38,7 @@ public class AuthController {
             return ResponseEntity.ok("JWT token is valid.");
         }
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired JWT token");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired JWT token.");
     }
 
 }
