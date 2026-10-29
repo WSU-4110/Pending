@@ -27,6 +27,16 @@ import com.pending.network.SessionManager;
 import com.pending.repository.NetworkCallback;
 import com.pending.repository.PendingRepository;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -298,6 +308,13 @@ public class MainActivity extends AppCompatActivity {
         Button confirmLoginButton = findViewById(R.id.confirmLoginButton);
         ImageButton backButton = findViewById(R.id.backButtonLogin);
 
+        TextView createAccountLink =
+                findViewById(R.id.loginToRegisterLink);
+
+        if (createAccountLink != null) {
+            createAccountLink.setOnClickListener(v -> showRegisterScreen());
+        }
+
         if (backButton != null) {
             backButton.setOnClickListener(v -> showLandingScreen());
         }
@@ -313,11 +330,26 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 repository.login(email, password, new NetworkCallback<AuthResponse>() {
+
                     @Override
                     public void onSuccess(AuthResponse result) {
-                        Toast.makeText(MainActivity.this, "Logged in successfully!", Toast.LENGTH_SHORT).show();
+
+                        String firstName = result.getFirstName();
+
+                        getPreferences(MODE_PRIVATE)
+                                .edit()
+                                .putString("first_name",
+                                        firstName != null ? firstName : "")
+                                .apply();
+
+                        Toast.makeText(MainActivity.this,
+                                "Logged in successfully!",
+                                Toast.LENGTH_SHORT).show();
+
                         showDashboardScreen();
                     }
+
+
 
                     @Override
                     public void onError(String errorMessage) {
@@ -331,11 +363,62 @@ public class MainActivity extends AppCompatActivity {
     private void showRegisterScreen() {
         setContentView(R.layout.create_account);
 
+        EditText firstNameInput = findViewById(R.id.editTextFirstName);
+        EditText lastNameInput = findViewById(R.id.editTextLastName);
+
         EditText emailInput = findViewById(R.id.editTextEmailAddress);
         EditText passwordInput = findViewById(R.id.editTextPassword);
+
+        TextView passwordRequirements =
+                findViewById(R.id.passwordCorrectnessText);
+
+        if (passwordInput != null && passwordRequirements != null) {
+            passwordInput.addTextChangedListener(
+                    new android.text.TextWatcher() {
+
+                        @Override
+                        public void beforeTextChanged(
+                                CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(
+                                CharSequence s, int start, int before, int count) {
+
+                            String password = s.toString();
+
+                            boolean lengthValid = password.length() >= 13;
+                            boolean uppercaseValid =
+                                    password.matches("(?s).*[A-Z].*");
+                            boolean specialValid =
+                                    password.matches("(?s).*[^a-zA-Z0-9].*");
+
+                            passwordRequirements.setText(
+                                    (lengthValid ? "✅" : "○") +
+                                            "  13 or more characters\n" +
+                                            (uppercaseValid ? "✅" : "○") +
+                                            "  1 uppercase letter\n" +
+                                            (specialValid ? "✅" : "○") +
+                                            "  1 special character"
+                            );
+                        }
+
+                        @Override
+                        public void afterTextChanged(android.text.Editable s) {
+                        }
+                    }
+            );
+        }
+
         EditText confirmPasswordInput = findViewById(R.id.editTextConfirmPassword);
         Button confirmCreateAccountButton = findViewById(R.id.confirmCreateAccountButton);
         ImageButton backButton = findViewById(R.id.backButtonLogin);
+
+        TextView loginLink = findViewById(R.id.alreadyRegisteredLink);
+
+        if (loginLink != null) {
+            loginLink.setOnClickListener(v -> showLoginScreen());
+        }
 
         if (backButton != null) {
             backButton.setOnClickListener(v -> showLandingScreen());
@@ -357,70 +440,393 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                String firstName = email.contains("@") ? email.substring(0, email.indexOf("@")) : "User";
-                String lastName = "Account";
+                boolean lengthValid = password.length() >= 13;
+                boolean uppercaseValid = password.matches("(?s).*[A-Z].*");
+                boolean specialValid =
+                        password.matches("(?s).*[^a-zA-Z0-9].*");
+
+                if (!lengthValid || !uppercaseValid || !specialValid) {
+                    passwordInput.setError(
+                            "Password must have at least 13 characters, " +
+                                    "1 uppercase letter, and 1 special character."
+                    );
+                    passwordInput.requestFocus();
+                    return;
+                }
+
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailInput.setError("Enter a valid email address");
+                    emailInput.requestFocus();
+                    return;
+                }
+
+
+                String firstName = firstNameInput.getText().toString().trim();
+                String lastName = lastNameInput.getText().toString().trim();
+
+                if (firstName.isEmpty()) {
+                    firstNameInput.setError("First name is required");
+                    firstNameInput.requestFocus();
+                    return;
+                }
+
+                if (lastName.isEmpty()) {
+                    lastNameInput.setError("Last name is required");
+                    lastNameInput.requestFocus();
+                    return;
+                }
+
 
                 repository.register(email, password, firstName, lastName, new NetworkCallback<AuthResponse>() {
+
                     @Override
                     public void onSuccess(AuthResponse result) {
-                        Toast.makeText(MainActivity.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
+
+                        getPreferences(MODE_PRIVATE)
+                                .edit()
+                                .putString("first_name", firstName)
+                                .apply();
+
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Account created successfully!",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
                         showDashboardScreen();
                     }
 
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        Toast.makeText(
+                                MainActivity.this,
+                                errorMessage,
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
+
                 });
             });
         }
     }
 
+        private PendingTaskAdapter overdueAdapter;
+    private PendingTaskAdapter upcomingAdapter;
+
     private void showDashboardScreen() {
         setContentView(R.layout.activity_main);
 
-        TextView openPendingCount = findViewById(R.id.tasksOpenPending);
-        FloatingActionButton addTaskFab = findViewById(R.id.addTaskButton);
+        TextView dateText = findViewById(R.id.currentDateText);
 
+        if (dateText != null) {
+            String currentDate = new java.text.SimpleDateFormat(
+                    "EEEE · MMM d",
+                    java.util.Locale.getDefault()
+            ).format(new java.util.Date());
+
+            dateText.setText(
+                    currentDate.toUpperCase(java.util.Locale.getDefault())
+            );
+        }
+
+        TextView greetingText = findViewById(R.id.morningText);
+
+        String firstName = getPreferences(MODE_PRIVATE)
+                .getString("first_name", "");
+
+        int hour = java.util.Calendar.getInstance()
+                .get(java.util.Calendar.HOUR_OF_DAY);
+
+        String greeting;
+
+        if (hour < 12) {
+            greeting = "Good morning";
+        } else if (hour < 17) {
+            greeting = "Good afternoon";
+        } else {
+            greeting = "Good evening";
+        }
+
+        if (greetingText != null) {
+            if (firstName != null && !firstName.trim().isEmpty()) {
+                greetingText.setText(greeting + ", " + firstName.trim());
+            } else {
+                greetingText.setText(greeting);
+            }
+        }
+
+        TextView openPendingCount =
+                findViewById(R.id.tasksOpenPending);
+
+        FloatingActionButton addTaskFab =
+                findViewById(R.id.addTaskButton);
+
+        // Overdue task list
+        RecyclerView overdueList =
+                findViewById(R.id.overdueRecyclerView);
+
+        overdueAdapter = new PendingTaskAdapter(
+                item -> showEditTaskDialog(item, openPendingCount)
+        );
+
+        overdueList.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+        overdueList.setAdapter(overdueAdapter);
+
+        // Upcoming task list
+        RecyclerView upcomingList =
+                findViewById(R.id.upcomingRecyclerView);
+
+        upcomingAdapter = new PendingTaskAdapter(
+                item -> showEditTaskDialog(item, openPendingCount)
+        );
+
+        upcomingList.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+        upcomingList.setAdapter(upcomingAdapter);
+
+        // Load tasks from Spring Boot
         loadDashboardData(openPendingCount);
 
+        // Create task button
         if (addTaskFab != null) {
             addTaskFab.bringToFront();
-            addTaskFab.setOnClickListener(v -> showCreateTaskDialog(openPendingCount));
+            addTaskFab.setOnClickListener(
+                    v -> showCreateTaskDialog(openPendingCount)
+            );
         }
+
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
+                findViewById(R.id.bottomNavigation);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_pending) {
+                return true;
+            }
+
+            if (id == R.id.nav_completed) {
+                showCompletedScreen();
+                return true;
+            }
+
+            if (id == R.id.nav_settings) {
+                showSettingsScreen();
+                return true;
+            }
+
+            return false;
+        });
+
+    }
+
+
+    private void showSettingsScreen() {
+        setContentView(R.layout.activity_settings);
+
+        findViewById(R.id.logoutButton).setOnClickListener(v -> {
+            getPreferences(MODE_PRIVATE)
+                    .edit()
+                    .remove("first_name")
+                    .apply();
+
+            showLoginScreen();
+        });
+
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
+                findViewById(R.id.bottomNavigation);
+
+        bottomNav.setSelectedItemId(R.id.nav_settings);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_pending) {
+                showDashboardScreen();
+                return true;
+            }
+
+            if (id == R.id.nav_settings) {
+                return true;
+            }
+
+            if (id == R.id.nav_completed) {
+                showCompletedScreen();
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+
+    private void showCompletedScreen() {
+        setContentView(R.layout.activity_completed);
+
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
+                findViewById(R.id.bottomNavigation);
+
+        bottomNav.setSelectedItemId(R.id.nav_completed);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_pending) {
+                showDashboardScreen();
+                return true;
+            }
+
+            if (id == R.id.nav_completed) {
+                return true;
+            }
+
+            if (id == R.id.nav_settings) {
+                showSettingsScreen();
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private void loadDashboardData(TextView openPendingCount) {
-        repository.fetchAllItems(new NetworkCallback<List<PendingItem>>() {
-            @Override
-            public void onSuccess(List<PendingItem> items) {
-                if (openPendingCount != null) {
-                    openPendingCount.setText(String.valueOf(items.size()));
-                }
 
-                // Populate the fragment containers in activity_main.xml
-                FragmentManager fm = getSupportFragmentManager();
-                if (!items.isEmpty()) {
-                    PendingTaskFragment frag1 = (PendingTaskFragment) fm.findFragmentById(R.id.fragmentContainerView);
-                    if (frag1 != null) {
-                        frag1.populateTask(items.get(0), item -> showEditTaskDialog(item, openPendingCount));
+        repository.fetchAllItems(
+                new NetworkCallback<List<PendingItem>>() {
+
+                    @Override
+                    public void onSuccess(List<PendingItem> items) {
+
+                        List<PendingItem> overdueTasks = new ArrayList<>();
+                        List<PendingItem> upcomingTasks = new ArrayList<>();
+
+                        SimpleDateFormat dateFormat =
+                                new SimpleDateFormat(
+                                        "yyyy-MM-dd", Locale.US
+                                );
+
+                        String today = dateFormat.format(new Date());
+
+                        // Find the end of the current calendar week
+                        Calendar calendar = Calendar.getInstance();
+
+                        int daysUntilWeekEnd =
+                                (calendar.getFirstDayOfWeek() + 6
+                                        - calendar.get(Calendar.DAY_OF_WEEK)
+                                        + 7) % 7;
+
+                        calendar.add(
+                                Calendar.DAY_OF_YEAR, daysUntilWeekEnd
+                        );
+
+                        String weekEnd =
+                                dateFormat.format(calendar.getTime());
+
+                        int thisWeekCount = 0;
+
+                        // Organize tasks
+                        for (PendingItem item : items) {
+
+                            // Skip deleted tasks
+                            if (item.getDeletedAt() != null &&
+                                    !item.getDeletedAt().isEmpty()) {
+                                continue;
+                            }
+
+                            // Status 3 or higher means completed
+                            Integer status = item.getStatus();
+
+                            if (status != null && status >= 3) {
+                                continue;
+                            }
+
+                            String expectedDate =
+                                    item.getExpectedResponseDate();
+
+                            // Backend dates use yyyy-MM-dd
+                            if (expectedDate != null &&
+                                    expectedDate.length() >= 10) {
+                                expectedDate =
+                                        expectedDate.substring(0, 10);
+                            }
+
+                            if (expectedDate != null &&
+                                    expectedDate.compareTo(today) < 0) {
+
+                                overdueTasks.add(item);
+
+                            } else {
+
+                                upcomingTasks.add(item);
+
+                                if (expectedDate != null &&
+                                        expectedDate.compareTo(today) >= 0 &&
+                                        expectedDate.compareTo(weekEnd) <= 0) {
+
+                                    thisWeekCount++;
+                                }
+                            }
+                        }
+
+                        // Update dashboard statistics
+                        int totalOpen = overdueTasks.size()
+                                + upcomingTasks.size();
+
+                        if (openPendingCount != null) {
+                            openPendingCount.setText(
+                                    String.valueOf(totalOpen)
+                            );
+                        }
+
+                        TextView overdueCount =
+                                findViewById(R.id.tasksOverdue);
+
+                        TextView thisWeekCountView =
+                                findViewById(R.id.tasksThisWeek);
+
+                        TextView attentionText =
+                                findViewById(R.id.tasksAttention);
+
+                        if (overdueCount != null) {
+                            overdueCount.setText(
+                                    String.valueOf(overdueTasks.size())
+                            );
+                        }
+
+                        if (thisWeekCountView != null) {
+                            thisWeekCountView.setText(
+                                    String.valueOf(thisWeekCount)
+                            );
+                        }
+
+                        if (attentionText != null) {
+                            attentionText.setText(
+                                    overdueTasks.size()
+                                            + " need attention"
+                            );
+                        }
+
+                        // Update both task lists
+                        overdueAdapter.setTasks(overdueTasks);
+                        upcomingAdapter.setTasks(upcomingTasks);
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+
+                        Toast.makeText(
+                                MainActivity.this,
+                                "Unable to load tasks: " + errorMessage,
+                                Toast.LENGTH_LONG
+                        ).show();
                     }
                 }
-
-                if (items.size() > 1) {
-                    PendingTaskFragment frag2 = (PendingTaskFragment) fm.findFragmentById(R.id.fragmentContainerView2);
-                    if (frag2 != null) {
-                        frag2.populateTask(items.get(1), item -> showEditTaskDialog(item, openPendingCount));
-                    }
-                }
-            }
-
-            @Override
-            public void onError(String errorMessage) {
-                // Keep default layout text
-            }
-        });
+        );
     }
+
 
     private void showCreateTaskDialog(TextView countView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

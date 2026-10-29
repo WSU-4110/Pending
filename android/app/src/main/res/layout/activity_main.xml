@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@color/background"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
         android:fillViewport="true">
 
         <LinearLayout
@@ -60,7 +67,7 @@
                     android:id="@+id/overviewBackground"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:background="@color/primary"
+                    android:background="@drawable/bg_pending_summary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -75,6 +82,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/openPending"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,7 +95,9 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:text="@string/tasksPending"
-                    android:textSize="24sp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/titleOpenPending" />
@@ -98,6 +109,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/tasksNeedingAttention"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tasksOpenPending" />
 
@@ -117,14 +130,16 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/overdueLayout"
-                        android:layout_width="178dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent">
 
                         <View
                             android:id="@+id/overdueBackground"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:background="@color/secondary"
+                            android:background="@drawable/bg_pending_stat"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -138,6 +153,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="@string/tasksOverdue"
+                            android:textColor="#FFFFFF"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -151,6 +167,7 @@
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
                             android:text="@string/overdue"
+                            android:textColor="#FFFFFF"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
@@ -159,14 +176,15 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/thisWeekLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
                         <View
                             android:id="@+id/thisWeekBackground"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:background="@color/secondary"
+                            android:background="@drawable/bg_pending_stat"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -180,6 +198,7 @@
                             android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="@string/tasksDueThisWeek"
+                            android:textColor="#FFFFFF"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -192,6 +211,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_marginTop="8dp"
                             android:layout_marginEnd="8dp"
+                            android:textColor="#FFFFFF"
                             android:text="@string/ThisWeek"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -237,11 +257,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView"
-                android:name="com.pending.PendingTaskFragment"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/overdueRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/fragment_pending_task"
+                tools:itemCount="1" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/upcomingSectionOverview"
@@ -277,25 +303,51 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentContainerView2"
-                android:name="com.pending.PendingTaskFragment"
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/upcomingRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/fragment_pending_task"
+                tools:itemCount="2" />
+
+
 
         </LinearLayout>
     </ScrollView>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:minHeight="72dp"
+        android:elevation="8dp"
+        app:itemIconTint="@color/bottom_nav_tint"
+        app:itemTextColor="@color/bottom_nav_tint"
+        app:itemActiveIndicatorStyle="@style/PendingBottomNavIndicator"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTaskButton"
+        app:backgroundTint="#2B806B"
+        app:tint="#FFFFFF"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:focusable="true"
         app:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_add" />
 

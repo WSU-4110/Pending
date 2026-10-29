@@ -2,8 +2,12 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#58AF68</color>
-    <color name="secondary">#6EC58C</color>
+    <color name="primary">#2B806B</color>
+    <color name="secondary">#3E9380</color>
+    <color name="background">#F7FAF8</color>
+    <color name="darkText">#203D35</color>
+    <color name="mutedText">#64736E</color>
+    <color name="lightMint">#E2F3EC</color>
     <color name="taskOverdue">#F44336</color>
     <color name="taskCloseToDue">#FFC107</color>
     <color name="taskPending">#51FF06</color>
