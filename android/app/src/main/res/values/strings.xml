@@ -39,5 +39,9 @@
     <string name="verifyEmail">Verify your email</string>
     <string name="welcome">Welcome back</string>
     <string name="welcomeDescription">Log in to review what\'s writing and what needs your attention today.</string>
-
+    <string name="Settings">Settings</string>
+    <string name="LogOut">Log Out</string>
+    <string name="Account">Account</string>
+    <string name="pendingStr">Pending</string>
+    <string name="Completed">Completed</string>
 </resources>
