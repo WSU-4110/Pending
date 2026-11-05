@@ -20,6 +20,8 @@
     <string name="resendCodeTime">Resend code in 00:00</string>
     <string name="codeExpiration">Code expires in 10 minutes. Check spam if needed.</string>
 
+    <string name="userAccName">Maya Chen</string>
+
     <?Static strings?>
     <string name = "openPending">Open Pending</string>
     <string name = "overdue">Overdue</string>
@@ -44,4 +46,12 @@
     <string name="Account">Account</string>
     <string name="pendingStr">Pending</string>
     <string name="Completed">Completed</string>
+
+    <string name="AccAndPrefs">Account &amp; Preferences</string>
+    <string name="notifications">Notifications</string>
+    <string name="notifsDetail">Push and email alerts</string>
+    <string name="reminders">Reminders</string>
+    <string name="Appearance">Appearance</string>
+    <string name="AppearDetail">System Theme</string>
+    <string name="PrivacyData">Private &amp; Data</string>
 </resources>
