@@ -10,7 +10,7 @@ public interface PendingItemRepository extends JpaRepository<PendingItem, Long> 
 
     List<PendingItem> findByOwnerId(Long ownerID);
 
-    Optional<PendingItem> findByIdAndOwnerId(Long id, Long ownerID);
+    Optional<PendingItem> findByIdAndOwnerIdAndDeletedAtIsNull(Long id, Long ownerID);
 
     boolean existsByIdAndOwnerId(Long id, Long ownerID);
 

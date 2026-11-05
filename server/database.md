@@ -481,4 +481,16 @@ The task can then be excluded from the active task board by filtering on:
 where deleted_at is null
 ```
 
+The `reminders` table includes:
+
+```sql
+create extension if not exists pg_cron;
+
+select cron.schedule (
+  'cleanup-expired-reminders',
+  '* * * * *',
+  $$ delete from reminders where reminder_time < current_timestamp - interval '5 minutes'; $$
+);
+```
+
 ---
