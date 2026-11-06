@@ -3,8 +3,10 @@ package com.pending;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,10 +38,19 @@ public class CreateTaskActivity extends AppCompatActivity {
         EditText date = findViewById(R.id.taskDateInput);
         EditText details = findViewById(R.id.taskDetailsInput);
 
+        Spinner prioritySpinner = findViewById(R.id.spinnerPriority);
+        String[] priorityOptions = new String[]{"0 - Low", "1 - Medium", "2 - High"};
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                priorityOptions
+        );
+        prioritySpinner.setAdapter(priorityAdapter);
+        prioritySpinner.setSelection(1);
+
         Button save = findViewById(R.id.btnSaveTask);
         Button cancel = findViewById(R.id.btnCancelTask);
 
-        // Existing task check
         Intent intent = getIntent();
         if(intent.hasExtra("TASK_ID")) {
             existingTaskId = intent.getLongExtra("TASK_ID", -1);
@@ -50,6 +61,12 @@ public class CreateTaskActivity extends AppCompatActivity {
             if(existingDate != null && !existingDate.isEmpty()) {
                 date.setText(existingDate);
             }
+
+            int existingPriority = intent.getIntExtra("TASK_PRIORITY", 1);
+            if (existingPriority >= 0 && existingPriority <= 2) {
+                prioritySpinner.setSelection(existingPriority);
+            }
+
             save.setText("Update Task");
         }
 
@@ -69,12 +86,25 @@ public class CreateTaskActivity extends AppCompatActivity {
                     c.get(Calendar.DAY_OF_MONTH)
             ).show();
         });
-
+        android.widget.TextView reminderInput = findViewById(R.id.taskReminderInput);
+        if (reminderInput != null) {
+            reminderInput.setOnClickListener(v -> {
+                Calendar c = Calendar.getInstance();
+                new DatePickerDialog(this, (picker, year, month, day) -> {
+                    new android.app.TimePickerDialog(this, (timePicker, hourOfDay, minute) -> {
+                        String formatted = String.format(Locale.US, "%04d-%02d-%02d %02d:%02d",
+                                year, month + 1, day, hourOfDay, minute);
+                        reminderInput.setText(formatted);
+                    }, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), false).show();
+                }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+            });
+        }
         save.setOnClickListener(v -> {
 
             String t = title.getText().toString().trim();
             String d = date.getText().toString().trim();
             String n = details.getText().toString().trim();
+            int selectedPriority = prioritySpinner.getSelectedItemPosition();
 
             if (t.isEmpty()) {
                 title.setError("Enter a title");
@@ -86,7 +116,6 @@ public class CreateTaskActivity extends AppCompatActivity {
                 return;
             }
 
-            // Updating existing task
             if (existingTaskId != null && existingTaskId != -1) {
                 PendingItem toUpdate = new PendingItem();
                 toUpdate.setId(existingTaskId);
@@ -95,7 +124,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 toUpdate.setExpectedResponseDate(d);
                 // TODO: Missing waiting on
                 toUpdate.setStatus(0);
-                toUpdate.setPriority(1);
+                toUpdate.setPriority(selectedPriority);
 
                 repository.updateItem(existingTaskId, toUpdate, new NetworkCallback<PendingItem>() {
                     @Override
@@ -109,10 +138,10 @@ public class CreateTaskActivity extends AppCompatActivity {
                         Toast.makeText(CreateTaskActivity.this, "Failed to update: " + errorMessage, Toast.LENGTH_LONG).show();
                     }
                 });
-            }else{
+            } else {
                 String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
 
-                repository.createItem(t, null, startDate, d, 0, n, 1, new NetworkCallback<PendingItem>() {
+                repository.createItem(t, null, startDate, d, 0, n, selectedPriority, new NetworkCallback<PendingItem>() {
                     @Override
                     public void onSuccess(PendingItem result) {
                         Toast.makeText(CreateTaskActivity.this, "Task created: " + t, Toast.LENGTH_LONG).show();
