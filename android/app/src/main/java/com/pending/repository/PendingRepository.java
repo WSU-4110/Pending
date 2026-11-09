@@ -82,7 +82,12 @@ public class PendingRepository {
 
     public void createItem(String title, String waitingOn, String startDate, String expectedResponseDate,
                            Integer status, String notes, Integer priority, NetworkCallback<PendingItem> callback) {
-        Long ownerId = sessionManager.getUserId() != null ? sessionManager.getUserId() : 1L;
+
+        Long ownerId = 8L;
+        if (sessionManager != null && sessionManager.getUserId() != null && sessionManager.getUserId() > 0) {
+            ownerId = sessionManager.getUserId();
+        }
+
         PendingItem item = new PendingItem(ownerId, title, waitingOn, startDate, expectedResponseDate, status, notes, priority);
 
         apiService.createItem(item).enqueue(new Callback<PendingItem>() {
@@ -118,6 +123,25 @@ public class PendingRepository {
             }
         });
     }
+
+    public void deleteItem(Long id, NetworkCallback<String> callback) {
+        apiService.deleteItem(id).enqueue(new retrofit2.Callback<okhttp3.ResponseBody>() {
+            @Override
+            public void onResponse(retrofit2.Call<okhttp3.ResponseBody> call, retrofit2.Response<okhttp3.ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess("Task deleted successfully");
+                } else {
+                    callback.onError("Failed to delete task: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) {
+                callback.onError("Network error: " + t.getMessage());
+            }
+        });
+    }
+
     public void fetchAllItems(NetworkCallback<List<PendingItem>> callback) {
         apiService.getAllItems().enqueue(new Callback<List<PendingItem>>() {
             @Override
