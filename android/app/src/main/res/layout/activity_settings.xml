@@ -41,7 +41,7 @@
             android:layout_height="85dp">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/accountSettingButton"
                 android:layout_width="0dp"
                 android:layout_height="78dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -65,18 +65,18 @@
             <TextView
                 android:id="@+id/userAccountName"
                 android:layout_width="200dp"
-                android:layout_height="19dp"
+                android:layout_height="28dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:clickable="false"
                 android:text="@string/userAccName"
                 android:textColor="@color/lightMint"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintBottom_toBottomOf="@+id/accountSettingButton"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toTopOf="@id/button"
+                app:layout_constraintTop_toTopOf="@id/accountSettingButton"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:text="@string/userEmail"
                 android:textColor="@color/lightMint"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/button"
+                app:layout_constraintBottom_toBottomOf="@+id/accountSettingButton"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/userAccountName"
                 app:layout_constraintVertical_bias="1.0" />
@@ -105,7 +105,7 @@
                 android:clickable="false"
                 android:rotation="180"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="@+id/accountSettingButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.5"
                 app:srcCompat="?attr/homeAsUpIndicator" />
@@ -318,7 +318,7 @@
                         app:srcCompat="?attr/actionModeCloseDrawable" />
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/themeIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -340,7 +340,7 @@
                         android:text="@string/Appearance"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
+                        app:layout_constraintStart_toEndOf="@+id/themeIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
@@ -355,7 +355,7 @@
                         android:textColor="@color/mutedText"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
+                        app:layout_constraintStart_toEndOf="@+id/themeIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0" />
 
@@ -487,7 +487,7 @@
                         app:srcCompat="?attr/actionModeCloseDrawable" />
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/securityIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -510,7 +510,7 @@
                         android:text="@string/Authorization"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
+                        app:layout_constraintStart_toEndOf="@+id/securityIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
@@ -525,7 +525,7 @@
                         android:textColor="@color/mutedText"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
+                        app:layout_constraintStart_toEndOf="@+id/securityIcon"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="1.0" />
 
