@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import okhttp3.ResponseBody;
 
 public interface ApiService {
 
@@ -34,5 +35,5 @@ public interface ApiService {
     Call<PendingItem> updateItem(@Path("id") Long id, @Body PendingItem item);
 
     @DELETE("api/items/{id}")
-    Call<String> deleteItem(@Path("id") Long id);
+    Call<ResponseBody> deleteItem(@Path("id") Long id);
 }
