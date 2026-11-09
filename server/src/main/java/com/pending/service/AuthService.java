@@ -47,14 +47,14 @@ public class AuthService {
 
         String token = jwtService.generateToken(savedUser.getId(), savedUser.getEmail());
 
-        return new AuthResponse(
-                savedUser.getId(),
-                savedUser.getEmail(),
-                savedUser.getFirstName(),
-                savedUser.getLastName(),
-                token,
-                "Registration successful"
-        );
+        return AuthResponse.builder()
+                .userId(savedUser.getId())
+                .email(savedUser.getEmail())
+                .firstName(savedUser.getFirstName())
+                .lastName(savedUser.getLastName())
+                .token(token)
+                .message("Registration successful")
+                .build();
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -75,14 +75,14 @@ public class AuthService {
 
         String token = jwtService.generateToken(user.getId(), user.getEmail());
 
-        return new AuthResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName(),
-                token,
-                "Login successful"
-        );
+        return AuthResponse.builder()
+                .userId(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .token(token)
+                .message("Registration successful")
+                .build();
     }
 
 }
