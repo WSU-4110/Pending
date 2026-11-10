@@ -17,11 +17,10 @@ import java.util.Map;
 @Service
 public class EmailService {
 
-    // TODO: Inject API key for production
-    @Value("")
+    @Value("${resend.api.key}")
     private String resendAPIKey;
 
-    @Value("verify@pending.nmahdi.com")
+    @Value("${resend.from.email}")
     private String fromEmail;
 
     private final HttpClient httpClient = HttpClient.newHttpClient();

@@ -201,6 +201,12 @@ public class AuthService {
         }
 
         if(!user.isVerified()) {
+            String newCode = generateVerificationCode();
+            user.setVerificationCode(newCode);
+            user.setVerificationExpiration(OffsetDateTime.now().plusMinutes(15));
+
+            PendingUser savedUser = userRepository.save(user);
+            emailService.sendVerificationEmail(savedUser.getEmail(), savedUser.getFirstName(), savedUser.getLastName(), newCode);
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "Your email is not verified. Please verify your email with the 6-digit code before logging in."
