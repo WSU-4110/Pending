@@ -159,3 +159,96 @@ Example response:
   "message": "Login successful"
 }
 ```
+
+### Verify
+
+GET
+
+Example request:
+```HTTP
+Authorization: Bearer guhguewufodf8749...
+```
+
+Successful Response:
+```HTTP
+JWT token is valid.
+```
+
+Failed Response:
+```HTTP
+Invalid or expired JWT token.
+```
+
+---
+# Reminder Controller
+
+### Get All Reminders
+
+GET
+
+Example Request:
+
+```HTTP
+Authorization: Bearer yJhbGciOiJIUzI1NiJ9...
+```
+
+### Get Reminders by Task
+
+GET
+
+`/api/reminders/task/{taskId}`
+
+Retrieves all reminders for a specific task owned by the authenticated user.
+
+Example request:
+
+```HTTP
+Authorization: Bearer yJhbGciOiJIUzI1NiJ9...
+```
+
+### Schedule a Reminder
+
+POST
+`/api/reminders`
+
+Schedules a new reminder for a specific task.
+
+Example request:
+
+```json
+{
+  "taskId": 18,
+  "reminderTime": "2026-11-10T14:30:00Z"
+}
+```
+
+Example reponse:
+
+```json
+{
+  "id": 1,
+  "taskId": 18,
+  "reminderTime": "2026-11-10T14:30:00Z",
+  "createdAt": "2026-11-05T12:27:00Z"
+}
+```
+
+### Delete Reminder
+
+DELETE
+
+`/api/reminders/{id}`
+
+Deletes a scheduled reminder.
+
+Example request:
+
+```HTTP
+Authorization: Bearer yJhbGciOiJIUzI1NiJ9...
+```
+
+Example response (200 OK):
+
+```HTTP
+Reminder deleted.
+```

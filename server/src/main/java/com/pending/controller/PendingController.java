@@ -3,6 +3,7 @@ package com.pending.controller;
 import com.pending.model.PendingItem;
 import com.pending.repository.PendingItemRepository;
 
+import com.pending.repository.ReminderRepository;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -18,23 +18,25 @@ import java.util.List;
 @RequestMapping("/api")
 public class PendingController {
 
-    private final PendingItemRepository repository;
+    private final PendingItemRepository pendingItemRepository;
+    private final ReminderRepository reminderRepository;
 
-    public PendingController(PendingItemRepository repository) {
-        this.repository = repository;
+    public PendingController(PendingItemRepository pendingItemRepository, ReminderRepository reminderRepository) {
+        this.pendingItemRepository = pendingItemRepository;
+        this.reminderRepository = reminderRepository;
     }
 
     // Retrieves all pending tasks that belong to the authenticated user
     @GetMapping("/items")
     public List<PendingItem> getAllItems(@AuthenticationPrincipal Long userId) {
-        return repository.findByOwnerId(userId);
+        return pendingItemRepository.findByOwnerId(userId);
     }
 
     // Retrieve a single task that belongs to the authenticated user
     @GetMapping("/items/{id}")
     public ResponseEntity<PendingItem> getItemById(@PathVariable Long id,
                                                    @AuthenticationPrincipal Long userId) {
-        return repository.findByIdAndOwnerId(id, userId)
+        return pendingItemRepository.findByIdAndOwnerIdAndDeletedAtIsNull(id, userId)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -49,7 +51,7 @@ public class PendingController {
         if(item.getStatus() == null) item.setStatus(0);
         if(item.getPriority() == null) item.setPriority(0);
 
-        PendingItem savedItem = repository.save(item);
+        PendingItem savedItem = pendingItemRepository.save(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
     }
 
@@ -58,7 +60,7 @@ public class PendingController {
                                                   @Valid @RequestBody PendingItem updatedItem,
                                                   @AuthenticationPrincipal Long userId) {
 
-        return repository.findByIdAndOwnerId(id, userId)
+        return pendingItemRepository.findByIdAndOwnerIdAndDeletedAtIsNull(id, userId)
                 .map(item -> {
                     item.setTitle(updatedItem.getTitle());
                     item.setWaitingOn(updatedItem.getWaitingOn());
@@ -73,11 +75,12 @@ public class PendingController {
                     // If status is updated, mark as resolved
                     if(updatedItem.getStatus() != null && updatedItem.getStatus() >= 3) {
                         item.setResolvedAt(OffsetDateTime.now());
+                        reminderRepository.deleteByTaskId(id);
                     }else{
                         item.setResolvedAt(updatedItem.getResolvedAt());
                     }
 
-                    return ResponseEntity.ok(repository.save(item));
+                    return ResponseEntity.ok(pendingItemRepository.save(item));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -87,10 +90,11 @@ public class PendingController {
     public ResponseEntity<String> deleteItem(@PathVariable Long id,
                                              @AuthenticationPrincipal Long userId) {
 
-        return repository.findByIdAndOwnerId(id, userId)
+        return pendingItemRepository.findByIdAndOwnerIdAndDeletedAtIsNull(id, userId)
                 .map(item -> {
                     item.setDeletedAt(OffsetDateTime.now());
-                    repository.save(item);
+                    pendingItemRepository.save(item);
+                    reminderRepository.deleteByTaskId(id);
                     return ResponseEntity.ok("Pending item marked for deletion");
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
