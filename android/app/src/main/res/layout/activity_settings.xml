@@ -14,6 +14,7 @@
         android:paddingBottom="18dp"
         android:background="@color/settings_background">
         <TextView
+            android:id="@+id/pageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" style="@style/SettingsTitle"
             android:text="@string/settings_title"
@@ -21,6 +22,7 @@
             android:fontFamily="sans-serif-medium"
             android:accessibilityHeading="true"/>
         <TextView
+            android:id="@+id/pageSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" style="@style/SettingsDetail"
             android:text="@string/settings_subtitle"

@@ -4,16 +4,16 @@
     <item
         android:id="@+id/nav_pending"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="Pending" />
+        android:title="@string/pendingStr" />
 
     <item
         android:id="@+id/nav_completed"
         android:icon="@android:drawable/checkbox_on_background"
-        android:title="Completed" />
+        android:title="@string/Completed" />
 
     <item
         android:id="@+id/nav_settings"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="Settings" />
+        android:title="@string/Settings" />
 
 </menu>
