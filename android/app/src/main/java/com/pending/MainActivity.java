@@ -1,57 +1,25 @@
 package com.pending;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import android.text.InputType;
-import android.view.Gravity;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pending.model.AuthResponse;
 import com.pending.model.PendingItem;
 import com.pending.network.SessionManager;
 import com.pending.repository.NetworkCallback;
 import com.pending.repository.PendingRepository;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.text.SimpleDateFormat;
-
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
 
-    private final int green = Color.rgb(43, 128, 107);
-    private final int ink = Color.rgb(32, 61, 53);
-    private final int bg = Color.rgb(247, 250, 248);
-
-    private LinearLayout content;
-  
     private PendingRepository repository;
     private SessionManager sessionManager;
-    private PendingTaskAdapter overdueAdapter;
-    private PendingTaskAdapter upcomingAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +32,6 @@ public class MainActivity extends AppCompatActivity {
             showDashboardScreen();
         } else {
             showLandingScreen();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(sessionManager != null && sessionManager.isLoggedIn()) {
-            TextView openPendingCount = findViewById(R.id.tasksOpenPending);
-            if(openPendingCount != null) {
-                loadDashboardData(openPendingCount);
-            }
         }
     }
 
@@ -141,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
                         showDashboardScreen();
                     }
-
-
 
                     @Override
                     public void onError(String errorMessage) {
@@ -253,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-
                 String firstName = firstNameInput.getText().toString().trim();
                 String lastName = lastNameInput.getText().toString().trim();
 
@@ -268,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                     lastNameInput.requestFocus();
                     return;
                 }
-
 
                 repository.register(email, password, firstName, lastName, new NetworkCallback<AuthResponse>() {
 
@@ -304,109 +257,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private com.pending.ui.PendingOverviewController pendingUi;
-    private boolean pendingOverview;
     private androidx.activity.OnBackPressedCallback pendingBack;
-
-    private void showDashboardScreen() {
-        setContentView(R.layout.activity_main);
 
     private void showDashboardScreen() { showPendingScreen(false); }
 
     private void showPendingScreen(boolean overview) {
-        if (pendingUi != null) pendingUi.dispose();
-        pendingOverview = overview;
+        disposePendingScreen();
         if (pendingBack == null) {
             pendingBack = new androidx.activity.OnBackPressedCallback(false) {
                 @Override public void handleOnBackPressed() { showDashboardScreen(); }
             };
             getOnBackPressedDispatcher().addCallback(this, pendingBack);
-        if (dateText != null) {
-            String currentDate = new java.text.SimpleDateFormat(
-                    "EEEE · MMM d",
-                    java.util.Locale.getDefault()
-            ).format(new java.util.Date());
-
-            dateText.setText(
-                    currentDate.toUpperCase(java.util.Locale.getDefault())
-            );
-        }
-
-        TextView greetingText = findViewById(R.id.morningText);
-
-        String firstName = getPreferences(MODE_PRIVATE)
-                .getString("first_name", "");
-
-        int hour = java.util.Calendar.getInstance()
-                .get(java.util.Calendar.HOUR_OF_DAY);
-
-        String greeting = (hour < 12) ? "Good morning" : (hour < 17) ? "Good afternoon" : "Good evening";
-
-        if (greetingText != null) {
-            if (firstName != null && !firstName.trim().isEmpty()) {
-                greetingText.setText(greeting + ", " + firstName.trim());
-            } else {
-                greetingText.setText(greeting);
-            }
-        }
-
-        TextView openPendingCount =
-                findViewById(R.id.tasksOpenPending);
-
-        PendingTaskAdapter.OnTaskClickListener editListener = item -> {
-            Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
-            intent.putExtra("TASK_ID", item.getId());
-            intent.putExtra("TASK_TITLE", item.getTitle());
-            intent.putExtra("TASK_WAITING_ON", item.getWaitingOn());
-            intent.putExtra("TASK_NOTES", item.getNotes());
-            if(item.getExpectedResponseDate() != null) {
-                intent.putExtra("TASK_DATE", item.getExpectedResponseDate());
-            }
-            startActivity(intent);
-        };
-
-        // Overdue task list
-        RecyclerView overdueList =
-                findViewById(R.id.overdueRecyclerView);
-
-        overdueAdapter = new PendingTaskAdapter(editListener);
-
-        overdueList.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-        overdueList.setAdapter(overdueAdapter);
-
-        // Upcoming task list
-        RecyclerView upcomingList =
-                findViewById(R.id.upcomingRecyclerView);
-
-        upcomingAdapter = new PendingTaskAdapter(editListener);
-
-        upcomingList.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-        upcomingList.setAdapter(upcomingAdapter);
-
-        // Load tasks from Spring Boot
-        loadDashboardData(openPendingCount);
-
-        // Create task intent
-        FloatingActionButton addTaskFab = findViewById(R.id.addTaskButton);
-        if (addTaskFab != null) {
-            addTaskFab.bringToFront();
-            addTaskFab.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
-                startActivity(intent);
-            });
         }
         pendingBack.setEnabled(overview);
         pendingUi = new com.pending.ui.PendingOverviewController(this, repository,
             new com.pending.ui.PendingOverviewController.Host() {
                 public void home() { showDashboardScreen(); }
                 public void overview() { showPendingScreen(true); }
-                public void completed() { pendingOverview = false; pendingBack.setEnabled(false); showCompletedScreen(); }
-                public void settings() { pendingOverview = false; pendingBack.setEnabled(false); showSettingsScreen(); }
-                public void create() { showCreateTaskDialog(null); }
-                public void edit(PendingItem item) { showEditTaskDialog(item, null); }
+                public void completed() { showCompletedScreen(); }
+                public void settings() { showSettingsScreen(); }
+                public void create() { startActivity(CreateTaskActivity.newIntent(MainActivity.this, null)); }
+                public void edit(PendingItem item) { startActivity(CreateTaskActivity.newIntent(MainActivity.this, item)); }
             }, overview, getPreferences(MODE_PRIVATE).getString("first_name", ""));
     }
 
@@ -423,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showSettingsScreen() {
+        disposePendingScreen();
         setContentView(R.layout.activity_settings);
 
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
@@ -431,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     .remove("first_name")
                     .apply();
 
+            sessionManager.logout();
             showLoginScreen();
         });
 
@@ -460,8 +333,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void showCompletedScreen() {
+        disposePendingScreen();
         setContentView(R.layout.activity_completed);
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
@@ -490,134 +363,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadDashboardData(TextView ignored) {
-        if (pendingUi != null) pendingUi.refresh();
-    }
-
-    private Button taskDatePicker(android.widget.LinearLayout layout, String label,
-                                  Calendar value) {
-        Button button = new Button(this);
-        button.setAllCaps(false);
-        Runnable update = () -> button.setText(label + ": " +
-            new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(value.getTime()));
-        update.run();
-        button.setOnClickListener(v -> new android.app.DatePickerDialog(this,
-            (picker, year, month, day) -> {
-                value.set(year, month, day);
-                update.run();
-            }, value.get(Calendar.YEAR), value.get(Calendar.MONTH),
-               value.get(Calendar.DAY_OF_MONTH)).show());
-        layout.addView(button);
-        return button;
-    }
-
-    private void showCreateTaskDialog(TextView countView) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Create Pending Task");
-
-        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
-        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-        layout.setPadding(50, 40, 50, 10);
-
-        final EditText titleInput = new EditText(this);
-        titleInput.setHint("Task Title (e.g. Internship Application)");
-        layout.addView(titleInput);
-
-        final EditText waitingOnInput = new EditText(this);
-        waitingOnInput.setHint("Waiting On (e.g. Recruiter, Professor)");
-        layout.addView(waitingOnInput);
-
-        final EditText notesInput = new EditText(this);
-        notesInput.setHint("Notes / Details");
-        layout.addView(notesInput);
-
-        final Calendar start = Calendar.getInstance();
-        final Calendar due = Calendar.getInstance();
-        due.add(Calendar.DAY_OF_YEAR, 7);
-        taskDatePicker(layout, "Start date", start);
-        taskDatePicker(layout, "Expected response", due);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Save Task", (dialog, which) -> {
-            String title = titleInput.getText().toString().trim();
-            String waitingOn = waitingOnInput.getText().toString().trim();
-            String notes = notesInput.getText().toString().trim();
-
-            if (TextUtils.isEmpty(title)) {
-                Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(start.getTime());
-            String expectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(due.getTime());
-            Integer defaultStatus = 0; // 0 = Waiting on
-            Integer defaultPriority = 1;
-
-            repository.createItem(title, waitingOn, startDate, expectedDate, defaultStatus, notes, defaultPriority, new NetworkCallback<PendingItem>() {
-                @Override
-                public void onSuccess(PendingItem createdItem) {
-                    Toast.makeText(MainActivity.this, "Task created: " + createdItem.getTitle(), Toast.LENGTH_SHORT).show();
-                    loadDashboardData(countView);
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-                    Toast.makeText(MainActivity.this, "Failed to save: " + errorMessage, Toast.LENGTH_LONG).show();
-                }
-            });
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
-
-    private void showEditTaskDialog(PendingItem item, TextView countView) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Pending Task");
-
-        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
-        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
-        layout.setPadding(50, 40, 50, 10);
-
-        final EditText titleInput = new EditText(this);
-        titleInput.setHint("Title");
-        titleInput.setText(item.getTitle());
-        layout.addView(titleInput);
-
-        final EditText waitingOnInput = new EditText(this);
-        waitingOnInput.setHint("Waiting On");
-        waitingOnInput.setText(item.getWaitingOn());
-        layout.addView(waitingOnInput);
-
-        final EditText notesInput = new EditText(this);
-        notesInput.setHint("Notes");
-        notesInput.setText(item.getNotes());
-        layout.addView(notesInput);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Update", (dialog, which) -> {
-            PendingItem update = com.pending.ui.PendingTaskUpdates.copyForUpdate(item);
-            update.setTitle(titleInput.getText().toString().trim());
-            update.setWaitingOn(waitingOnInput.getText().toString().trim());
-            update.setNotes(notesInput.getText().toString().trim());
-
-            repository.updateItem(item.getId(), update, new NetworkCallback<PendingItem>() {
-                @Override
-                public void onSuccess(PendingItem updated) {
-                    Toast.makeText(MainActivity.this, "Task updated!", Toast.LENGTH_SHORT).show();
-                    loadDashboardData(countView);
-                }
-
-                @Override
-                public void onError(String error) {
-                    Toast.makeText(MainActivity.this, error, Toast.LENGTH_LONG).show();
-                }
-            });
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.show();
+    private void disposePendingScreen() {
+        if (pendingUi != null) {
+            pendingUi.dispose();
+            pendingUi = null;
+        }
+        if (pendingBack != null) pendingBack.setEnabled(false);
     }
 }
