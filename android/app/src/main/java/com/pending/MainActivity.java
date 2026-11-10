@@ -146,7 +146,12 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        if(errorMessage.equals("UNVERIFIED")) {
+                            Toast.makeText(MainActivity.this, "Please verify your email before logging in.", Toast.LENGTH_LONG).show();
+                            showVerifyEmailScreen(email);
+                        } else {
+                            Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
             });
@@ -282,11 +287,11 @@ public class MainActivity extends AppCompatActivity {
 
                         Toast.makeText(
                                 MainActivity.this,
-                                "Account created successfully!",
+                                "Account created successfully! Check your email for the verification code.",
                                 Toast.LENGTH_SHORT
                         ).show();
 
-                        showDashboardScreen();
+                        showVerifyEmailScreen(email);
                     }
 
                     @Override
@@ -616,7 +621,58 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void showVerifyEmailScreen(String email) {
+        setContentView(R.layout.verify_email);
 
+        EditText codeInput = findViewById(R.id.editInboxCodeNumberSigned);
+        Button verifyButton = findViewById(R.id.confirmEmailVerificationButton);
+        Button resendButton = findViewById(R.id.resendCodeText);
+        ImageButton backButton = findViewById(R.id.backButtonLogin);
+
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> showLandingScreen());
+        }
+
+        if (verifyButton != null) {
+            verifyButton.setOnClickListener(v -> {
+                String code = codeInput != null ? codeInput.getText().toString().trim() : "";
+
+                if(TextUtils.isEmpty(code)) {
+                    Toast.makeText(MainActivity.this, "Please enter the 6-digit code", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                repository.verifyEmail(email, code, new NetworkCallback<AuthResponse>() {
+                    @Override
+                    public void onSuccess(AuthResponse result) {
+                        Toast.makeText(MainActivity.this, "Email verified successfully!", Toast.LENGTH_SHORT).show();
+                        showDashboardScreen();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+        }
+
+        if (resendButton != null) {
+            resendButton.setOnClickListener(v -> {
+                repository.resendVerification(email, new NetworkCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Toast.makeText(MainActivity.this, "A new code has been sent.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+        }
+    }
     private void showCreateTaskDialog(TextView countView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create Pending Task");
