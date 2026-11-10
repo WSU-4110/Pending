@@ -35,6 +35,12 @@ public class PendingItem {
     @SerializedName("deletedAt")
     private String deletedAt;
 
+    @SerializedName("updatedAt")
+    private String updatedAt;
+
+    public String getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
+
     public PendingItem() {}
 
     public PendingItem(Long ownerId, String title, String waitingOn, String startDate,

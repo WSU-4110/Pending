@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
   
     private PendingRepository repository;
     private SessionManager sessionManager;
+    private PendingTaskAdapter overdueAdapter;
+    private PendingTaskAdapter upcomingAdapter;
 
 
     @Override
@@ -65,225 +67,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    private int dp(int value) {
-        return (int) (value *
-                getResources().getDisplayMetrics().density);
-    }
-
-    private void screen() {
-        ScrollView scroll = new ScrollView(this);
-        scroll.setFillViewport(true);
-        scroll.setBackgroundColor(bg);
-
-        content = new LinearLayout(this);
-        content.setOrientation(LinearLayout.VERTICAL);
-        content.setPadding(
-                dp(24), dp(44), dp(24), dp(24)
-        );
-
-        scroll.addView(content);
-        setContentView(scroll);
-    }
-
-    private TextView text(String value, int size, boolean bold) {
-        TextView t = new TextView(this);
-
-        t.setText(value);
-        t.setTextColor(ink);
-        t.setTextSize(size);
-
-        if (bold) {
-            t.setTypeface(
-                    null,
-                    android.graphics.Typeface.BOLD
-            );
-        }
-
-        t.setPadding(0, dp(8), 0, dp(8));
-        content.addView(t);
-
-        return t;
-    }
-
-    private Button button(String label, Runnable action) {
-        Button b = new Button(this);
-
-        b.setText(label);
-        b.setAllCaps(false);
-        b.setTextColor(Color.WHITE);
-
-        b.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(green)
-        );
-
-        LinearLayout.LayoutParams p =
-                new LinearLayout.LayoutParams(-1, dp(54));
-
-        p.topMargin = dp(12);
-        content.addView(b, p);
-
-        b.setOnClickListener(v -> action.run());
-
-        return b;
-    }
-
-    private EditText field(String hint, boolean password) {
-        EditText e = new EditText(this);
-
-        e.setHint(hint);
-        e.setSingleLine(true);
-        e.setTextColor(ink);
-        e.setHintTextColor(0xFF7C948C);
-
-        e.setInputType(
-                password
-                        ? InputType.TYPE_CLASS_TEXT |
-                          InputType.TYPE_TEXT_VARIATION_PASSWORD
-                        : InputType.TYPE_CLASS_TEXT |
-                          InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-        );
-
-        LinearLayout.LayoutParams p =
-                new LinearLayout.LayoutParams(-1, dp(58));
-
-        p.topMargin = dp(10);
-        content.addView(e, p);
-
-        return e;
-    }
-
-    private void showWelcome() {
-        screen();
-
-        text("Pending", 36, true);
-
-        text(
-                "Keep track of everything you're waiting on.",
-                19,
-                false
-        );
-
-        text(
-                "Stay organized. Follow up. Get things done.",
-                15,
-                false
-        );
-
-        button("Get Started", this::showLogin);
-    }
-
-    private void showLogin() {
-        screen();
-
-        text("Welcome back", 30, true);
-        text("Sign in to view your pending tasks", 16, false);
-
-        EditText email = field("Email", false);
-        EditText password = field("Password", true);
-
-        button("Log In", () -> {
-
-            String enteredEmail =
-                    email.getText().toString().trim();
-
-            if (!android.util.Patterns.EMAIL_ADDRESS
-                    .matcher(enteredEmail).matches()) {
-                email.setError("Enter a valid email");
-                return;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(sessionManager != null && sessionManager.isLoggedIn()) {
+            TextView openPendingCount = findViewById(R.id.tasksOpenPending);
+            if(openPendingCount != null) {
+                loadDashboardData(openPendingCount);
             }
-
-            if (password.getText().toString().isEmpty()) {
-                password.setError("Enter a password");
-                return;
-            }
-
-            // Demo only: no real authentication.
-            getPreferences(MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("logged_in", true)
-                    .apply();
-
-            showDashboard();
-        });
-
-        text(
-                "Demo login only — backend authentication is not connected.",
-                12,
-                false
-        );
-    }
-
-    private void showDashboard() {
-        screen();
-
-        text("My Pending Tasks", 30, true);
-
-        text(
-                "Everything you're waiting on, in one place.",
-                15,
-                false
-        );
-
-        button("+ Create Pending Task", () -> {
-            startActivity(
-                    new Intent(this, CreateTaskActivity.class)
-            );
-        });
-
-        List<LocalTaskStore.Task> tasks =
-                LocalTaskStore.all(this);
-
-        if (tasks.isEmpty()) {
-            text(
-                    "No pending tasks yet. Create your first task!",
-                    17,
-                    false
-            );
         }
-
-        for (LocalTaskStore.Task task : tasks) {
-
-            String label =
-                    (task.completed ? "✓  " : "○  ") +
-                            task.title +
-                            "\nExpected: " + task.date;
-
-            Button row = button(label, () -> {
-                Intent intent = new Intent(
-                        this,
-                        TaskDetailsActivity.class
-                );
-
-                intent.putExtra("task_id", task.id);
-                startActivity(intent);
-            });
-
-            row.setTextColor(ink);
-
-            row.setBackgroundTintList(
-                    android.content.res.ColorStateList.valueOf(
-                            0xFFEAF4EF
-                    )
-            );
-
-            row.setGravity(
-                    Gravity.CENTER_VERTICAL | Gravity.START
-            );
-
-            row.setPadding(dp(16), 0, dp(16), 0);
-        }
-
-        button("Log Out", () -> {
-            getPreferences(MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("logged_in", false)
-                    .apply();
-
-            showWelcome();
-        });
     }
-
 
     private void showLandingScreen() {
         setContentView(R.layout.account_page);
@@ -510,14 +303,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        private PendingTaskAdapter overdueAdapter;
-    private PendingTaskAdapter upcomingAdapter;
+    private com.pending.ui.PendingOverviewController pendingUi;
+    private boolean pendingOverview;
+    private androidx.activity.OnBackPressedCallback pendingBack;
 
     private void showDashboardScreen() {
         setContentView(R.layout.activity_main);
 
-        TextView dateText = findViewById(R.id.currentDateText);
+    private void showDashboardScreen() { showPendingScreen(false); }
 
+    private void showPendingScreen(boolean overview) {
+        if (pendingUi != null) pendingUi.dispose();
+        pendingOverview = overview;
+        if (pendingBack == null) {
+            pendingBack = new androidx.activity.OnBackPressedCallback(false) {
+                @Override public void handleOnBackPressed() { showDashboardScreen(); }
+            };
+            getOnBackPressedDispatcher().addCallback(this, pendingBack);
         if (dateText != null) {
             String currentDate = new java.text.SimpleDateFormat(
                     "EEEE · MMM d",
@@ -537,15 +339,7 @@ public class MainActivity extends AppCompatActivity {
         int hour = java.util.Calendar.getInstance()
                 .get(java.util.Calendar.HOUR_OF_DAY);
 
-        String greeting;
-
-        if (hour < 12) {
-            greeting = "Good morning";
-        } else if (hour < 17) {
-            greeting = "Good afternoon";
-        } else {
-            greeting = "Good evening";
-        }
+        String greeting = (hour < 12) ? "Good morning" : (hour < 17) ? "Good afternoon" : "Good evening";
 
         if (greetingText != null) {
             if (firstName != null && !firstName.trim().isEmpty()) {
@@ -558,16 +352,23 @@ public class MainActivity extends AppCompatActivity {
         TextView openPendingCount =
                 findViewById(R.id.tasksOpenPending);
 
-        FloatingActionButton addTaskFab =
-                findViewById(R.id.addTaskButton);
+        PendingTaskAdapter.OnTaskClickListener editListener = item -> {
+            Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
+            intent.putExtra("TASK_ID", item.getId());
+            intent.putExtra("TASK_TITLE", item.getTitle());
+            intent.putExtra("TASK_WAITING_ON", item.getWaitingOn());
+            intent.putExtra("TASK_NOTES", item.getNotes());
+            if(item.getExpectedResponseDate() != null) {
+                intent.putExtra("TASK_DATE", item.getExpectedResponseDate());
+            }
+            startActivity(intent);
+        };
 
         // Overdue task list
         RecyclerView overdueList =
                 findViewById(R.id.overdueRecyclerView);
 
-        overdueAdapter = new PendingTaskAdapter(
-                item -> showEditTaskDialog(item, openPendingCount)
-        );
+        overdueAdapter = new PendingTaskAdapter(editListener);
 
         overdueList.setLayoutManager(
                 new LinearLayoutManager(this)
@@ -578,9 +379,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView upcomingList =
                 findViewById(R.id.upcomingRecyclerView);
 
-        upcomingAdapter = new PendingTaskAdapter(
-                item -> showEditTaskDialog(item, openPendingCount)
-        );
+        upcomingAdapter = new PendingTaskAdapter(editListener);
 
         upcomingList.setLayoutManager(
                 new LinearLayoutManager(this)
@@ -590,42 +389,88 @@ public class MainActivity extends AppCompatActivity {
         // Load tasks from Spring Boot
         loadDashboardData(openPendingCount);
 
-        // Create task button
+        // Create task intent
+        FloatingActionButton addTaskFab = findViewById(R.id.addTaskButton);
         if (addTaskFab != null) {
             addTaskFab.bringToFront();
-            addTaskFab.setOnClickListener(
-                    v -> showCreateTaskDialog(openPendingCount)
-            );
+            addTaskFab.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
+                startActivity(intent);
+            });
         }
-
-        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
-                findViewById(R.id.bottomNavigation);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.nav_pending) {
-                return true;
-            }
-
-            if (id == R.id.nav_completed) {
-                showCompletedScreen();
-                return true;
-            }
-
-            if (id == R.id.nav_settings) {
-                showSettingsScreen();
-                return true;
-            }
-
-            return false;
-        });
-
+        pendingBack.setEnabled(overview);
+        pendingUi = new com.pending.ui.PendingOverviewController(this, repository,
+            new com.pending.ui.PendingOverviewController.Host() {
+                public void home() { showDashboardScreen(); }
+                public void overview() { showPendingScreen(true); }
+                public void completed() { pendingOverview = false; pendingBack.setEnabled(false); showCompletedScreen(); }
+                public void settings() { pendingOverview = false; pendingBack.setEnabled(false); showSettingsScreen(); }
+                public void create() { showCreateTaskDialog(null); }
+                public void edit(PendingItem item) { showEditTaskDialog(item, null); }
+            }, overview, getPreferences(MODE_PRIVATE).getString("first_name", ""));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pendingUi != null) pendingUi.refresh();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (pendingUi != null) pendingUi.dispose();
+        super.onDestroy();
+    }
 
     private void showSettingsScreen() {
         setContentView(R.layout.activity_settings);
+
+        // Match the warm canvas only while Settings is visible; restore other screens unchanged.
+        final int previousStatusColor = getWindow().getStatusBarColor();
+        final int previousNavigationColor = getWindow().getNavigationBarColor();
+        final int previousSystemUi = getWindow().getDecorView().getSystemUiVisibility();
+        int canvasColor = androidx.core.content.ContextCompat.getColor(this, R.color.settings_background);
+        getWindow().setStatusBarColor(canvasColor);
+        getWindow().setNavigationBarColor(canvasColor);
+        getWindow().getDecorView().setSystemUiVisibility(previousSystemUi
+                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        findViewById(R.id.settingsRoot).addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) { }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                getWindow().setStatusBarColor(previousStatusColor);
+                getWindow().setNavigationBarColor(previousNavigationColor);
+                getWindow().getDecorView().setSystemUiVisibility(previousSystemUi);
+                view.removeOnAttachStateChangeListener(this);
+            }
+        });
+
+        String name = sessionManager.getUserName();
+        String email = sessionManager.getUserEmail();
+        TextView profileName = findViewById(R.id.settingsProfileName);
+        TextView profileEmail = findViewById(R.id.settingsProfileEmail);
+        TextView avatar = findViewById(R.id.settingsAvatar);
+        profileName.setText(TextUtils.isEmpty(name) ? getString(R.string.settings_profile_fallback) : name);
+        profileEmail.setText(TextUtils.isEmpty(email) ? getString(R.string.settings_email_fallback) : email);
+        StringBuilder initials = new StringBuilder();
+        if (!TextUtils.isEmpty(name) && !name.trim().isEmpty()) {
+            String[] parts = name.trim().split("\\s+");
+            initials.appendCodePoint(parts[0].codePointAt(0));
+            if (parts.length > 1) {
+                initials.appendCodePoint(parts[parts.length - 1].codePointAt(0));
+            }
+        }
+        avatar.setText(initials.length() == 0 ? getString(R.string.settings_avatar_fallback)
+                : initials.toString().toUpperCase(Locale.getDefault()));
+        TextView version = findViewById(R.id.settingsVersion);
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            version.setText(getString(R.string.settings_version, versionName));
+        } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
+            version.setVisibility(View.GONE);
+        }
 
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             getPreferences(MODE_PRIVATE)
@@ -639,6 +484,8 @@ public class MainActivity extends AppCompatActivity {
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);
 
+        // The scoped item background highlights icon and label together, as in the references.
+        bottomNav.setItemActiveIndicatorEnabled(false);
         bottomNav.setSelectedItemId(R.id.nav_settings);
 
         bottomNav.setOnItemSelectedListener(item -> {
@@ -692,141 +539,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadDashboardData(TextView openPendingCount) {
-
-        repository.fetchAllItems(
-                new NetworkCallback<List<PendingItem>>() {
-
-                    @Override
-                    public void onSuccess(List<PendingItem> items) {
-
-                        List<PendingItem> overdueTasks = new ArrayList<>();
-                        List<PendingItem> upcomingTasks = new ArrayList<>();
-
-                        SimpleDateFormat dateFormat =
-                                new SimpleDateFormat(
-                                        "yyyy-MM-dd", Locale.US
-                                );
-
-                        String today = dateFormat.format(new Date());
-
-                        // Find the end of the current calendar week
-                        Calendar calendar = Calendar.getInstance();
-
-                        int daysUntilWeekEnd =
-                                (calendar.getFirstDayOfWeek() + 6
-                                        - calendar.get(Calendar.DAY_OF_WEEK)
-                                        + 7) % 7;
-
-                        calendar.add(
-                                Calendar.DAY_OF_YEAR, daysUntilWeekEnd
-                        );
-
-                        String weekEnd =
-                                dateFormat.format(calendar.getTime());
-
-                        int thisWeekCount = 0;
-
-                        // Organize tasks
-                        for (PendingItem item : items) {
-
-                            // Skip deleted tasks
-                            if (item.getDeletedAt() != null &&
-                                    !item.getDeletedAt().isEmpty()) {
-                                continue;
-                            }
-
-                            // Status 3 or higher means completed
-                            Integer status = item.getStatus();
-
-                            if (status != null && status >= 3) {
-                                continue;
-                            }
-
-                            String expectedDate =
-                                    item.getExpectedResponseDate();
-
-                            // Backend dates use yyyy-MM-dd
-                            if (expectedDate != null &&
-                                    expectedDate.length() >= 10) {
-                                expectedDate =
-                                        expectedDate.substring(0, 10);
-                            }
-
-                            if (expectedDate != null &&
-                                    expectedDate.compareTo(today) < 0) {
-
-                                overdueTasks.add(item);
-
-                            } else {
-
-                                upcomingTasks.add(item);
-
-                                if (expectedDate != null &&
-                                        expectedDate.compareTo(today) >= 0 &&
-                                        expectedDate.compareTo(weekEnd) <= 0) {
-
-                                    thisWeekCount++;
-                                }
-                            }
-                        }
-
-                        // Update dashboard statistics
-                        int totalOpen = overdueTasks.size()
-                                + upcomingTasks.size();
-
-                        if (openPendingCount != null) {
-                            openPendingCount.setText(
-                                    String.valueOf(totalOpen)
-                            );
-                        }
-
-                        TextView overdueCount =
-                                findViewById(R.id.tasksOverdue);
-
-                        TextView thisWeekCountView =
-                                findViewById(R.id.tasksThisWeek);
-
-                        TextView attentionText =
-                                findViewById(R.id.tasksAttention);
-
-                        if (overdueCount != null) {
-                            overdueCount.setText(
-                                    String.valueOf(overdueTasks.size())
-                            );
-                        }
-
-                        if (thisWeekCountView != null) {
-                            thisWeekCountView.setText(
-                                    String.valueOf(thisWeekCount)
-                            );
-                        }
-
-                        if (attentionText != null) {
-                            attentionText.setText(
-                                    overdueTasks.size()
-                                            + " need attention"
-                            );
-                        }
-
-                        // Update both task lists
-                        overdueAdapter.setTasks(overdueTasks);
-                        upcomingAdapter.setTasks(upcomingTasks);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-
-                        Toast.makeText(
-                                MainActivity.this,
-                                "Unable to load tasks: " + errorMessage,
-                                Toast.LENGTH_LONG
-                        ).show();
-                    }
-                }
-        );
+    private void loadDashboardData(TextView ignored) {
+        if (pendingUi != null) pendingUi.refresh();
     }
 
+    private Button taskDatePicker(android.widget.LinearLayout layout, String label,
+                                  Calendar value) {
+        Button button = new Button(this);
+        button.setAllCaps(false);
+        Runnable update = () -> button.setText(label + ": " +
+            new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(value.getTime()));
+        update.run();
+        button.setOnClickListener(v -> new android.app.DatePickerDialog(this,
+            (picker, year, month, day) -> {
+                value.set(year, month, day);
+                update.run();
+            }, value.get(Calendar.YEAR), value.get(Calendar.MONTH),
+               value.get(Calendar.DAY_OF_MONTH)).show());
+        layout.addView(button);
+        return button;
+    }
 
     private void showCreateTaskDialog(TextView countView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -848,6 +580,12 @@ public class MainActivity extends AppCompatActivity {
         notesInput.setHint("Notes / Details");
         layout.addView(notesInput);
 
+        final Calendar start = Calendar.getInstance();
+        final Calendar due = Calendar.getInstance();
+        due.add(Calendar.DAY_OF_YEAR, 7);
+        taskDatePicker(layout, "Start date", start);
+        taskDatePicker(layout, "Expected response", due);
+
         builder.setView(layout);
 
         builder.setPositiveButton("Save Task", (dialog, which) -> {
@@ -860,8 +598,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            String startDate = "2026-10-21";
-            String expectedDate = "2026-10-28";
+            String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(start.getTime());
+            String expectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(due.getTime());
             Integer defaultStatus = 0; // 0 = Waiting on
             Integer defaultPriority = 1;
 
@@ -909,11 +647,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(layout);
 
         builder.setPositiveButton("Update", (dialog, which) -> {
-            item.setTitle(titleInput.getText().toString().trim());
-            item.setWaitingOn(waitingOnInput.getText().toString().trim());
-            item.setNotes(notesInput.getText().toString().trim());
+            PendingItem update = com.pending.ui.PendingTaskUpdates.copyForUpdate(item);
+            update.setTitle(titleInput.getText().toString().trim());
+            update.setWaitingOn(waitingOnInput.getText().toString().trim());
+            update.setNotes(notesInput.getText().toString().trim());
 
-            repository.updateItem(item.getId(), item, new NetworkCallback<PendingItem>() {
+            repository.updateItem(item.getId(), update, new NetworkCallback<PendingItem>() {
                 @Override
                 public void onSuccess(PendingItem updated) {
                     Toast.makeText(MainActivity.this, "Task updated!", Toast.LENGTH_SHORT).show();
