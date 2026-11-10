@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<resources>
+    <string name="settings_title">Account &amp; preferences</string>
+    <string name="settings_subtitle">Manage Pending your way</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_detail">Push and email alerts</string>
+    <string name="settings_reminders">Reminder defaults</string>
+    <string name="settings_reminders_detail">Default reminder timing</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_appearance_detail">Theme preferences</string>
+    <string name="settings_privacy">Privacy &amp; data</string>
+    <string name="settings_privacy_detail">Storage and export controls</string>
+    <string name="settings_security">Authorization &amp; security</string>
+    <string name="settings_security_detail">Password and active sessions</string>
+    <string name="settings_delete">Delete account</string>
+    <string name="settings_delete_detail">Permanently remove account and data</string>
+    <string name="settings_unavailable">Preference controls and account deletion are not available yet.</string>
+    <string name="settings_logout">Log out</string>
+    <string name="settings_profile_fallback">Your account</string>
+    <string name="settings_email_fallback">No email available</string>
+    <string name="settings_avatar_fallback">?</string>
+    <string name="settings_version">Pending %1$s</string>
+    <string name="settings_nav_pending">Pending</string>
+    <string name="settings_nav_completed">Completed</string>
+    <string name="settings_nav_settings">Settings</string>
+</resources>

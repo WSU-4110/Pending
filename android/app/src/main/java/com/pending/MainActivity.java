@@ -416,6 +416,31 @@ public class MainActivity extends AppCompatActivity {
     private void showSettingsScreen() {
         setContentView(R.layout.activity_settings);
 
+        String name = sessionManager.getUserName();
+        String email = sessionManager.getUserEmail();
+        TextView profileName = findViewById(R.id.settingsProfileName);
+        TextView profileEmail = findViewById(R.id.settingsProfileEmail);
+        TextView avatar = findViewById(R.id.settingsAvatar);
+        profileName.setText(TextUtils.isEmpty(name) ? getString(R.string.settings_profile_fallback) : name);
+        profileEmail.setText(TextUtils.isEmpty(email) ? getString(R.string.settings_email_fallback) : email);
+        StringBuilder initials = new StringBuilder();
+        if (!TextUtils.isEmpty(name) && !name.trim().isEmpty()) {
+            String[] parts = name.trim().split("\\s+");
+            initials.appendCodePoint(parts[0].codePointAt(0));
+            if (parts.length > 1) {
+                initials.appendCodePoint(parts[parts.length - 1].codePointAt(0));
+            }
+        }
+        avatar.setText(initials.length() == 0 ? getString(R.string.settings_avatar_fallback)
+                : initials.toString().toUpperCase(Locale.getDefault()));
+        TextView version = findViewById(R.id.settingsVersion);
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            version.setText(getString(R.string.settings_version, versionName));
+        } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
+            version.setVisibility(View.GONE);
+        }
+
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             getPreferences(MODE_PRIVATE)
                     .edit()
