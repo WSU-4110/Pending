@@ -75,6 +75,7 @@ public class PendingDetailsActivity extends AppCompatActivity {
       error("Task not found");
       return;
     }
+    if (load != null) load.cancel();
     load = RetrofitClient.getInstance(this).getItemById(id);
     load.enqueue(
         new Callback<PendingItem>() {
@@ -165,77 +166,15 @@ public class PendingDetailsActivity extends AppCompatActivity {
         });
   }
 
-  private EditText field(LinearLayout box, String hint, String value) {
-    EditText e = new EditText(this);
-    e.setHint(hint);
-    e.setText(value);
-    box.addView(e);
-    return e;
-  }
-
   private void edit() {
     if (task == null || saving) return;
-    LinearLayout box = new LinearLayout(this);
-    box.setOrientation(LinearLayout.VERTICAL);
-    int p = (int) (20 * getResources().getDisplayMetrics().density);
-    box.setPadding(p, p, p, p);
-    EditText title = field(box, "Title", task.getTitle()),
-        waiting = field(box, "Waiting on", task.getWaitingOn()),
-        notes = field(box, "Notes", task.getNotes());
-    Button due = new Button(this);
-    due.setAllCaps(false);
-    final String[] date = {task.getExpectedResponseDate()};
-    due.setText(date[0] == null ? "Choose due date" : date[0]);
-    box.addView(due);
-    due.setOnClickListener(
-        v -> {
-          Calendar c = Calendar.getInstance();
-          String current = PendingTaskPresentation.due(task);
-          if (!current.isEmpty()) {
-            String[] parts = current.split("-");
-            c.set(
-                Integer.parseInt(parts[0]),
-                Integer.parseInt(parts[1]) - 1,
-                Integer.parseInt(parts[2]));
-          }
-          new android.app.DatePickerDialog(
-                  this,
-                  (picker, y, m, d) -> {
-                    date[0] = String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d);
-                    due.setText(date[0]);
-                  },
-                  c.get(Calendar.YEAR),
-                  c.get(Calendar.MONTH),
-                  c.get(Calendar.DAY_OF_MONTH))
-              .show();
-        });
-    ScrollView scroll = new ScrollView(this);
-    scroll.addView(box);
-    AlertDialog dialog =
-        new AlertDialog.Builder(this)
-            .setTitle("Edit task")
-            .setView(scroll)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Save", null)
-            .create();
-    dialog.setOnShowListener(
-        d ->
-            dialog
-                .getButton(AlertDialog.BUTTON_POSITIVE)
-                .setOnClickListener(
-                    v -> {
-                      if (title.getText().toString().trim().isEmpty()) {
-                        title.setError("Enter a title");
-                        return;
-                      }
-                      PendingItem update = copy();
-                      update.setTitle(title.getText().toString().trim());
-                      update.setWaitingOn(waiting.getText().toString().trim());
-                      update.setNotes(notes.getText().toString().trim());
-                      update.setExpectedResponseDate(date[0]);
-                      save(update, dialog);
-                    }));
-    dialog.show();
+    startActivity(com.pending.CreateTaskActivity.newIntent(this, task));
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (task != null && !saving) fetch();
   }
 
   @Override
