@@ -40,20 +40,18 @@
 
             <!-- Pending icon -->
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="52dp"
-                android:layout_height="52dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="8dp"
                 app:cardBackgroundColor="@color/auth_sage"
-                app:cardCornerRadius="16dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:strokeWidth="0dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:src="@drawable/auth_ic_clock"
-                    app:tint="@color/auth_white"
+                    android:src="@drawable/auth_login_logo"
                     android:importantForAccessibility="no"/>
 
             </com.google.android.material.card.MaterialCardView>
@@ -87,7 +85,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email address"
-                app:startIconDrawable="@drawable/auth_ic_mail">
+                app:startIconDrawable="@drawable/auth_login_mail_badge"
+                app:startIconTint="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextEmailAddress2"
@@ -96,7 +95,7 @@
                     android:inputType="textEmailAddress"
                     android:textColor="@color/auth_ink"
                     android:textSize="14sp"
-                    android:minHeight="56dp" />
+                    android:minHeight="60dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,7 +113,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:hint="Password"
-                app:startIconDrawable="@drawable/auth_ic_lock"
+                app:startIconDrawable="@drawable/auth_login_lock_badge"
+                app:startIconTint="@null"
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -124,7 +124,7 @@
                     android:inputType="textPassword"
                     android:textColor="@color/auth_ink"
                     android:textSize="14sp"
-                    android:minHeight="56dp" />
+                    android:minHeight="60dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,14 +152,14 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmLoginButton"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="58dp"
                 android:layout_marginTop="20dp"
                 android:text="Log in"
                 android:textAllCaps="false"
                 android:textColor="@color/auth_white"
                 android:textSize="14sp"
                 app:backgroundTint="@color/auth_deep"
-                app:cornerRadius="28dp" />
+                app:cornerRadius="32dp" />
 
         </LinearLayout>
     </ScrollView>
@@ -182,22 +182,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/auth_mint"
-            app:cardCornerRadius="24dp"
+            app:cardCornerRadius="32dp"
             app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/auth_soft_sage"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:padding="16dp">
+                android:padding="18dp">
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/auth_ic_shield"
-                    app:tint="@color/auth_ink"
+                    android:src="@drawable/auth_login_shield_badge"
                     android:importantForAccessibility="no"/>
                 <TextView
                     android:layout_width="0dp"
