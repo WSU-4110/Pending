@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="@color/auth_soft_sage"/>
+    <item android:state_focused="true" android:color="@color/auth_deep"/>
+    <item android:state_hovered="true" android:color="@color/auth_sage"/>
+    <item android:color="@color/auth_soft_sage"/>
+</selector>

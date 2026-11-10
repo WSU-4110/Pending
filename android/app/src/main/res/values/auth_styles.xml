@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Applied only to the existing Welcome and Login roots. -->
+    <style name="ThemeOverlay.PendingAuth" parent="ThemeOverlay.Material3">
+        <item name="colorPrimary">@color/auth_deep</item>
+        <item name="colorOnPrimary">@color/auth_white</item>
+        <item name="colorSecondary">@color/auth_sage</item>
+        <item name="colorSurface">@color/auth_background</item>
+        <item name="colorOnSurface">@color/auth_ink</item>
+        <item name="colorOnSurfaceVariant">@color/auth_muted</item>
+        <item name="colorOutline">@color/auth_soft_sage</item>
+        <item name="colorError">@color/auth_error</item>
+        <item name="colorControlActivated">@color/auth_deep</item>
+    </style>
+    <style name="PendingAuthInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundMode">outline</item>
+        <item name="boxBackgroundColor">@color/auth_white</item>
+        <item name="boxCornerRadiusTopStart">24dp</item>
+        <item name="boxCornerRadiusTopEnd">24dp</item>
+        <item name="boxCornerRadiusBottomStart">24dp</item>
+        <item name="boxCornerRadiusBottomEnd">24dp</item>
+        <item name="boxStrokeColor">@color/auth_input_stroke</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/auth_muted</item>
+        <item name="startIconTint">@color/auth_muted</item>
+        <item name="endIconTint">@color/auth_ink</item>
+        <item name="errorTextColor">@color/auth_error</item>
+    </style>
+</resources>
