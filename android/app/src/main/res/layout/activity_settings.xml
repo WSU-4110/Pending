@@ -1,58 +1,443 @@
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7FAF8">
-
+    android:background="@color/settings_background"
+    android:id="@+id/settingsRoot">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="18dp"
+        android:background="@color/settings_background">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" style="@style/SettingsTitle"
+            android:text="@string/settings_title"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-medium"
+            android:accessibilityHeading="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" style="@style/SettingsDetail"
+            android:text="@string/settings_subtitle"
+            android:layout_marginTop="6dp"/>
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
+        android:fillViewport="true"
+        android:clipToPadding="false">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#203D35"
-            android:layout_marginBottom="24dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Account"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#203D35"
-            android:layout_marginBottom="12dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/logoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Log out"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#2B806B"
-            android:layout_marginTop="12dp" />
-
-    </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="24dp">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/settings_soft_sage"
+                app:strokeWidth="0dp"
+                app:cardElevation="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="84dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="14dp">
+                    <TextView
+                        android:id="@+id/settingsAvatar"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:gravity="center"
+                        android:background="@drawable/settings_avatar"
+                        android:textColor="@color/settings_ink"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:importantForAccessibility="no"
+                        tools:text="MC"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+                        <TextView
+                            android:id="@+id/settingsProfileName" style="@style/SettingsTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/settings_ink"
+                            android:text="@string/settings_profile_fallback"
+                            tools:text="Maya Chen"/>
+                        <TextView
+                            android:id="@+id/settingsProfileEmail" style="@style/SettingsDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:textColor="@color/settings_muted"
+                            android:text="@string/settings_email_fallback"
+                            tools:text="maya.chen@example.com"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile"
+                            android:src="@drawable/settings_ic_bell"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_notifications"
+                                android:textColor="@color/settings_ink"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_notifications_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:enabled="false"
+                            android:checked="false"
+                            android:contentDescription="@string/settings_notifications"
+                            android:alpha="0.45"
+                            app:thumbTint="@color/settings_muted"
+                            app:trackTint="@color/settings_mint"
+                            app:trackDecorationTint="@color/settings_soft_sage"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="48dp"
+                        android:background="@color/settings_mint"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile"
+                            android:src="@drawable/settings_ic_clock"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_reminders"
+                                android:textColor="@color/settings_ink"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_reminders_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/settings_ic_chevron"
+                            app:tint="@color/settings_muted"
+                            android:importantForAccessibility="no"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="48dp"
+                        android:background="@color/settings_mint"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile_pink"
+                            android:src="@drawable/settings_ic_moon"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_appearance"
+                                android:textColor="@color/settings_ink"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_appearance_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/settings_ic_chevron"
+                            app:tint="@color/settings_muted"
+                            android:importantForAccessibility="no"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile"
+                            android:src="@drawable/settings_ic_shield"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_privacy"
+                                android:textColor="@color/settings_ink"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_privacy_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/settings_ic_chevron"
+                            app:tint="@color/settings_muted"
+                            android:importantForAccessibility="no"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="48dp"
+                        android:background="@color/settings_mint"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile"
+                            android:src="@drawable/settings_ic_key"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_security"
+                                android:textColor="@color/settings_ink"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_security_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/settings_ic_chevron"
+                            app:tint="@color/settings_muted"
+                            android:importantForAccessibility="no"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardBackgroundColor="@color/settings_pink"
+                app:strokeWidth="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp"
+                        android:enabled="false">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile_pink"
+                            android:src="@drawable/settings_ic_trash"
+                            app:tint="@color/settings_error"
+                            android:importantForAccessibility="no"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="8dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsTitle"
+                                android:text="@string/settings_delete"
+                                android:textColor="@color/settings_error"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                                android:text="@string/settings_delete_detail"
+                                android:layout_marginTop="3dp"/>
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/settings_ic_chevron"
+                            app:tint="@color/settings_muted"
+                            android:importantForAccessibility="no"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" style="@style/SettingsDetail"
+                android:text="@string/settings_unavailable"
+                android:textSize="11sp"
+                android:layout_marginTop="12dp"
+                android:gravity="center"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton" style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/settings_logout"
+                android:textColor="@color/settings_white"
+                app:backgroundTint="@color/settings_deep"
+                app:cornerRadius="28dp"
+                android:textAllCaps="false"/>
+            <TextView
+                android:id="@+id/settingsVersion" style="@style/SettingsDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                tools:text="Pending 1.0"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:minHeight="72dp"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/bottom_nav_tint"
-        app:itemTextColor="@color/bottom_nav_tint"
-        app:itemActiveIndicatorStyle="@style/PendingBottomNavIndicator" />
-
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="28dp"
+        app:cardBackgroundColor="@color/settings_white"
+        app:strokeWidth="0dp"
+        app:cardElevation="0dp">
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
+            app:menu="@menu/settings_bottom_nav"
+            app:labelVisibilityMode="labeled"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@color/settings_nav_tint"
+            app:itemTextColor="@color/settings_nav_tint"
+            app:itemTextAppearanceActive="@style/SettingsNavLabel"
+            app:itemTextAppearanceInactive="@style/SettingsNavLabel"
+            app:itemBackground="@drawable/settings_nav_item_background"/>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

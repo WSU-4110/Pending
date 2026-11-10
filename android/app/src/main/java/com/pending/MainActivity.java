@@ -425,6 +425,53 @@ public class MainActivity extends AppCompatActivity {
     private void showSettingsScreen() {
         setContentView(R.layout.activity_settings);
 
+        // Match the warm canvas only while Settings is visible; restore other screens unchanged.
+        final int previousStatusColor = getWindow().getStatusBarColor();
+        final int previousNavigationColor = getWindow().getNavigationBarColor();
+        final int previousSystemUi = getWindow().getDecorView().getSystemUiVisibility();
+        int canvasColor = androidx.core.content.ContextCompat.getColor(this, R.color.settings_background);
+        getWindow().setStatusBarColor(canvasColor);
+        getWindow().setNavigationBarColor(canvasColor);
+        getWindow().getDecorView().setSystemUiVisibility(previousSystemUi
+                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        findViewById(R.id.settingsRoot).addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) { }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                getWindow().setStatusBarColor(previousStatusColor);
+                getWindow().setNavigationBarColor(previousNavigationColor);
+                getWindow().getDecorView().setSystemUiVisibility(previousSystemUi);
+                view.removeOnAttachStateChangeListener(this);
+            }
+        });
+
+        String name = sessionManager.getUserName();
+        String email = sessionManager.getUserEmail();
+        TextView profileName = findViewById(R.id.settingsProfileName);
+        TextView profileEmail = findViewById(R.id.settingsProfileEmail);
+        TextView avatar = findViewById(R.id.settingsAvatar);
+        profileName.setText(TextUtils.isEmpty(name) ? getString(R.string.settings_profile_fallback) : name);
+        profileEmail.setText(TextUtils.isEmpty(email) ? getString(R.string.settings_email_fallback) : email);
+        StringBuilder initials = new StringBuilder();
+        if (!TextUtils.isEmpty(name) && !name.trim().isEmpty()) {
+            String[] parts = name.trim().split("\\s+");
+            initials.appendCodePoint(parts[0].codePointAt(0));
+            if (parts.length > 1) {
+                initials.appendCodePoint(parts[parts.length - 1].codePointAt(0));
+            }
+        }
+        avatar.setText(initials.length() == 0 ? getString(R.string.settings_avatar_fallback)
+                : initials.toString().toUpperCase(Locale.getDefault()));
+        TextView version = findViewById(R.id.settingsVersion);
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            version.setText(getString(R.string.settings_version, versionName));
+        } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
+            version.setVisibility(View.GONE);
+        }
+
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             getPreferences(MODE_PRIVATE)
                     .edit()
@@ -437,6 +484,8 @@ public class MainActivity extends AppCompatActivity {
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);
 
+        // The scoped item background highlights icon and label together, as in the references.
+        bottomNav.setItemActiveIndicatorEnabled(false);
         bottomNav.setSelectedItemId(R.id.nav_settings);
 
         bottomNav.setOnItemSelectedListener(item -> {
