@@ -15,6 +15,8 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.Pending">
 
+        <activity android:name=".ui.PendingDetailsActivity" android:exported="false" />
+
         <activity
             android:name=".TaskDetailsActivity"
             android:exported="false" />
