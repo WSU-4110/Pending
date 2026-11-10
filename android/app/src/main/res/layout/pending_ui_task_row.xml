@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="80dp" android:layout_marginBottom="10dp" android:padding="12dp" android:gravity="center_vertical" android:background="@drawable/pending_ui_white">
+    
+
+    <ImageView android:id="@+id/pendingUiTaskIcon" android:layout_width="42dp" android:layout_height="42dp" android:padding="9dp" android:background="@drawable/pending_ui_badge_sage" android:src="@drawable/pending_ui_ic_mail" android:importantForAccessibility="no"/>
+    
+
+    <CheckBox android:id="@+id/pendingUiTaskCheck" android:layout_width="48dp" android:layout_height="48dp" android:buttonTint="#6B9273"/>
+    
+
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+        <TextView android:id="@+id/pendingUiTaskTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/pendingUiTaskNotes" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="13sp" android:layout_marginTop="3dp" android:maxLines="2" android:ellipsize="end"/>
+        <TextView android:id="@+id/pendingUiTaskDue" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="12sp" android:layout_marginTop="5dp" android:paddingHorizontal="10dp" android:paddingVertical="3dp" android:background="@drawable/pending_ui_badge_pink"/>
+    </LinearLayout>
+    
+
+    <ImageButton android:id="@+id/pendingUiTaskMore" android:layout_width="48dp" android:layout_height="48dp" android:background="?android:attr/selectableItemBackgroundBorderless" android:src="@drawable/pending_ui_ic_more" android:contentDescription="Task actions"/>
+</LinearLayout>

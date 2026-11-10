@@ -40,18 +40,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final int green = Color.rgb(43, 128, 107);
-    private final int ink = Color.rgb(32, 61, 53);
-    private final int bg = Color.rgb(247, 250, 248);
-
-    private LinearLayout content;
   
     private PendingRepository repository;
     private SessionManager sessionManager;
-    private PendingTaskAdapter overdueAdapter;
-    private PendingTaskAdapter upcomingAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +55,6 @@ public class MainActivity extends AppCompatActivity {
             showDashboardScreen();
         } else {
             showLandingScreen();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(sessionManager != null && sessionManager.isLoggedIn()) {
-            TextView openPendingCount = findViewById(R.id.tasksOpenPending);
-            if(openPendingCount != null) {
-                loadDashboardData(openPendingCount);
-            }
         }
     }
 
@@ -308,118 +288,96 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showDashboardScreen() {
-        setContentView(R.layout.activity_main);
+    private com.pending.ui.PendingOverviewController pendingUi;
+    private androidx.activity.OnBackPressedCallback pendingBack;
 
-        TextView dateText = findViewById(R.id.currentDateText);
+    private void showDashboardScreen() { showPendingScreen(false); }
 
-        if (dateText != null) {
-            String currentDate = new java.text.SimpleDateFormat(
-                    "EEEE · MMM d",
-                    java.util.Locale.getDefault()
-            ).format(new java.util.Date());
-
-            dateText.setText(
-                    currentDate.toUpperCase(java.util.Locale.getDefault())
-            );
+    private void showPendingScreen(boolean overview) {
+        disposePendingScreen();
+        if (pendingBack == null) {
+            pendingBack = new androidx.activity.OnBackPressedCallback(false) {
+                @Override
+                public void handleOnBackPressed() {
+                    showDashboardScreen();
+                }
+            };
+            getOnBackPressedDispatcher().addCallback(this, pendingBack);
         }
-
-        TextView greetingText = findViewById(R.id.morningText);
-
-        String firstName = getPreferences(MODE_PRIVATE)
-                .getString("first_name", "");
-
-        int hour = java.util.Calendar.getInstance()
-                .get(java.util.Calendar.HOUR_OF_DAY);
-
-        String greeting = (hour < 12) ? "Good morning" : (hour < 17) ? "Good afternoon" : "Good evening";
-
-        if (greetingText != null) {
-            if (firstName != null && !firstName.trim().isEmpty()) {
-                greetingText.setText(greeting + ", " + firstName.trim());
-            } else {
-                greetingText.setText(greeting);
-            }
-        }
-
-        TextView openPendingCount =
-                findViewById(R.id.tasksOpenPending);
-
-        PendingTaskAdapter.OnTaskClickListener editListener = item -> {
-            Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
-            intent.putExtra("TASK_ID", item.getId());
-            intent.putExtra("TASK_TITLE", item.getTitle());
-            intent.putExtra("TASK_WAITING_ON", item.getWaitingOn());
-            intent.putExtra("TASK_NOTES", item.getNotes());
-            if(item.getExpectedResponseDate() != null) {
-                intent.putExtra("TASK_DATE", item.getExpectedResponseDate());
-            }
-            startActivity(intent);
-        };
-
-        // Overdue task list
-        RecyclerView overdueList =
-                findViewById(R.id.overdueRecyclerView);
-
-        overdueAdapter = new PendingTaskAdapter(editListener);
-
-        overdueList.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-        overdueList.setAdapter(overdueAdapter);
-
-        // Upcoming task list
-        RecyclerView upcomingList =
-                findViewById(R.id.upcomingRecyclerView);
-
-        upcomingAdapter = new PendingTaskAdapter(editListener);
-
-        upcomingList.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-        upcomingList.setAdapter(upcomingAdapter);
-
-        // Load tasks from Spring Boot
-        loadDashboardData(openPendingCount);
-
-        // Create task intent
-        FloatingActionButton addTaskFab = findViewById(R.id.addTaskButton);
-        if (addTaskFab != null) {
-            addTaskFab.bringToFront();
-            addTaskFab.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, CreateTaskActivity.class);
-                startActivity(intent);
-            });
-        }
-
-        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
-                findViewById(R.id.bottomNavigation);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.nav_pending) {
-                return true;
-            }
-
-            if (id == R.id.nav_completed) {
-                showCompletedScreen();
-                return true;
-            }
-
-            if (id == R.id.nav_settings) {
-                showSettingsScreen();
-                return true;
-            }
-
-            return false;
-        });
-
+        pendingBack.setEnabled(overview);
+        pendingUi = new com.pending.ui.PendingOverviewController(this, repository,
+            new com.pending.ui.PendingOverviewController.Host() {
+                public void home() { showDashboardScreen(); }
+                public void overview() { showPendingScreen(true); }
+                public void completed() { showCompletedScreen(); }
+                public void settings() { showSettingsScreen(); }
+                public void create() { startActivity(CreateTaskActivity.newIntent(MainActivity.this, null)); }
+                public void edit(PendingItem item) { startActivity(CreateTaskActivity.newIntent(MainActivity.this, item)); }
+            }, overview, getPreferences(MODE_PRIVATE).getString("first_name", ""));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pendingUi != null) pendingUi.refresh();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (pendingUi != null) pendingUi.dispose();
+        super.onDestroy();
+    }
 
     private void showSettingsScreen() {
+        disposePendingScreen();
         setContentView(R.layout.activity_settings);
+
+        // Match the warm canvas only while Settings is visible; restore other screens unchanged.
+        final int previousStatusColor = getWindow().getStatusBarColor();
+        final int previousNavigationColor = getWindow().getNavigationBarColor();
+        final int previousSystemUi = getWindow().getDecorView().getSystemUiVisibility();
+        int canvasColor = androidx.core.content.ContextCompat.getColor(this, R.color.settings_background);
+        getWindow().setStatusBarColor(canvasColor);
+        getWindow().setNavigationBarColor(canvasColor);
+        getWindow().getDecorView().setSystemUiVisibility(previousSystemUi
+                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        findViewById(R.id.settingsRoot).addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) { }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                getWindow().setStatusBarColor(previousStatusColor);
+                getWindow().setNavigationBarColor(previousNavigationColor);
+                getWindow().getDecorView().setSystemUiVisibility(previousSystemUi);
+                view.removeOnAttachStateChangeListener(this);
+            }
+        });
+
+        String name = sessionManager.getUserName();
+        String email = sessionManager.getUserEmail();
+        TextView profileName = findViewById(R.id.settingsProfileName);
+        TextView profileEmail = findViewById(R.id.settingsProfileEmail);
+        TextView avatar = findViewById(R.id.settingsAvatar);
+        profileName.setText(TextUtils.isEmpty(name) ? getString(R.string.settings_profile_fallback) : name);
+        profileEmail.setText(TextUtils.isEmpty(email) ? getString(R.string.settings_email_fallback) : email);
+        StringBuilder initials = new StringBuilder();
+        if (!TextUtils.isEmpty(name) && !name.trim().isEmpty()) {
+            String[] parts = name.trim().split("\\s+");
+            initials.appendCodePoint(parts[0].codePointAt(0));
+            if (parts.length > 1) {
+                initials.appendCodePoint(parts[parts.length - 1].codePointAt(0));
+            }
+        }
+        avatar.setText(initials.length() == 0 ? getString(R.string.settings_avatar_fallback)
+                : initials.toString().toUpperCase(Locale.getDefault()));
+        TextView version = findViewById(R.id.settingsVersion);
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            version.setText(getString(R.string.settings_version, versionName));
+        } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
+            version.setVisibility(View.GONE);
+        }
 
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             getPreferences(MODE_PRIVATE)
@@ -427,12 +385,15 @@ public class MainActivity extends AppCompatActivity {
                     .remove("first_name")
                     .apply();
 
+            sessionManager.logout();
             showLoginScreen();
         });
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);
 
+        // The scoped item background highlights icon and label together, as in the references.
+        bottomNav.setItemActiveIndicatorEnabled(false);
         bottomNav.setSelectedItemId(R.id.nav_settings);
 
         bottomNav.setOnItemSelectedListener(item -> {
@@ -456,8 +417,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     private void showCompletedScreen() {
+        disposePendingScreen();
         setContentView(R.layout.activity_completed);
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
@@ -486,139 +447,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadDashboardData(TextView openPendingCount) {
-
-        repository.fetchAllItems(
-                new NetworkCallback<List<PendingItem>>() {
-
-                    @Override
-                    public void onSuccess(List<PendingItem> items) {
-
-                        List<PendingItem> overdueTasks = new ArrayList<>();
-                        List<PendingItem> upcomingTasks = new ArrayList<>();
-
-                        SimpleDateFormat dateFormat =
-                                new SimpleDateFormat(
-                                        "yyyy-MM-dd", Locale.US
-                                );
-
-                        String today = dateFormat.format(new Date());
-
-                        // Find the end of the current calendar week
-                        Calendar calendar = Calendar.getInstance();
-
-                        int daysUntilWeekEnd =
-                                (calendar.getFirstDayOfWeek() + 6
-                                        - calendar.get(Calendar.DAY_OF_WEEK)
-                                        + 7) % 7;
-
-                        calendar.add(
-                                Calendar.DAY_OF_YEAR, daysUntilWeekEnd
-                        );
-
-                        String weekEnd =
-                                dateFormat.format(calendar.getTime());
-
-                        int thisWeekCount = 0;
-
-                        // Organize tasks
-                        for (PendingItem item : items) {
-
-                            // Skip deleted tasks
-                            if (item.getDeletedAt() != null &&
-                                    !item.getDeletedAt().isEmpty()) {
-                                continue;
-                            }
-
-                            // Status 3 or higher means completed
-                            Integer status = item.getStatus();
-
-                            if (status != null && status >= 3) {
-                                continue;
-                            }
-
-                            String expectedDate =
-                                    item.getExpectedResponseDate();
-
-                            // Backend dates use yyyy-MM-dd
-                            if (expectedDate != null &&
-                                    expectedDate.length() >= 10) {
-                                expectedDate =
-                                        expectedDate.substring(0, 10);
-                            }
-
-                            if (expectedDate != null &&
-                                    expectedDate.compareTo(today) < 0) {
-
-                                overdueTasks.add(item);
-
-                            } else {
-
-                                upcomingTasks.add(item);
-
-                                if (expectedDate != null &&
-                                        expectedDate.compareTo(today) >= 0 &&
-                                        expectedDate.compareTo(weekEnd) <= 0) {
-
-                                    thisWeekCount++;
-                                }
-                            }
-                        }
-
-                        // Update dashboard statistics
-                        int totalOpen = overdueTasks.size()
-                                + upcomingTasks.size();
-
-                        if (openPendingCount != null) {
-                            openPendingCount.setText(
-                                    String.valueOf(totalOpen)
-                            );
-                        }
-
-                        TextView overdueCount =
-                                findViewById(R.id.tasksOverdue);
-
-                        TextView thisWeekCountView =
-                                findViewById(R.id.tasksThisWeek);
-
-                        TextView attentionText =
-                                findViewById(R.id.tasksAttention);
-
-                        if (overdueCount != null) {
-                            overdueCount.setText(
-                                    String.valueOf(overdueTasks.size())
-                            );
-                        }
-
-                        if (thisWeekCountView != null) {
-                            thisWeekCountView.setText(
-                                    String.valueOf(thisWeekCount)
-                            );
-                        }
-
-                        if (attentionText != null) {
-                            attentionText.setText(
-                                    overdueTasks.size()
-                                            + " need attention"
-                            );
-                        }
-
-                        // Update both task lists
-                        overdueAdapter.setTasks(overdueTasks);
-                        upcomingAdapter.setTasks(upcomingTasks);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-
-                        Toast.makeText(
-                                MainActivity.this,
-                                "Unable to load tasks: " + errorMessage,
-                                Toast.LENGTH_LONG
-                        ).show();
-                    }
-                }
-        );
+    private void disposePendingScreen() {
+        if (pendingUi != null) {
+            pendingUi.dispose();
+            pendingUi = null;
+        }
+        if (pendingBack != null) pendingBack.setEnabled(false);
     }
 
     private void showVerifyEmailScreen(String email) {
@@ -673,5 +507,4 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-    
 }

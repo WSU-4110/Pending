@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<resources>
+    <style name="SettingsTitle">
+        <item name="android:textColor">@color/settings_ink</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="SettingsDetail">
+        <item name="android:textColor">@color/settings_muted</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="SettingsCard" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardBackgroundColor">@color/settings_white</item>
+        <item name="strokeColor">@color/settings_soft_sage</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+    <style name="SettingsNavLabel">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+</resources>

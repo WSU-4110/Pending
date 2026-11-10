@@ -44,6 +44,16 @@
             android:padding="12dp"
             android:backgroundTint="#2B806B" />
 
+        <EditText
+            android:id="@+id/taskWaitingOnInput"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:hint="Waiting on (person or organization)"
+            android:inputType="textCapSentences"
+            android:textSize="15sp"
+            android:padding="12dp"
+            android:backgroundTint="#2B806B" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

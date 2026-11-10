@@ -28,6 +28,20 @@ public class CreateTaskActivity extends AppCompatActivity {
 
     private PendingRepository repository;
     private Long existingTaskId = null;
+    private PendingItem existingTask;
+
+    public static Intent newIntent(android.content.Context context, PendingItem task) {
+        Intent intent = new Intent(context, CreateTaskActivity.class);
+        if (task != null) {
+            intent.putExtra("TASK_ID", task.getId().longValue());
+            intent.putExtra("TASK_TITLE", task.getTitle());
+            intent.putExtra("TASK_NOTES", task.getNotes());
+            intent.putExtra("TASK_DATE", task.getExpectedResponseDate());
+            intent.putExtra("TASK_PRIORITY", task.getPriority() == null ? 1 : task.getPriority());
+            intent.putExtra("TASK_SNAPSHOT", new com.google.gson.Gson().toJson(task));
+        }
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +51,7 @@ public class CreateTaskActivity extends AppCompatActivity {
         repository = new PendingRepository(this);
 
         EditText title = findViewById(R.id.taskTitleInput);
+        EditText waitingOn = findViewById(R.id.taskWaitingOnInput);
         EditText date = findViewById(R.id.taskDateInput);
         EditText details = findViewById(R.id.taskDetailsInput);
         TextView reminderInput = findViewById(R.id.taskReminderInput);
@@ -59,6 +74,10 @@ public class CreateTaskActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("TASK_ID")) {
             existingTaskId = intent.getLongExtra("TASK_ID", -1);
+            existingTask = new com.google.gson.Gson().fromJson(
+                    intent.getStringExtra("TASK_SNAPSHOT"), PendingItem.class);
+            waitingOn.setText(existingTask == null
+                    ? intent.getStringExtra("TASK_WAITING_ON") : existingTask.getWaitingOn());
             title.setText(intent.getStringExtra("TASK_TITLE"));
             details.setText(intent.getStringExtra("TASK_NOTES"));
 
@@ -147,6 +166,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             String t = title.getText().toString().trim();
             String d = date.getText().toString().trim();
             String n = details.getText().toString().trim();
+            String waiting = waitingOn.getText().toString().trim();
             int selectedPriority = prioritySpinner.getSelectedItemPosition();
 
             if (t.isEmpty()) {
@@ -164,15 +184,17 @@ public class CreateTaskActivity extends AppCompatActivity {
             save.setEnabled(false);
 
             if (existingTaskId != null && existingTaskId != -1) {
-                PendingItem toUpdate = new PendingItem();
+                PendingItem toUpdate = existingTask == null ? new PendingItem()
+                        : com.pending.ui.PendingTaskUpdates.copyForUpdate(existingTask);
                 toUpdate.setId(existingTaskId);
-                toUpdate.setOwnerId(8L);
+
                 toUpdate.setTitle(t);
                 toUpdate.setNotes(n);
+                toUpdate.setWaitingOn(waiting);
                 toUpdate.setExpectedResponseDate(serverDate);
-                toUpdate.setStatus(0);
+                if (existingTask == null) toUpdate.setStatus(0);
                 toUpdate.setPriority(selectedPriority);
-                //TODO: WaitingOn
+
 
                 repository.updateItem(existingTaskId, toUpdate, new NetworkCallback<PendingItem>() {
                     @Override
@@ -192,7 +214,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             } else {
                 String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
 
-                repository.createItem(t, null, startDate, serverDate, 0, n, selectedPriority, new NetworkCallback<PendingItem>() {
+                repository.createItem(t, waiting, startDate, serverDate, 0, n, selectedPriority, new NetworkCallback<PendingItem>() {
                     @Override
                     public void onSuccess(PendingItem result) {
                         save.setEnabled(true);
