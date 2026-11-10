@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 loadDashboardData(openPendingCount);
             }
         }
+        if (pendingUi != null) pendingUi.refresh();
     }
 
     private void showLandingScreen() {
@@ -307,19 +308,22 @@ public class MainActivity extends AppCompatActivity {
     private boolean pendingOverview;
     private androidx.activity.OnBackPressedCallback pendingBack;
 
-    private void showDashboardScreen() {
-        setContentView(R.layout.activity_main);
-
     private void showDashboardScreen() { showPendingScreen(false); }
 
     private void showPendingScreen(boolean overview) {
+        setContentView(R.layout.activity_main);
         if (pendingUi != null) pendingUi.dispose();
         pendingOverview = overview;
         if (pendingBack == null) {
             pendingBack = new androidx.activity.OnBackPressedCallback(false) {
-                @Override public void handleOnBackPressed() { showDashboardScreen(); }
+                @Override
+                public void handleOnBackPressed() {
+                    showDashboardScreen();
+                }
             };
-            getOnBackPressedDispatcher().addCallback(this, pendingBack);
+        }
+        getOnBackPressedDispatcher().addCallback(this, pendingBack);
+        TextView dateText = findViewById(R.id.currentDateText);
         if (dateText != null) {
             String currentDate = new java.text.SimpleDateFormat(
                     "EEEE · MMM d",
@@ -408,12 +412,6 @@ public class MainActivity extends AppCompatActivity {
                 public void create() { showCreateTaskDialog(null); }
                 public void edit(PendingItem item) { showEditTaskDialog(item, null); }
             }, overview, getPreferences(MODE_PRIVATE).getString("first_name", ""));
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (pendingUi != null) pendingUi.refresh();
     }
 
     @Override
