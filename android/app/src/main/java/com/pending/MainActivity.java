@@ -303,11 +303,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private com.pending.ui.PendingOverviewController pendingUi;
+    private boolean pendingOverview;
+    private androidx.activity.OnBackPressedCallback pendingBack;
+
     private void showDashboardScreen() {
         setContentView(R.layout.activity_main);
 
-        TextView dateText = findViewById(R.id.currentDateText);
+    private void showDashboardScreen() { showPendingScreen(false); }
 
+    private void showPendingScreen(boolean overview) {
+        if (pendingUi != null) pendingUi.dispose();
+        pendingOverview = overview;
+        if (pendingBack == null) {
+            pendingBack = new androidx.activity.OnBackPressedCallback(false) {
+                @Override public void handleOnBackPressed() { showDashboardScreen(); }
+            };
+            getOnBackPressedDispatcher().addCallback(this, pendingBack);
         if (dateText != null) {
             String currentDate = new java.text.SimpleDateFormat(
                     "EEEE · MMM d",
@@ -386,32 +398,29 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
-
-        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
-                findViewById(R.id.bottomNavigation);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-
-            if (id == R.id.nav_pending) {
-                return true;
-            }
-
-            if (id == R.id.nav_completed) {
-                showCompletedScreen();
-                return true;
-            }
-
-            if (id == R.id.nav_settings) {
-                showSettingsScreen();
-                return true;
-            }
-
-            return false;
-        });
-
+        pendingBack.setEnabled(overview);
+        pendingUi = new com.pending.ui.PendingOverviewController(this, repository,
+            new com.pending.ui.PendingOverviewController.Host() {
+                public void home() { showDashboardScreen(); }
+                public void overview() { showPendingScreen(true); }
+                public void completed() { pendingOverview = false; pendingBack.setEnabled(false); showCompletedScreen(); }
+                public void settings() { pendingOverview = false; pendingBack.setEnabled(false); showSettingsScreen(); }
+                public void create() { showCreateTaskDialog(null); }
+                public void edit(PendingItem item) { showEditTaskDialog(item, null); }
+            }, overview, getPreferences(MODE_PRIVATE).getString("first_name", ""));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (pendingUi != null) pendingUi.refresh();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (pendingUi != null) pendingUi.dispose();
+        super.onDestroy();
+    }
 
     private void showSettingsScreen() {
         setContentView(R.layout.activity_settings);
@@ -481,141 +490,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadDashboardData(TextView openPendingCount) {
-
-        repository.fetchAllItems(
-                new NetworkCallback<List<PendingItem>>() {
-
-                    @Override
-                    public void onSuccess(List<PendingItem> items) {
-
-                        List<PendingItem> overdueTasks = new ArrayList<>();
-                        List<PendingItem> upcomingTasks = new ArrayList<>();
-
-                        SimpleDateFormat dateFormat =
-                                new SimpleDateFormat(
-                                        "yyyy-MM-dd", Locale.US
-                                );
-
-                        String today = dateFormat.format(new Date());
-
-                        // Find the end of the current calendar week
-                        Calendar calendar = Calendar.getInstance();
-
-                        int daysUntilWeekEnd =
-                                (calendar.getFirstDayOfWeek() + 6
-                                        - calendar.get(Calendar.DAY_OF_WEEK)
-                                        + 7) % 7;
-
-                        calendar.add(
-                                Calendar.DAY_OF_YEAR, daysUntilWeekEnd
-                        );
-
-                        String weekEnd =
-                                dateFormat.format(calendar.getTime());
-
-                        int thisWeekCount = 0;
-
-                        // Organize tasks
-                        for (PendingItem item : items) {
-
-                            // Skip deleted tasks
-                            if (item.getDeletedAt() != null &&
-                                    !item.getDeletedAt().isEmpty()) {
-                                continue;
-                            }
-
-                            // Status 3 or higher means completed
-                            Integer status = item.getStatus();
-
-                            if (status != null && status >= 3) {
-                                continue;
-                            }
-
-                            String expectedDate =
-                                    item.getExpectedResponseDate();
-
-                            // Backend dates use yyyy-MM-dd
-                            if (expectedDate != null &&
-                                    expectedDate.length() >= 10) {
-                                expectedDate =
-                                        expectedDate.substring(0, 10);
-                            }
-
-                            if (expectedDate != null &&
-                                    expectedDate.compareTo(today) < 0) {
-
-                                overdueTasks.add(item);
-
-                            } else {
-
-                                upcomingTasks.add(item);
-
-                                if (expectedDate != null &&
-                                        expectedDate.compareTo(today) >= 0 &&
-                                        expectedDate.compareTo(weekEnd) <= 0) {
-
-                                    thisWeekCount++;
-                                }
-                            }
-                        }
-
-                        // Update dashboard statistics
-                        int totalOpen = overdueTasks.size()
-                                + upcomingTasks.size();
-
-                        if (openPendingCount != null) {
-                            openPendingCount.setText(
-                                    String.valueOf(totalOpen)
-                            );
-                        }
-
-                        TextView overdueCount =
-                                findViewById(R.id.tasksOverdue);
-
-                        TextView thisWeekCountView =
-                                findViewById(R.id.tasksThisWeek);
-
-                        TextView attentionText =
-                                findViewById(R.id.tasksAttention);
-
-                        if (overdueCount != null) {
-                            overdueCount.setText(
-                                    String.valueOf(overdueTasks.size())
-                            );
-                        }
-
-                        if (thisWeekCountView != null) {
-                            thisWeekCountView.setText(
-                                    String.valueOf(thisWeekCount)
-                            );
-                        }
-
-                        if (attentionText != null) {
-                            attentionText.setText(
-                                    overdueTasks.size()
-                                            + " need attention"
-                            );
-                        }
-
-                        // Update both task lists
-                        overdueAdapter.setTasks(overdueTasks);
-                        upcomingAdapter.setTasks(upcomingTasks);
-                    }
-
-                    @Override
-                    public void onError(String errorMessage) {
-
-                        Toast.makeText(
-                                MainActivity.this,
-                                "Unable to load tasks: " + errorMessage,
-                                Toast.LENGTH_LONG
-                        ).show();
-                    }
-                }
-        );
+    private void loadDashboardData(TextView ignored) {
+        if (pendingUi != null) pendingUi.refresh();
     }
 
+    private Button taskDatePicker(android.widget.LinearLayout layout, String label,
+                                  Calendar value) {
+        Button button = new Button(this);
+        button.setAllCaps(false);
+        Runnable update = () -> button.setText(label + ": " +
+            new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(value.getTime()));
+        update.run();
+        button.setOnClickListener(v -> new android.app.DatePickerDialog(this,
+            (picker, year, month, day) -> {
+                value.set(year, month, day);
+                update.run();
+            }, value.get(Calendar.YEAR), value.get(Calendar.MONTH),
+               value.get(Calendar.DAY_OF_MONTH)).show());
+        layout.addView(button);
+        return button;
+    }
 
     private void showCreateTaskDialog(TextView countView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -637,6 +531,12 @@ public class MainActivity extends AppCompatActivity {
         notesInput.setHint("Notes / Details");
         layout.addView(notesInput);
 
+        final Calendar start = Calendar.getInstance();
+        final Calendar due = Calendar.getInstance();
+        due.add(Calendar.DAY_OF_YEAR, 7);
+        taskDatePicker(layout, "Start date", start);
+        taskDatePicker(layout, "Expected response", due);
+
         builder.setView(layout);
 
         builder.setPositiveButton("Save Task", (dialog, which) -> {
@@ -649,8 +549,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            String startDate = "2026-10-21";
-            String expectedDate = "2026-10-28";
+            String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(start.getTime());
+            String expectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(due.getTime());
             Integer defaultStatus = 0; // 0 = Waiting on
             Integer defaultPriority = 1;
 
@@ -698,11 +598,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(layout);
 
         builder.setPositiveButton("Update", (dialog, which) -> {
-            item.setTitle(titleInput.getText().toString().trim());
-            item.setWaitingOn(waitingOnInput.getText().toString().trim());
-            item.setNotes(notesInput.getText().toString().trim());
+            PendingItem update = com.pending.ui.PendingTaskUpdates.copyForUpdate(item);
+            update.setTitle(titleInput.getText().toString().trim());
+            update.setWaitingOn(waitingOnInput.getText().toString().trim());
+            update.setNotes(notesInput.getText().toString().trim());
 
-            repository.updateItem(item.getId(), item, new NetworkCallback<PendingItem>() {
+            repository.updateItem(item.getId(), update, new NetworkCallback<PendingItem>() {
                 @Override
                 public void onSuccess(PendingItem updated) {
                     Toast.makeText(MainActivity.this, "Task updated!", Toast.LENGTH_SHORT).show();
