@@ -137,7 +137,8 @@
                             android:enabled="false"
                             android:checked="false"
                             android:contentDescription="@string/settings_notifications"
-                            app:thumbTint="@color/settings_sage"
+                            android:alpha="0.45"
+                            app:thumbTint="@color/settings_muted"
                             app:trackTint="@color/settings_mint"
                             app:trackDecorationTint="@color/settings_soft_sage"/>
                     </LinearLayout>
@@ -391,6 +392,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" style="@style/SettingsDetail"
                 android:text="@string/settings_unavailable"
+                android:textSize="11sp"
                 android:layout_marginTop="12dp"
                 android:gravity="center"/>
             <com.google.android.material.button.MaterialButton
