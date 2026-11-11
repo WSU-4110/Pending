@@ -43,11 +43,11 @@ public final class PendingTaskPresentation {
   }
 
   public static List<PendingItem> filter(
-      List<PendingItem> tasks, String query, String day, int state) {
+      List<PendingItem> tasks, String query, String day, TaskStatusFilterStrategy strategy) {
     List<PendingItem> out = new ArrayList<>();
     String q = query.trim().toLowerCase(Locale.ROOT);
     for (PendingItem t : tasks) {
-      if (!active(t) || (state == 1 && completed(t)) || (state == 2 && !completed(t))) continue;
+      if (!active(t) || !strategy.matches(t)) continue;
       if (day != null && !day.equals(due(t))) continue;
       String hay =
           Objects.toString(t.getTitle(), "")

@@ -1,0 +1,10 @@
+package com.pending.ui;
+
+import com.pending.model.PendingItem;
+
+final class CompletedTasksStrategy implements TaskStatusFilterStrategy {
+  @Override
+  public boolean matches(PendingItem task) {
+    return PendingTaskPresentation.completed(task);
+  }
+}

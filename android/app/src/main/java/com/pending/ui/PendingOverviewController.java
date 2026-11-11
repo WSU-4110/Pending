@@ -37,7 +37,11 @@ public final class PendingOverviewController {
   private final PendingUiTaskAdapter adapter;
   private List<PendingItem> tasks = new ArrayList<>();
   private String query = "", day = null;
-  private int state = 0, request = 0;
+  private static final TaskStatusFilterStrategy ALL = new AllTasksStrategy();
+  private static final TaskStatusFilterStrategy OPEN = new OpenTasksStrategy();
+  private static final TaskStatusFilterStrategy COMPLETED = new CompletedTasksStrategy();
+  private TaskStatusFilterStrategy selectedFilter = ALL;
+  private int request = 0;
   private boolean disposed = false, loaded = false;
 
   public PendingOverviewController(
@@ -117,7 +121,7 @@ public final class PendingOverviewController {
               if (!overview) h.overview();
               else {
                 day = null;
-                state = 0;
+                selectedFilter = ALL;
                 ((EditText) root.findViewById(R.id.pendingUiSearch)).setText("");
                 render();
               }
@@ -198,8 +202,8 @@ public final class PendingOverviewController {
 
   private void render() {
     if (disposed) return;
-    List<PendingItem> all = PendingTaskPresentation.filter(tasks, "", null, 0);
-    int done = PendingTaskPresentation.filter(all, "", null, 2).size();
+    List<PendingItem> all = PendingTaskPresentation.filter(tasks, "", null, ALL);
+    int done = PendingTaskPresentation.filter(all, "", null, COMPLETED).size();
     text(R.id.pendingUiOpenCount).setText(String.valueOf(all.size() - done));
     text(R.id.pendingUiDoneCount).setText(String.valueOf(done));
     int[] week = PendingTaskPresentation.weekly(all, new Date());
@@ -210,7 +214,7 @@ public final class PendingOverviewController {
     String selected =
         overview ? day : (query.trim().isEmpty() ? PendingTaskPresentation.date(new Date()) : null);
     List<PendingItem> shown =
-        PendingTaskPresentation.filter(all, query, selected, overview ? state : 1);
+        PendingTaskPresentation.filter(all, query, selected, overview ? selectedFilter : OPEN);
     adapter.submit(shown);
     visible(R.id.pendingUiState, shown.isEmpty());
     text(R.id.pendingUiState).setText("No tasks to show");
@@ -245,20 +249,23 @@ public final class PendingOverviewController {
   private void renderFilters(List<PendingItem> all) {
     LinearLayout box = root.findViewById(R.id.pendingUiFilters);
     box.removeAllViews();
-    String[] names = {"All", "Open", "Completed"};
-    for (int i = 0; i < 3; i++) {
-      final int index = i;
-      TextView v =
-          chip(names[i] + " " + PendingTaskPresentation.filter(all, "", day, i).size(), state == i);
-      LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-2, -2);
-      p.setMargins(0, 0, dp(8), 0);
-      box.addView(v, p);
-      v.setOnClickListener(
-          x -> {
-            state = index;
-            render();
-          });
-    }
+    addFilterChip(box, all, "All", ALL);
+    addFilterChip(box, all, "Open", OPEN);
+    addFilterChip(box, all, "Completed", COMPLETED);
+  }
+
+  private void addFilterChip(
+      LinearLayout box, List<PendingItem> all, String label, TaskStatusFilterStrategy strategy) {
+    int count = PendingTaskPresentation.filter(all, "", day, strategy).size();
+    TextView v = chip(label + " " + count, selectedFilter == strategy);
+    LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-2, -2);
+    p.setMargins(0, 0, dp(8), 0);
+    box.addView(v, p);
+    v.setOnClickListener(
+        x -> {
+          selectedFilter = strategy;
+          render();
+        });
   }
 
   private void renderWeek() {
