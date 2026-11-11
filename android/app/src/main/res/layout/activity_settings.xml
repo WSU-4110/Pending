@@ -404,8 +404,8 @@
                 android:minHeight="48dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/settings_logout"
-                android:textColor="@color/settings_white"
-                app:backgroundTint="@color/settings_deep"
+                android:textColor="@color/settings_ink"
+                app:backgroundTint="@color/settings_accent_pink"
                 app:cornerRadius="28dp"
                 android:textAllCaps="false"/>
             <TextView
