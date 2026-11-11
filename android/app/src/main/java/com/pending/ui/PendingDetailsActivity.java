@@ -9,6 +9,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.gson.Gson;
 import com.pending.R;
+import com.pending.command.CompleteTaskCommand;
+import com.pending.command.TaskCommand;
 import com.pending.model.PendingItem;
 import com.pending.network.RetrofitClient;
 import com.pending.repository.*;
@@ -56,9 +58,7 @@ public class PendingDetailsActivity extends AppCompatActivity {
                     .setPositiveButton(
                         "Complete",
                         (d, w) -> {
-                          PendingItem copy = copy();
-                          copy.setStatus(3);
-                          save(copy, null);
+                          save(new CompleteTaskCommand(repository, task), null);
                         })
                     .show());
     ((PendingProgressRingView) findViewById(R.id.detailsRing)).setUnavailable();
@@ -136,18 +136,12 @@ public class PendingDetailsActivity extends AppCompatActivity {
     } catch (java.text.ParseException exception) { return "No due date"; }
   }
 
-  private PendingItem copy() {
-    return PendingTaskUpdates.copyForUpdate(task);
-  }
-
-  private void save(PendingItem update, AlertDialog dialog) {
+  private void save(TaskCommand command, AlertDialog dialog) {
     if (saving) return;
     saving = true;
     enable(false);
     if (dialog != null) dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-    repository.updateItem(
-        task.getId(),
-        update,
+    command.execute(
         new NetworkCallback<PendingItem>() {
           public void onSuccess(PendingItem result) {
             saving = false;

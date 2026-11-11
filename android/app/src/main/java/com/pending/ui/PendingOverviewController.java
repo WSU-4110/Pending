@@ -8,6 +8,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.*;
 import com.pending.R;
+import com.pending.command.CompleteTaskCommand;
+import com.pending.command.TaskCommand;
 import com.pending.model.PendingItem;
 import com.pending.repository.*;
 import java.text.SimpleDateFormat;
@@ -307,11 +309,8 @@ public final class PendingOverviewController {
         .setPositiveButton(
             "Complete",
             (d, w) -> {
-              PendingItem update = PendingTaskUpdates.copyForUpdate(t);
-              update.setStatus(3);
-              repo.updateItem(
-                  t.getId(),
-                  update,
+              TaskCommand command = new CompleteTaskCommand(repo, t);
+              command.execute(
                   new NetworkCallback<PendingItem>() {
                     public void onSuccess(PendingItem result) {
                       refresh();
