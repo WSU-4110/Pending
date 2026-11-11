@@ -1,11 +1,14 @@
 package com.pending.ui;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import com.pending.R;
 import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class PendingProgressRingView extends View {
+  private final int trackColor, startColor, endColor, textColor;
   private int percent;
   private boolean unavailable;
 
@@ -19,6 +22,15 @@ public class PendingProgressRingView extends View {
 
   public PendingProgressRingView(Context c, AttributeSet a) {
     super(c, a);
+    TypedArray colors = c.obtainStyledAttributes(a, R.styleable.PendingProgressRingView);
+    try {
+      trackColor = colors.getColor(R.styleable.PendingProgressRingView_ringTrackColor, 0xFFF9DFE5);
+      startColor = colors.getColor(R.styleable.PendingProgressRingView_ringStartColor, 0xFFB5CBAA);
+      endColor = colors.getColor(R.styleable.PendingProgressRingView_ringEndColor, 0xFF508661);
+      textColor = colors.getColor(R.styleable.PendingProgressRingView_ringTextColor, 0xFF14291D);
+    } finally {
+      colors.recycle();
+    }
   }
 
   public void setProgress(int p) {
@@ -36,15 +48,15 @@ public class PendingProgressRingView extends View {
     paint.setStrokeWidth(w);
     paint.setStrokeCap(Paint.Cap.ROUND);
     paint.setShader(null);
-    paint.setColor(0xFFF9DFE5);
+    paint.setColor(trackColor);
     c.drawOval(oval, paint);
     paint.setShader(
         new LinearGradient(
-            0, 0, getWidth(), getHeight(), 0xFFB5CBAA, 0xFF508661, Shader.TileMode.CLAMP));
+            0, 0, getWidth(), getHeight(), startColor, endColor, Shader.TileMode.CLAMP));
     c.drawArc(oval, -90, 360 * percent / 100f, false, paint);
     paint.setShader(null);
     paint.setStyle(Paint.Style.FILL);
-    paint.setColor(0xFF14291D);
+    paint.setColor(textColor);
     paint.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
     paint.setTextSize(size * .24f);
     paint.setTextAlign(Paint.Align.CENTER);
