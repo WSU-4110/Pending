@@ -1,0 +1,85 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam dpi 150
+skinparam defaultFontName Arial
+skinparam classBackgroundColor #F6FAF8
+skinparam classBorderColor #416B60
+skinparam ArrowColor #416B60
+skinparam classFontColor #153F34
+skinparam stereotypeFontColor #46655C
+hide empty members
+
+class PendingOverviewController <<public final>> {
+  -activity : Activity {readOnly}
+  -chrome : PendingUiChrome {readOnly}
+  -repo : PendingRepository {readOnly}
+  -host : Host {readOnly}
+  -overview : boolean {readOnly}
+  -root : View {readOnly}
+  -adapter : PendingUiTaskAdapter {readOnly}
+  -tasks : List<PendingItem>
+  -query : String
+  -day : String
+  {static} -ALL : TaskStatusFilterStrategy {readOnly}
+  {static} -OPEN : TaskStatusFilterStrategy {readOnly}
+  {static} -COMPLETED : TaskStatusFilterStrategy {readOnly}
+  -selectedFilter : TaskStatusFilterStrategy
+  -request : int
+  -disposed : boolean
+  -loaded : boolean
+  +PendingOverviewController(a : Activity, r : PendingRepository, h : Host, overview : boolean, name : String)
+  -text(id : int) : TextView
+  -visible(id : int, show : boolean) : void
+  +dispose() : void
+  +refresh() : void
+  -render() : void
+  -chip(label : String, selected : boolean) : TextView
+  -dp(n : int) : int
+  -renderFilters(all : List<PendingItem>) : void
+  -addFilterChip(box : LinearLayout, all : List<PendingItem>, label : String, strategy : TaskStatusFilterStrategy) : void
+  -renderWeek() : void
+  -markCompleted(t : PendingItem) : void
+}
+interface "PendingOverviewController.Host" as Host <<public nested>> {
+  +overview() : void
+  +home() : void
+  +completed() : void
+  +settings() : void
+  +create() : void
+  +edit(t : PendingItem) : void
+}
+class PendingTaskPresentation <<public final>> {
+  -PendingTaskPresentation()
+  {static} +date(value : Date) : String
+  {static} +completed(t : PendingItem) : boolean
+  {static} +active(t : PendingItem) : boolean
+  {static} +due(t : PendingItem) : String
+  {static} +dueLabel(t : PendingItem, now : Date) : String
+  {static} +filter(tasks : List<PendingItem>, query : String, day : String, strategy : TaskStatusFilterStrategy) : List<PendingItem>
+  {static} +weekly(tasks : List<PendingItem>, now : Date) : int[]
+}
+interface TaskStatusFilterStrategy <<public>> {
+  +matches(task : PendingItem) : boolean
+}
+class AllTasksStrategy <<package-private final>> {
+  +matches(task : PendingItem) : boolean
+}
+class OpenTasksStrategy <<package-private final>> {
+  +matches(task : PendingItem) : boolean
+}
+class CompletedTasksStrategy <<package-private final>> {
+  +matches(task : PendingItem) : boolean
+}
+
+PendingOverviewController --> Host : host
+PendingOverviewController ..> PendingTaskPresentation : filters
+PendingOverviewController --> TaskStatusFilterStrategy : selects
+PendingTaskPresentation ..> TaskStatusFilterStrategy : delegates
+TaskStatusFilterStrategy <|.. AllTasksStrategy
+TaskStatusFilterStrategy <|.. OpenTasksStrategy
+TaskStatusFilterStrategy <|.. CompletedTasksStrategy
+OpenTasksStrategy ..> PendingTaskPresentation : completed(t)
+CompletedTasksStrategy ..> PendingTaskPresentation : completed(t)
+caption Figure 1. Strategy pattern for dashboard task display and filtering.
+@enduml
