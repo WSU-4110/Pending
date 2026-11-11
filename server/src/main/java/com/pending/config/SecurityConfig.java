@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Permitting api during development, this should be changed to .anyRequest().authenticated()
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/**", "/api/auth/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

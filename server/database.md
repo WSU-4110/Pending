@@ -33,7 +33,10 @@ create table pending_users (
   first_name varchar(100) not null,
   last_name varchar(100) not null,
   created_at timestamptz not null default current_timestamp,
-  updated_at timestamptz not null default current_timestamp
+  updated_at timestamptz not null default current_timestamp,
+  verified boolean not null default false,
+  verification_code varchar(6),
+  verification_expiration timestamptz  
 );
 ```
 #### Columns
@@ -46,6 +49,9 @@ create table pending_users (
 | `last_name` | User's last name. Required. |
 | `created_at` | Timestamp showing when the account was created. |
 | `updated_at` | Timestamp showing when the user record was last updated. |
+| `verified` | Account verification status |
+| `verification_code` | Account verification code |
+| `verification_expiration` | Expiration time for account verification |
 
 The `email unique` constraint prevents duplicate account registrations using the same email address.
 
@@ -490,6 +496,23 @@ select cron.schedule (
   'cleanup-expired-reminders',
   '* * * * *',
   $$ delete from reminders where reminder_time < current_timestamp - interval '5 minutes'; $$
+);
+```
+
+The `pending_users` table includes:
+
+```sql
+select cron.schedule(
+  'clear-expired-verificationc-codes',
+  '*/5 * * * *',
+  $$
+    update pending_users
+    set verification_code = null,
+        verification_expiration = null
+    where verified = false
+        and verification_expiraton is not null
+        and verification_expiraton < current_timestamp;
+  $$
 );
 ```
 

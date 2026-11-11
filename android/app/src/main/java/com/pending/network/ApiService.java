@@ -1,9 +1,12 @@
 package com.pending.network;
 
 import com.pending.model.AuthResponse;
+import com.pending.model.EmailVerificationRequest;
 import com.pending.model.LoginRequest;
 import com.pending.model.PendingItem;
 import com.pending.model.RegisterRequest;
+import com.pending.model.ResendVerificationRequest;
+
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,7 +15,6 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import okhttp3.ResponseBody;
 
 public interface ApiService {
 
@@ -21,6 +23,12 @@ public interface ApiService {
 
     @POST("api/auth/login")
     Call<AuthResponse> login(@Body LoginRequest request);
+
+    @POST("api/auth/verify-email")
+    Call<AuthResponse> verifyEmail(@Body EmailVerificationRequest request);
+
+    @POST("api/auth/resend-verification")
+    Call<String> resendVerification(@Body ResendVerificationRequest request);
 
     @GET("api/items")
     Call<List<PendingItem>> getAllItems();
@@ -35,5 +43,5 @@ public interface ApiService {
     Call<PendingItem> updateItem(@Path("id") Long id, @Body PendingItem item);
 
     @DELETE("api/items/{id}")
-    Call<ResponseBody> deleteItem(@Path("id") Long id);
+    Call<String> deleteItem(@Path("id") Long id);
 }
