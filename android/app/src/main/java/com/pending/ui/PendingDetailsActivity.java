@@ -30,6 +30,9 @@ public class PendingDetailsActivity extends AppCompatActivity {
   protected void onCreate(Bundle state) {
     super.onCreate(state);
     new PendingUiChrome(this);
+    int canvas = androidx.core.content.ContextCompat.getColor(this, R.color.task_details_background);
+    getWindow().setStatusBarColor(canvas);
+    getWindow().setNavigationBarColor(canvas);
     setContentView(R.layout.pending_ui_details);
     repository = new PendingRepository(this);
     View root = findViewById(R.id.detailsRoot);
