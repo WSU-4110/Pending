@@ -52,7 +52,19 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = SessionManager.getInstance(this);
 
         if (sessionManager.isLoggedIn()) {
-            showDashboardScreen();
+            repository.validateSession(new NetworkCallback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean isValid) {
+                    showDashboardScreen();
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    sessionManager.clearSession();
+                    Toast.makeText(MainActivity.this, "Session expired. Please log in.", Toast.LENGTH_SHORT).show();
+                    showLoginScreen();
+                }
+            });
         } else {
             showLandingScreen();
         }
@@ -80,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
         EditText passwordInput = findViewById(R.id.editTextPassword2);
         Button confirmLoginButton = findViewById(R.id.confirmLoginButton);
         ImageButton backButton = findViewById(R.id.backButtonLogin);
+
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> showLandingScreen());
+        }
 
         TextView createAccountLink =
                 findViewById(R.id.loginToRegisterLink);
