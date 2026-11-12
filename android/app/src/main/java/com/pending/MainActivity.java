@@ -359,6 +359,8 @@ public class MainActivity extends AppCompatActivity {
             showLoginScreen();
         });
 
+
+
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);
 

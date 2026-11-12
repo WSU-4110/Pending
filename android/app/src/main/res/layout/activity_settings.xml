@@ -133,16 +133,18 @@
                                 android:text="@string/settings_notifications_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/setNotifications"
                             android:layout_width="wrap_content"
                             android:layout_height="48dp"
-                            android:enabled="false"
+                            android:alpha="0.45"
                             android:checked="false"
                             android:contentDescription="@string/settings_notifications"
-                            android:alpha="0.45"
+                            android:enabled="false"
                             app:thumbTint="@color/settings_muted"
-                            app:trackTint="@color/settings_mint"
-                            app:trackDecorationTint="@color/settings_soft_sage"/>
+                            app:trackDecorationTint="@color/settings_soft_sage"
+                            app:trackTint="@color/settings_mint" />
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -183,12 +185,14 @@
                                 android:text="@string/settings_reminders_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <ImageView
+                            android:id="@+id/setReminderDefaults"
                             android:layout_width="16dp"
                             android:layout_height="24dp"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/settings_ic_chevron"
-                            app:tint="@color/settings_muted"
-                            android:importantForAccessibility="no"/>
+                            app:tint="@color/settings_muted" />
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -229,12 +233,14 @@
                                 android:text="@string/settings_appearance_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <ImageView
+                            android:id="@+id/setAppearance"
                             android:layout_width="16dp"
                             android:layout_height="24dp"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/settings_ic_chevron"
-                            app:tint="@color/settings_muted"
-                            android:importantForAccessibility="no"/>
+                            app:tint="@color/settings_muted" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -281,12 +287,14 @@
                                 android:text="@string/settings_privacy_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <ImageView
+                            android:id="@+id/setPrivacyData"
                             android:layout_width="16dp"
                             android:layout_height="24dp"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/settings_ic_chevron"
-                            app:tint="@color/settings_muted"
-                            android:importantForAccessibility="no"/>
+                            app:tint="@color/settings_muted" />
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -327,15 +335,40 @@
                                 android:text="@string/settings_security_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <ImageView
+                            android:id="@+id/setAuthorSecurity"
                             android:layout_width="16dp"
                             android:layout_height="24dp"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/settings_ic_chevron"
-                            app:tint="@color/settings_muted"
-                            android:importantForAccessibility="no"/>
+                            app:tint="@color/settings_muted" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logoutButton"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:text="@string/settings_logout"
+                android:textAllCaps="false"
+                android:textColor="@color/settings_white"
+                app:backgroundTint="@color/settings_deep"
+                app:cornerRadius="28dp" />
+
+            <TextView
+                style="@style/SettingsDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="@string/settings_unavailable"
+                android:textSize="11sp" />
+
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -381,33 +414,18 @@
                                 android:text="@string/settings_delete_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
+
                         <ImageView
+                            android:id="@+id/setDeleteAccount"
                             android:layout_width="16dp"
                             android:layout_height="24dp"
+                            android:importantForAccessibility="no"
                             android:src="@drawable/settings_ic_chevron"
-                            app:tint="@color/settings_muted"
-                            android:importantForAccessibility="no"/>
+                            app:tint="@color/settings_muted" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" style="@style/SettingsDetail"
-                android:text="@string/settings_unavailable"
-                android:textSize="11sp"
-                android:layout_marginTop="12dp"
-                android:gravity="center"/>
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/logoutButton" style="@style/Widget.Material3.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/settings_logout"
-                android:textColor="@color/settings_white"
-                app:backgroundTint="@color/settings_deep"
-                app:cornerRadius="28dp"
-                android:textAllCaps="false"/>
+
             <TextView
                 android:id="@+id/settingsVersion" style="@style/SettingsDetail"
                 android:layout_width="match_parent"
