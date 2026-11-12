@@ -27,7 +27,7 @@ public class EmailService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void sendVerificationEmail(String toEmail, String firstName, String lastName, String code) {
-        Map<String, Object> payload = getPayload(toEmail, firstName, code);
+        Map<String, Object> payload = getVerificationPayload(toEmail, firstName, code);
 
         try {
             String requestBody = objectMapper.writeValueAsString(payload);
@@ -60,17 +60,143 @@ public class EmailService {
         }
     }
 
-    private @NonNull Map<String, Object> getPayload(String toEmail, String firstName, String code) {
+    private @NonNull Map<String, Object> getVerificationPayload(String toEmail, String firstName, String code) {
         String htmlContent = """
-                <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-                    <h2 style="color: #203D35;">Verify your Pending account</h2>
-                    <p>Hi %s,</p>
-                    <p>Enter the following 6-digit code in the Pending app to verify your email address:</p>
-                    <div style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #2B806B; margin: 24px 0;">
-                        %s
-                    </div>
-                    <p style="color: #666; font-size: 14px;">This code will expire in 15 minutes.</p>
-                </div>
+                <body
+                    style="
+                        margin: 0;
+                        padding: 0;
+                        background-color: #f7faf8;
+                        font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;
+                        -webkit-font-smoothing: antialiased;
+                        "
+                >
+                
+                    <table
+                        border="0"
+                        cellpadding="0"
+                        cellspacing="0"
+                        width="100%%"
+                        style="background-color: #f7faf8; padding: 40px 20px"
+                    >
+                        <tr>
+                            <td align="center">
+                                <table
+                                    border="0"
+                                    cellpadding="0"
+                                    cellspacoing="0"
+                                    width="100%%"
+                                    style="
+                                        max-width: 600px;
+                                        background-color: #ffffff;
+                                        border-radius: 16px;
+                                        box-shadow: 0 4px 12px rgba(32, 61, 53, 0.05);
+                                    "
+                                >
+                                    <tr>
+                                        <td
+                                            style="
+                                                background-color: #2b806b;
+                                                padding: 32px 40px;
+                                                text-align: center;
+                                                border-radius: 16px 16px 0 0;
+                                            "
+                                        >
+                                            <h1
+                                                style="
+                                                    margin: 0;
+                                                    color: #ffffff;
+                                                    font-size: 24px;
+                                                    font-weight: 800;
+                                                    letter-spacing: 1px;
+                                                "
+                                            >
+                                                Pending
+                                            </h1>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 40px 40px 20px 40px; text-align: center;">
+                                            <h2 style="margin: 0; color: #203d35; font-size: 22px; font-weight: 700">
+                                                Verify your email
+                                            </h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding: 0 40px 20px 40px;
+                                                color: #64736e;
+                                                font-size: 16px;
+                                                line-height: 24px;
+                                                text-align: left;
+                                            "
+                                        >
+                                            <p style="margin: 0 0 16px 0">Hi %s,</p>
+                                            <p style="margin: 0">
+                                                Thanks for setting up your <strong>Pending</strong> account.
+                                                To complete your registration, please enter the 6-digit verification code below into the app.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 20px 40px" align="center">
+                                            <div
+                                                style="
+                                                    background-color: #e2f3ec;
+                                                    border-radius: 12px;
+                                                    padding: 24px;
+                                                    display: inline-block;
+                                                "
+                                            >
+                                                <span
+                                                    style="
+                                                        font-family: &quot;Courier New&quot;, Courier, monospace;
+                                                        font-size: 36px;
+                                                        font-weight: 700;
+                                                        letter-spacing: 8px;
+                                                        color: #2b806b;
+                                                    "
+                                                >
+                                                    %s
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding: 10px 40px 40px 40px;
+                                                color: #64736e;
+                                                font-size: 14px;
+                                                line-height: 20px;
+                                                text-align: center;
+                                            "
+                                        >
+                                            <p style="margin: 0">This code will expire in 15 minutes.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td
+                                            style="
+                                                padding: 20px 40px;
+                                                background-color: #f7faf8;
+                                                border-top: 1px solid #e2f3ec;
+                                                border-radius: 0 0 16px 16px;
+                                                color: #64736e;
+                                                font-size: 12px;
+                                                line-height: 18px;
+                                                text-align: center;
+                                            "
+                                        >
+                                            <p style="margin: 0">If you didn't request this code, you can safely ignore this email.</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
                 """.formatted(firstName, code);
 
         return Map.of(
