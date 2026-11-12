@@ -1,8 +1,299 @@
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/detailsRoot" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#FCF8F6" android:padding="24dp">
-<LinearLayout android:layout_width="match_parent" android:layout_height="64dp" android:gravity="center_vertical" android:orientation="horizontal"><ImageButton android:id="@+id/detailsBack" android:layout_width="48dp" android:layout_height="48dp" android:padding="12dp" android:background="@drawable/pending_ui_white" android:elevation="2dp" android:src="@drawable/pending_ui_ic_back" android:contentDescription="Back"/><TextView android:id="@+id/detailsHeading" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Task details" android:textSize="20sp" android:layout_weight="1" android:gravity="center" android:textStyle="bold"/><ImageButton android:id="@+id/detailsEdit" android:layout_width="48dp" android:layout_height="48dp" android:padding="12dp" android:background="@drawable/pending_ui_white" android:elevation="2dp" android:src="@drawable/pending_ui_ic_edit" android:contentDescription="Edit task"/></LinearLayout>
-<ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:paddingTop="24dp" android:paddingBottom="24dp">
-<TextView android:id="@+id/detailsState" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Loading task…" android:textSize="16sp" /><TextView android:id="@+id/detailsTitleLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Task title" android:textSize="14sp" /><TextView android:id="@+id/detailsTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="24sp" android:textStyle="bold" android:layout_marginTop="6dp"/>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="16dp"><TextView android:id="@+id/detailsPriority" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:padding="12dp" android:background="@drawable/pending_ui_badge_sage"/><TextView android:id="@+id/detailsStatus" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="15sp" android:padding="12dp" android:layout_marginStart="10dp" android:background="@drawable/pending_ui_badge_pink"/></LinearLayout>
-<LinearLayout android:layout_width="match_parent" android:layout_height="180dp" android:layout_marginTop="24dp" android:padding="20dp" android:gravity="center_vertical" android:orientation="horizontal" android:background="@drawable/pending_ui_white" android:elevation="2dp"><FrameLayout android:layout_width="130dp" android:layout_height="130dp"><com.pending.ui.PendingProgressRingView android:id="@+id/detailsRing" android:layout_width="match_parent" android:layout_height="match_parent"/></FrameLayout><LinearLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginStart="16dp"><TextView android:id="@+id/detailsProgressTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Task progress" android:textSize="16sp" android:textStyle="bold"/><TextView android:id="@+id/detailsProgressMessage" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available. No step progress is recorded." android:textSize="14sp" android:layout_marginTop="10dp"/></LinearLayout></LinearLayout>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/pending_ui_white" android:padding="16dp" android:layout_marginTop="24dp"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/pending_ui_ic_calendar" android:importantForAccessibility="no"/><TextView android:id="@+id/detailsDueLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due date" android:textSize="14sp" android:layout_marginStart="12dp" android:layout_weight="1"/><TextView android:id="@+id/detailsDue" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="14sp"/></LinearLayout><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/pending_ui_ic_bell" android:importantForAccessibility="no"/><TextView android:id="@+id/detailsReminderLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reminder" android:textSize="14sp" android:layout_marginStart="12dp" android:layout_weight="1"/><TextView android:id="@+id/detailsReminder" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="14sp"/></LinearLayout><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp" android:gravity="center_vertical" android:orientation="horizontal"><ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/pending_ui_ic_layers" android:importantForAccessibility="no"/><TextView android:id="@+id/detailsCategoryLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Category" android:textSize="14sp" android:layout_marginStart="12dp" android:layout_weight="1"/><TextView android:id="@+id/detailsCategory" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="14sp"/></LinearLayout></LinearLayout><TextView android:id="@+id/detailsNotesHeading" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Notes" android:textSize="18sp" android:textStyle="bold" android:layout_marginTop="24dp" android:layout_marginBottom="8dp"/><TextView android:drawableStart="@drawable/pending_ui_ic_note" android:drawablePadding="12dp" android:id="@+id/detailsNotes" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="16sp" android:padding="18dp" android:background="@drawable/pending_ui_badge_pink"/></LinearLayout></ScrollView>
-<Button android:id="@+id/detailsComplete" android:layout_width="match_parent" android:layout_height="56dp" android:layout_marginTop="16dp" android:background="@drawable/pending_ui_green" app:backgroundTint="#7FA37C" android:textColor="#FFFFFF" android:textAllCaps="false" android:textSize="17sp" android:text="✓  Mark as completed"/></LinearLayout>
+<?xml version="1.0" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detailsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/task_details_background"
+    android:padding="24dp"
+    android:theme="@style/ThemeOverlay.PendingTaskDetails">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="56dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/detailsBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:background="@drawable/task_details_header_button"
+            android:elevation="0dp"
+            android:src="@drawable/task_details_ic_back"
+            android:contentDescription="Back"/>
+        <TextView
+            android:id="@+id/detailsHeading" style="@style/TaskDetailsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Task details"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+        <ImageButton
+            android:id="@+id/detailsEdit"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:background="@drawable/task_details_header_button"
+            android:elevation="0dp"
+            android:src="@drawable/task_details_ic_edit"
+            android:contentDescription="Edit task"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:clipToPadding="false">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
+            <TextView
+                android:id="@+id/detailsState" style="@style/TaskDetailsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading task…"
+                android:textSize="16sp"
+                android:textColor="@color/task_details_muted"/>
+            <TextView
+                android:id="@+id/detailsTitleLabel" style="@style/TaskDetailsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task title"
+                android:textSize="12sp"
+                android:textColor="@color/task_details_muted"/>
+            <TextView
+                android:id="@+id/detailsTitle" style="@style/TaskDetailsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:fontFamily="sans-serif-medium"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+                <TextView
+                    android:id="@+id/detailsPriority" style="@style/TaskDetailsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:background="@drawable/task_details_mint"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+                <TextView
+                    android:id="@+id/detailsStatus" style="@style/TaskDetailsText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="13sp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/task_details_pink"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="@drawable/task_details_white"
+                android:elevation="0dp"
+                android:minHeight="144dp">
+                <FrameLayout
+                    android:layout_width="112dp"
+                    android:layout_height="112dp">
+                    <com.pending.ui.PendingProgressRingView
+                        android:id="@+id/detailsRing"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:ringTrackColor="@color/task_details_pink"
+                        app:ringStartColor="@color/task_details_sage"
+                        app:ringEndColor="@color/task_details_deep"
+                        app:ringTextColor="@color/task_details_ink"/>
+                </FrameLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+                    <TextView
+                        android:id="@+id/detailsProgressTitle" style="@style/TaskDetailsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Task progress"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium"/>
+                    <TextView
+                        android:id="@+id/detailsProgressMessage" style="@style/TaskDetailsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not available. No step progress is recorded."
+                        android:textSize="13sp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/task_details_muted"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/task_details_white"
+                android:padding="16dp"
+                android:layout_marginTop="20dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/task_details_ic_calendar"
+                        android:importantForAccessibility="no"/>
+                    <TextView
+                        android:id="@+id/detailsDueLabel" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Due date"
+                        android:textSize="13sp"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="0.85"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/task_details_muted"/>
+                    <TextView
+                        android:id="@+id/detailsDue" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Not available"
+                        android:textSize="13sp"
+                        android:layout_weight="1.15"
+                        android:gravity="end"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/task_details_ic_bell"
+                        android:importantForAccessibility="no"/>
+                    <TextView
+                        android:id="@+id/detailsReminderLabel" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Reminder"
+                        android:textSize="13sp"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="0.85"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/task_details_muted"/>
+                    <TextView
+                        android:id="@+id/detailsReminder" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Not available"
+                        android:textSize="13sp"
+                        android:layout_weight="1.15"
+                        android:gravity="end"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp">
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/task_details_ic_layers"
+                        android:importantForAccessibility="no"/>
+                    <TextView
+                        android:id="@+id/detailsCategoryLabel" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:textSize="13sp"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="0.85"
+                        android:layout_marginEnd="8dp"
+                        android:textColor="@color/task_details_muted"/>
+                    <TextView
+                        android:id="@+id/detailsCategory" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Not available"
+                        android:textSize="13sp"
+                        android:layout_weight="1.15"
+                        android:gravity="end"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/detailsNotesHeading" style="@style/TaskDetailsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"/>
+            <TextView
+                android:drawableStart="@drawable/task_details_ic_note"
+                android:drawablePadding="12dp"
+                android:id="@+id/detailsNotes" style="@style/TaskDetailsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="14sp"
+                android:padding="18dp"
+                android:background="@drawable/task_details_pink"
+                android:lineSpacingExtra="3dp"/>
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/detailsComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/task_details_button"
+        app:backgroundTint="@color/task_details_deep"
+        android:textColor="@color/task_details_white"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:text="✓  Mark as completed"
+        android:minHeight="56dp"
+        android:paddingVertical="14dp"
+        android:paddingHorizontal="16dp"/>
+</LinearLayout>

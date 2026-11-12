@@ -1,0 +1,15 @@
+<resources>
+    <style name="TaskDetailsText">
+        <item name="android:textColor">@color/task_details_ink</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="ThemeOverlay.PendingTaskDetails" parent="ThemeOverlay.Material3">
+        <item name="colorPrimary">@color/task_details_deep</item>
+        <item name="colorOnPrimary">@color/task_details_white</item>
+        <item name="colorSurface">@color/task_details_background</item>
+        <item name="colorOnSurface">@color/task_details_ink</item>
+        <item name="colorOnSurfaceVariant">@color/task_details_muted</item>
+        <item name="colorError">@color/task_details_error</item>
+    </style>
+</resources>

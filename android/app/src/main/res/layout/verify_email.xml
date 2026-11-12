@@ -92,10 +92,10 @@
             android:ems="10"
             android:inputType="numberSigned" />
 
-        <TextView
+        <Button
             android:id="@+id/resendCodeText"
             android:layout_width="match_parent"
-            android:layout_height="31dp"
+            android:layout_height="48dp"
             android:gravity="center_horizontal|fill_vertical"
             android:text="@string/resendCodeTime"
             android:textSize="16sp" />

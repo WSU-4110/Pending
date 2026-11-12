@@ -1,25 +1,46 @@
 package com.pending;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import java.util.Locale;
+
+import android.text.InputType;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.pending.model.AuthResponse;
 import com.pending.model.PendingItem;
 import com.pending.network.SessionManager;
 import com.pending.repository.NetworkCallback;
 import com.pending.repository.PendingRepository;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+  
     private PendingRepository repository;
     private SessionManager sessionManager;
 
@@ -101,9 +122,16 @@ public class MainActivity extends AppCompatActivity {
                         showDashboardScreen();
                     }
 
+
+
                     @Override
                     public void onError(String errorMessage) {
-                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        if(errorMessage.equals("UNVERIFIED")) {
+                            Toast.makeText(MainActivity.this, "Please verify your email before logging in.", Toast.LENGTH_LONG).show();
+                            showVerifyEmailScreen(email);
+                        } else {
+                            Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
             });
@@ -210,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 String firstName = firstNameInput.getText().toString().trim();
                 String lastName = lastNameInput.getText().toString().trim();
 
@@ -225,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 repository.register(email, password, firstName, lastName, new NetworkCallback<AuthResponse>() {
 
                     @Override
@@ -237,11 +267,11 @@ public class MainActivity extends AppCompatActivity {
 
                         Toast.makeText(
                                 MainActivity.this,
-                                "Account created successfully!",
+                                "Account created successfully! Check your email for the verification code.",
                                 Toast.LENGTH_SHORT
                         ).show();
 
-                        showDashboardScreen();
+                        showVerifyEmailScreen(email);
                     }
 
                     @Override
@@ -425,5 +455,58 @@ public class MainActivity extends AppCompatActivity {
             pendingUi = null;
         }
         if (pendingBack != null) pendingBack.setEnabled(false);
+    }
+
+    private void showVerifyEmailScreen(String email) {
+        setContentView(R.layout.verify_email);
+
+        EditText codeInput = findViewById(R.id.editInboxCodeNumberSigned);
+        Button verifyButton = findViewById(R.id.confirmEmailVerificationButton);
+        Button resendButton = findViewById(R.id.resendCodeText);
+        ImageButton backButton = findViewById(R.id.backButtonLogin);
+
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> showLandingScreen());
+        }
+
+        if (verifyButton != null) {
+            verifyButton.setOnClickListener(v -> {
+                String code = codeInput != null ? codeInput.getText().toString().trim() : "";
+
+                if(TextUtils.isEmpty(code)) {
+                    Toast.makeText(MainActivity.this, "Please enter the 6-digit code", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                repository.verifyEmail(email, code, new NetworkCallback<AuthResponse>() {
+                    @Override
+                    public void onSuccess(AuthResponse result) {
+                        Toast.makeText(MainActivity.this, "Email verified successfully!", Toast.LENGTH_SHORT).show();
+                        showDashboardScreen();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+        }
+
+        if (resendButton != null) {
+            resendButton.setOnClickListener(v -> {
+                repository.resendVerification(email, new NetworkCallback<String>() {
+                    @Override
+                    public void onSuccess(String result) {
+                        Toast.makeText(MainActivity.this, "A new code has been sent.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                });
+            });
+        }
     }
 }

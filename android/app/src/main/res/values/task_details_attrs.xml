@@ -1,0 +1,9 @@
+<resources>
+    <!-- Optional styling; dashboard defaults remain unchanged. -->
+    <declare-styleable name="PendingProgressRingView">
+        <attr name="ringTrackColor" format="color"/>
+        <attr name="ringStartColor" format="color"/>
+        <attr name="ringEndColor" format="color"/>
+        <attr name="ringTextColor" format="color"/>
+    </declare-styleable>
+</resources>
