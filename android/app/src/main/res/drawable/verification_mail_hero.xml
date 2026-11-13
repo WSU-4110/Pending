@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="112dp" android:height="112dp" android:gravity="center">
+        <shape android:shape="oval"><solid android:color="@color/auth_mint"/></shape>
+    </item>
+    <item android:width="48dp" android:height="48dp" android:gravity="center" android:drawable="@drawable/verification_ic_mail"/>
+    <item android:width="26dp" android:height="26dp" android:gravity="top|right" android:top="4dp" android:right="4dp">
+        <shape android:shape="oval"><solid android:color="@color/auth_pink"/><stroke android:width="2dp" android:color="@color/auth_accent_pink"/></shape>
+    </item>
+</layer-list>

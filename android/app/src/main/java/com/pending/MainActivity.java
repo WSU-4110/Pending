@@ -474,6 +474,9 @@ public class MainActivity extends AppCompatActivity {
     private void showVerifyEmailScreen(String email) {
         setContentView(R.layout.verify_email);
 
+        TextView recipient = findViewById(R.id.userEmailText);
+        if (recipient != null) recipient.setText(email);
+
         EditText codeInput = findViewById(R.id.editInboxCodeNumberSigned);
         Button verifyButton = findViewById(R.id.confirmEmailVerificationButton);
         Button resendButton = findViewById(R.id.resendCodeText);
