@@ -1,9 +1,7 @@
 package com.pending.controller;
 
-import com.pending.dto.AuthResponse;
+import com.pending.dto.*;
 import com.pending.service.AuthService;
-import com.pending.dto.LoginRequest;
-import com.pending.dto.RegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +22,18 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         AuthResponse response = authService.register(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping("/verify-email")
+    public ResponseEntity<AuthResponse> verifyEmail(@Valid @RequestBody EmailVerificationRequest request) {
+        AuthResponse response = authService.verifyEmail(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<String> resendVerification(@Valid @RequestBody ResendVerificationRequest request) {
+        authService.resendVerificationCode(request);
+        return ResponseEntity.ok("A new verification code has been sent to your email.");
     }
 
     @PostMapping("/login")

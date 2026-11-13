@@ -32,6 +32,17 @@ public class PendingUser {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
+    @Column(name = "verified", nullable = false)
+    private boolean verified = false;
+
+    @JsonIgnore
+    @Column(name = "verification_code", length = 6)
+    private String verificationCode;
+
+    @JsonIgnore
+    @Column(name = "verification_expiration")
+    private OffsetDateTime verificationExpiration;
+
     public PendingUser() {}
 
     public PendingUser(String email, String passwordHash, String firstName, String lastName, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
@@ -41,6 +52,7 @@ public class PendingUser {
         this.lastName = lastName;
         this.createdAt =  createdAt;
         this.updatedAt = updatedAt;
+        this.verified = false;
     }
 
     public Long getId() {
@@ -97,5 +109,29 @@ public class PendingUser {
 
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public OffsetDateTime getVerificationExpiration() {
+        return verificationExpiration;
+    }
+
+    public void setVerificationExpiration(OffsetDateTime verificationExpiration) {
+        this.verificationExpiration = verificationExpiration;
     }
 }

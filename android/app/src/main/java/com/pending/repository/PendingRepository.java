@@ -2,9 +2,11 @@ package com.pending.repository;
 
 import android.content.Context;
 import com.pending.model.AuthResponse;
+import com.pending.model.EmailVerificationRequest;
 import com.pending.model.LoginRequest;
 import com.pending.model.PendingItem;
 import com.pending.model.RegisterRequest;
+import com.pending.model.ResendVerificationRequest;
 import com.pending.network.ApiService;
 import com.pending.network.RetrofitClient;
 import com.pending.network.SessionManager;
@@ -28,11 +30,7 @@ public class PendingRepository {
             @Override
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    AuthResponse auth = response.body();
-                    String fullName = (auth.getFirstName() != null ? auth.getFirstName() : "") + " " +
-                            (auth.getLastName() != null ? auth.getLastName() : "");
-                    sessionManager.saveSession(auth.getToken(), auth.getId(), auth.getEmail(), fullName.trim());
-                    callback.onSuccess(auth);
+                    callback.onSuccess(response.body());
                 } else {
                     callback.onError("Registration failed (" + response.code() + ")");
                 }
@@ -56,6 +54,8 @@ public class PendingRepository {
                             (auth.getLastName() != null ? auth.getLastName() : "");
                     sessionManager.saveSession(auth.getToken(), auth.getId(), auth.getEmail(), fullName.trim());
                     callback.onSuccess(auth);
+                } else if(response.code() == 403){
+                    callback.onError("UNVERIFIED");
                 } else {
                     callback.onError("Invalid credentials (" + response.code() + ")");
                 }
@@ -63,6 +63,48 @@ public class PendingRepository {
 
             @Override
             public void onFailure(Call<AuthResponse> call, Throwable t) {
+                callback.onError("Network failure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void verifyEmail(String email, String code, NetworkCallback<AuthResponse> callback) {
+        EmailVerificationRequest request = new EmailVerificationRequest(email, code);
+        apiService.verifyEmail(request).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    AuthResponse auth = response.body();
+                    String fullName = (auth.getFirstName() != null ? auth.getFirstName() : "") + " " +
+                            (auth.getLastName() != null ? auth.getLastName() : "");
+                    sessionManager.saveSession(auth.getToken(), auth.getId(), auth.getEmail(), fullName.trim());
+                    callback.onSuccess(auth);
+                } else {
+                    callback.onError("Invalid or expired verification code.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
+                callback.onError("Network failure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void resendVerification(String email, NetworkCallback<String> callback) {
+        ResendVerificationRequest request = new ResendVerificationRequest(email);
+        apiService.resendVerification(request).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.onSuccess("Verification code has been sent to your email.");
+                } else {
+                    callback.onError("Failed to send code to email.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onError("Network failure: " + t.getMessage());
             }
         });
@@ -78,6 +120,36 @@ public class PendingRepository {
 
     public void logout() {
         sessionManager.logout();
+    }
+
+    public void validateSession(NetworkCallback<Boolean> callback) {
+        if (!sessionManager.isLoggedIn()) {
+            callback.onError("No stored token");
+            return;
+        }
+
+        apiService.getAllItems().enqueue(new Callback<List<PendingItem>>() {
+            @Override
+            public void onResponse(Call<List<PendingItem>> call, Response<List<PendingItem>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(true);
+                } else if (response.code() == 401 || response.code() == 403) {
+                    sessionManager.clearSession();
+                    callback.onError("Session expired or invalid token (" + response.code() + ")");
+                } else {
+                    callback.onSuccess(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PendingItem>> call, Throwable t) {
+                if (sessionManager.isLoggedIn()) {
+                    callback.onSuccess(true);
+                } else {
+                    callback.onError("Network failure: " + t.getMessage());
+                }
+            }
+        });
     }
 
     public void createItem(String title, String waitingOn, String startDate, String expectedResponseDate,
@@ -107,9 +179,9 @@ public class PendingRepository {
         });
     }
     public void updateItem(Long id, PendingItem item, NetworkCallback<PendingItem> callback) {
-        apiService.updateItem(id, item).enqueue(new retrofit2.Callback<PendingItem>() {
+        apiService.updateItem(id, item).enqueue(new Callback<PendingItem>() {
             @Override
-            public void onResponse(retrofit2.Call<PendingItem> call, retrofit2.Response<PendingItem> response) {
+            public void onResponse(Call<PendingItem> call, Response<PendingItem> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -118,16 +190,16 @@ public class PendingRepository {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<PendingItem> call, Throwable t) {
+            public void onFailure(Call<PendingItem> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });
     }
 
     public void deleteItem(Long id, NetworkCallback<String> callback) {
-        apiService.deleteItem(id).enqueue(new retrofit2.Callback<okhttp3.ResponseBody>() {
+        apiService.deleteItem(id).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(retrofit2.Call<okhttp3.ResponseBody> call, retrofit2.Response<okhttp3.ResponseBody> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess("Task deleted successfully");
                 } else {
@@ -136,7 +208,7 @@ public class PendingRepository {
             }
 
             @Override
-            public void onFailure(retrofit2.Call<okhttp3.ResponseBody> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });

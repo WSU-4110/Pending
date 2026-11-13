@@ -18,7 +18,7 @@
     <string name="emailQuality"></string>
     <string name="userEmail"></string>
     <string name="resendCodeTime">Resend code in 00:00</string>
-    <string name="codeExpiration">Code expires in 10 minutes. Check spam if needed.</string>
+    <string name="codeExpiration">Code expires in 15 minutes. Check spam if needed.</string>
 
     <string name="userAccName">Maya Chen</string>
     <string name="ReminderSetting">1 day before - 9:00am</string>
