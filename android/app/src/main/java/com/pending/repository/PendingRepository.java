@@ -122,6 +122,36 @@ public class PendingRepository {
         sessionManager.logout();
     }
 
+    public void validateSession(NetworkCallback<Boolean> callback) {
+        if (!sessionManager.isLoggedIn()) {
+            callback.onError("No stored token");
+            return;
+        }
+
+        apiService.getAllItems().enqueue(new Callback<List<PendingItem>>() {
+            @Override
+            public void onResponse(Call<List<PendingItem>> call, Response<List<PendingItem>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(true);
+                } else if (response.code() == 401 || response.code() == 403) {
+                    sessionManager.clearSession();
+                    callback.onError("Session expired or invalid token (" + response.code() + ")");
+                } else {
+                    callback.onSuccess(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PendingItem>> call, Throwable t) {
+                if (sessionManager.isLoggedIn()) {
+                    callback.onSuccess(true);
+                } else {
+                    callback.onError("Network failure: " + t.getMessage());
+                }
+            }
+        });
+    }
+
     public void createItem(String title, String waitingOn, String startDate, String expectedResponseDate,
                            Integer status, String notes, Integer priority, NetworkCallback<PendingItem> callback) {
 

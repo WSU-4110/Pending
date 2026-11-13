@@ -54,6 +54,9 @@ public class SessionManager {
         return getToken() != null && !getToken().isEmpty();
     }
 
+    public void clearSession() {
+        pref.edit().clear().apply();
+    }
     public void logout() {
         pref.edit().clear().apply();
     }

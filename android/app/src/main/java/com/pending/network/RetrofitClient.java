@@ -4,6 +4,7 @@ import android.content.Context;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +21,6 @@ public class RetrofitClient {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(logging)
                     .addInterceptor(chain -> {
                         Request original = chain.request();
                         Request.Builder builder = original.newBuilder();
@@ -30,8 +30,17 @@ public class RetrofitClient {
                             builder.header("Authorization", "Bearer " + token);
                         }
 
-                        return chain.proceed(builder.build());
+                        Response response = chain.proceed(builder.build());
+
+                        if (response.code() == 401 || response.code() == 403) {
+                            if (!original.url().encodedPath().contains("/api/auth/")) {
+                                sessionManager.clearSession();
+                            }
+                        }
+
+                        return response;
                     })
+                    .addInterceptor(logging)
                     .connectTimeout(15, TimeUnit.SECONDS)
                     .readTimeout(15, TimeUnit.SECONDS)
                     .build();
