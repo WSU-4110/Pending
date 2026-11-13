@@ -1,0 +1,8 @@
+<resources>
+    <!-- Screen-local approved colors; do not alter other screens' shared theme. -->
+    <color name="verification_background">#FCF7F6</color>
+    <color name="verification_sage">#769C76</color>
+    <color name="verification_soft_sage">#DEE9DB</color>
+    <color name="verification_pink">#FCE3E6</color>
+    <color name="verification_mint">#E6EFE7</color>
+</resources>
