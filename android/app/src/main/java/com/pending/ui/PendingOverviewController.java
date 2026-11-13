@@ -37,7 +37,8 @@ public final class PendingOverviewController {
   private final PendingUiTaskAdapter adapter;
   private List<PendingItem> tasks = new ArrayList<>();
   private String query = "", day = null;
-  private int state = 0, request = 0;
+  private com.pending.model.TaskCategory category;
+  private int state = 1, request = 0;
   private boolean disposed = false, loaded = false;
 
   public PendingOverviewController(
@@ -82,7 +83,7 @@ public final class PendingOverviewController {
     visible(R.id.pendingUiProgressSection, !overview);
     visible(R.id.pendingUiWeek, overview);
     visible(R.id.pendingUiFiltersScroll, overview);
-    visible(R.id.pendingUiCategories, overview);
+    renderCategories(Collections.emptyList());
     root.findViewById(R.id.pendingUiBell)
         .setOnClickListener(
             v ->
@@ -117,7 +118,8 @@ public final class PendingOverviewController {
               if (!overview) h.overview();
               else {
                 day = null;
-                state = 0;
+                state = 1;
+                category = null;
                 ((EditText) root.findViewById(R.id.pendingUiSearch)).setText("");
                 render();
               }
@@ -126,12 +128,6 @@ public final class PendingOverviewController {
         new PendingUiTaskAdapter(
             overview,
             new PendingUiTaskAdapter.Actions() {
-              public void open(PendingItem t) {
-                activity.startActivity(
-                    new android.content.Intent(activity, PendingDetailsActivity.class)
-                        .putExtra("task_id", t.getId().longValue()));
-              }
-
               public void edit(PendingItem t) {
                 h.edit(t);
               }
@@ -206,28 +202,75 @@ public final class PendingOverviewController {
     int percent = week[1] == 0 ? 0 : Math.round(100f * week[0] / week[1]);
     ((PendingProgressRingView) root.findViewById(R.id.pendingUiRing)).setProgress(percent);
     ((ProgressBar) root.findViewById(R.id.pendingUiBar)).setProgress(percent);
-    text(R.id.pendingUiWeekProgress).setText(week[0] + " of " + week[1] + " tasks completed");
-    String selected =
-        overview ? day : (query.trim().isEmpty() ? PendingTaskPresentation.date(new Date()) : null);
-    List<PendingItem> shown =
-        PendingTaskPresentation.filter(all, query, selected, overview ? state : 1);
+    text(R.id.pendingUiWeekProgress).setText(week[1] == 0 ? "No tasks due or completed this week" : week[0] + " completed · " + (week[1] - week[0]) + " still due");
+    List<PendingItem> shown = PendingTaskPresentation.filter(all, query, overview ? day : null, overview ? state : 1);
+    if (category != null) shown.removeIf(item -> item.getCategory() != category);
+    renderCategories(PendingTaskPresentation.filter(all, "", null, 1));
     adapter.submit(shown);
     visible(R.id.pendingUiState, shown.isEmpty());
     text(R.id.pendingUiState).setText("No tasks to show");
     text(R.id.pendingUiState).setOnClickListener(null);
     if (overview) {
-      text(R.id.pendingUiListTitle).setText(day == null ? "All tasks" : "Tasks · " + day);
+      text(R.id.pendingUiListTitle).setText(day == null ? (category == null ? "Tasks" : category.name() + " tasks") : "Tasks · " + day);
       renderWeek();
       renderFilters(all);
     } else
       text(R.id.pendingUiListTitle)
-          .setText(query.trim().isEmpty() ? "Today’s tasks" : "Search results");
+          .setText(query.trim().isEmpty() ? (category == null ? "Active tasks" : category.name() + " tasks") : "Search results");
+  }
+
+  private void renderCategories(List<PendingItem> active) {
+    LinearLayout box = root.findViewById(R.id.categoryChoices);
+    box.removeAllViews();
+    addCategory(box, null, active.size(), R.color.pastel_white);
+    for (com.pending.model.TaskCategory option : com.pending.model.TaskCategory.values()) {
+      int count = 0;
+      for (PendingItem item : active) if (item.getCategory() == option) count++;
+      int color;
+      switch (option) {
+        case Work: color = R.color.pastel_mint; break;
+        case Personal: color = R.color.pastel_blush; break;
+        case Finance: color = R.color.pastel_soft; break;
+        default: color = R.color.pastel_pale_pink;
+      }
+      addCategory(box, option, count, color);
+    }
+  }
+
+  private void addCategory(LinearLayout box, com.pending.model.TaskCategory option, int count, int color) {
+    boolean selected = category == option && state == 1;
+    String label = option == null ? "All" : option.name();
+    TextView button = chip(label + "\n" + count, selected);
+    int icon = option == null ? R.drawable.pending_ui_ic_layers :
+        option == com.pending.model.TaskCategory.Work ? R.drawable.pending_ui_ic_work :
+        option == com.pending.model.TaskCategory.Finance ? R.drawable.pending_ui_ic_finance :
+        option == com.pending.model.TaskCategory.Personal ? R.drawable.pending_ui_ic_person : R.drawable.pending_ui_ic_more;
+    button.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
+    button.setCompoundDrawablePadding(dp(3));
+    button.setMinWidth(dp(54));
+    button.setTextSize(13);
+    button.setPadding(dp(7), dp(7), dp(7), dp(7));
+    android.graphics.drawable.GradientDrawable shape = new android.graphics.drawable.GradientDrawable();
+    shape.setColor(activity.getColor(color));
+    shape.setCornerRadius(dp(16));
+    shape.setStroke(dp(selected ? 2 : 1), activity.getColor(selected ? R.color.pastel_ink : R.color.pastel_soft));
+    button.setBackground(shape);
+    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, -2);
+    params.setMarginEnd(dp(8));
+    box.addView(button, params);
+    button.setOnClickListener(v -> {
+      category = option;
+      state = 1;
+      day = null;
+      ((EditText) root.findViewById(R.id.pendingUiSearch)).setText("");
+      render();
+    });
   }
 
   private TextView chip(String label, boolean selected) {
     TextView v = new TextView(activity);
     v.setText(label);
-    v.setTextColor(0xFF234F37);
+    v.setTextColor(activity.getColor(R.color.pastel_ink));
     v.setTextSize(14);
     v.setGravity(Gravity.CENTER);
     v.setPadding(dp(12), dp(8), dp(12), dp(8));
@@ -256,6 +299,7 @@ public final class PendingOverviewController {
       v.setOnClickListener(
           x -> {
             state = index;
+            category = null;
             render();
           });
     }
@@ -273,7 +317,7 @@ public final class PendingOverviewController {
       column.setGravity(Gravity.CENTER);
       TextView label = new TextView(activity);
       label.setText(new SimpleDateFormat("EEE", Locale.getDefault()).format(c.getTime()));
-      label.setTextColor(0xFF545C56);
+      label.setTextColor(activity.getColor(R.color.pastel_muted));
       label.setTextSize(13);
       label.setGravity(Gravity.CENTER);
       column.addView(label, new LinearLayout.LayoutParams(-1, dp(25)));
@@ -283,7 +327,7 @@ public final class PendingOverviewController {
       number.setTypeface(null, android.graphics.Typeface.BOLD);
       number.setGravity(Gravity.CENTER);
       boolean selected = date.equals(day);
-      number.setTextColor(selected ? 0xFFFFFFFF : 0xFF14291D);
+      number.setTextColor(activity.getColor(R.color.pastel_ink));
       number.setBackgroundResource(
           selected ? R.drawable.pending_ui_day_selected : R.drawable.pending_ui_day);
       column.addView(number, new LinearLayout.LayoutParams(dp(40), dp(40)));

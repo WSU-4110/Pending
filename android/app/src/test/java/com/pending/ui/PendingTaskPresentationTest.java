@@ -44,12 +44,40 @@ public class PendingTaskPresentationTest {
 
   @Test
   public void weeklyIncludesCompletedAndOpenButNotOutsideWeek() {
+    PendingItem completed = task("2026-11-02", 3);
+    completed.setResolvedAt("2026-11-10T12:30:00.123456Z");
     List<PendingItem> tasks =
         Arrays.asList(
-            task("2026-11-09", 3), task("2026-11-15", 0), task("2026-11-08", 3), task(null, 0));
+            completed, task("2026-11-15", 0), task("2026-11-08", 3), task(null, 0));
     assertArrayEquals(new int[] {1, 2}, PendingTaskPresentation.weekly(tasks, now()));
     assertArrayEquals(
         new int[] {0, 0}, PendingTaskPresentation.weekly(Collections.emptyList(), now()));
+  }
+
+  @Test
+  public void excludesUndatedDeletedAndPriorWeekCompletions() {
+    PendingItem historical = task("2026-11-12", 3);
+    PendingItem previous = task("2026-11-12", 4);
+    previous.setResolvedAt("2026-11-06T12:00:00Z");
+    PendingItem deleted = task(null, 3);
+    deleted.setResolvedAt("2026-11-12T12:00:00Z");
+    deleted.setDeletedAt("2026-11-13");
+    assertArrayEquals(new int[]{0, 0}, PendingTaskPresentation.weekly(
+        Arrays.asList(historical, previous, deleted), now()));
+  }
+
+  @Test
+  public void usesDeviceLocalMondayBoundaryAndCountsOnce() {
+    TimeZone original = TimeZone.getDefault();
+    try {
+      TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
+      PendingItem before = task(null, 3), after = task("2026-11-10", 3);
+      before.setResolvedAt("2026-11-09T04:59:59Z");
+      after.setResolvedAt("2026-11-09T05:00:00Z");
+      assertArrayEquals(new int[]{1, 1}, PendingTaskPresentation.weekly(Arrays.asList(before, after), now()));
+    } finally {
+      TimeZone.setDefault(original);
+    }
   }
 
   @Test

@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="360dp" android:height="720dp" android:viewportWidth="360" android:viewportHeight="720">
+    <path android:fillColor="@color/pastel_background" android:pathData="M0,0H360V720H0z"/>
+    <path android:fillColor="@color/pastel_mint" android:pathData="M0,0H290C182,6 156,53 82,65C41,72 20,67 0,84Z"/>
+    <path android:fillColor="#D8EEE4" android:pathData="M0,0H203C130,11 113,41 34,47L0,50Z"/>
+    <path android:fillColor="@color/pastel_pale_pink" android:pathData="M0,229C79,193 161,244 251,191C312,156 327,113 360,101V294C294,353 224,359 141,349C85,342 34,362 0,410Z"/>
+    <path android:fillColor="@color/pastel_blush" android:pathData="M0,311C100,251 178,326 268,274C300,256 327,230 360,221V262C289,344 204,335 126,331C76,329 35,346 0,375Z"/>
+    <path android:fillColor="@color/pastel_soft" android:pathData="M360,155C316,169 295,213 278,250C317,213 339,221 360,210Z"/>
+    <path android:fillColor="@color/pastel_mint" android:pathData="M0,720V572C86,600 114,699 224,661C276,645 310,579 360,553V720Z"/>
+    <path android:fillColor="@color/pastel_pale_pink" android:pathData="M0,720C107,696 175,707 242,648C283,611 314,579 360,568V720Z"/>
+    <path android:fillColor="@color/pastel_blush" android:pathData="M76,720C163,708 205,673 251,665C289,659 327,677 360,672V720Z"/>
+    <path android:fillColor="#F3ABC1" android:pathData="M318,133q0,7 -5,8q5,1 5,8q1,-7 6,-8q-5,-1 -6,-8z M330,146q0,4 -3,5q3,1 3,5q1,-4 4,-5q-3,-1 -4,-5z"/>
+</vector>

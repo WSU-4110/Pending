@@ -1,13 +1,13 @@
 <resources>
-    <color name="task_details_background">#FCF7F6</color>
-    <color name="task_details_sage">#769C76</color>
-    <color name="task_details_ink">#203D35</color>
-    <color name="task_details_deep">#2B806B</color>
-    <color name="task_details_mint">#E6EFE7</color>
-    <color name="task_details_soft_sage">#DEE9DB</color>
-    <color name="task_details_pink">#FCE3E6</color>
+    <color name="task_details_background">@color/pastel_background</color>
+    <color name="task_details_sage">@color/pastel_sage</color>
+    <color name="task_details_ink">@color/pastel_ink</color>
+    <color name="task_details_deep">@color/pastel_action</color>
+    <color name="task_details_mint">@color/pastel_mint</color>
+    <color name="task_details_soft_sage">@color/pastel_soft</color>
+    <color name="task_details_pink">@color/pastel_blush</color>
     <color name="task_details_accent_pink">#EF9FAF</color>
-    <color name="task_details_white">#FFFFFF</color>
-    <color name="task_details_muted">#64736E</color>
-    <color name="task_details_error">#D94D5C</color>
+    <color name="task_details_white">@color/pastel_white</color>
+    <color name="task_details_muted">@color/pastel_muted</color>
+    <color name="task_details_error">#F44336</color>
 </resources>

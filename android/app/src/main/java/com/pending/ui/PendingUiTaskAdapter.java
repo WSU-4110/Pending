@@ -10,7 +10,7 @@ import java.util.*;
 public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdapter.Holder> {
   public interface Actions {
     void edit(PendingItem t);
-    void open(PendingItem t);
+
 
     void complete(PendingItem t);
   }
@@ -46,6 +46,10 @@ public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdap
     h.title.setText(t.getTitle());
     String notes = t.getNotes();
     if (notes == null || notes.isEmpty()) notes = t.getWaitingOn();
+    boolean complete = PendingTaskPresentation.completed(t);
+    String priority = t.getPriority() == null ? "Unspecified priority"
+        : t.getPriority() == 2 ? "High priority" : t.getPriority() == 1 ? "Medium priority" : "Low priority";
+    h.meta.setText(t.getCategory().name() + "  ·  " + priority);
     h.notes.setText(notes);
     h.notes.setVisibility(overview || notes == null || notes.isEmpty() ? View.GONE : View.VISIBLE);
     h.due.setText(PendingTaskPresentation.dueLabel(t, new Date()));
@@ -53,6 +57,16 @@ public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdap
         PendingTaskPresentation.due(t).compareTo(PendingTaskPresentation.date(new Date())) <= 0
             ? R.drawable.pending_ui_badge_pink
             : R.drawable.pending_ui_badge_sage);
+    if (complete) {
+      String resolved = PendingTaskPresentation.completionDate(t);
+      h.due.setText(resolved.isEmpty() ? "Completed" : "Completed · " + resolved);
+      h.due.setBackgroundResource(R.drawable.pending_ui_badge_sage);
+    }
+    boolean completedPage = actions == null;
+    h.itemView.setBackgroundResource(completedPage
+        ? (i % 2 == 0 ? R.drawable.pending_ui_badge_sage : R.drawable.pending_ui_badge_pink)
+        : R.drawable.pending_ui_white);
+    ((ImageView) h.icon).setImageResource(completedPage ? R.drawable.pending_ui_ic_check : R.drawable.pending_ui_ic_mail);
     h.icon.setVisibility(overview ? View.GONE : View.VISIBLE);
     h.check.setVisibility(overview ? View.VISIBLE : View.GONE);
     h.check.setOnCheckedChangeListener(null);
@@ -64,7 +78,9 @@ public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdap
           h.check.setChecked(false);
           actions.complete(t);
         });
-    h.itemView.setOnClickListener(v -> actions.open(t));
+    h.itemView.setOnClickListener(v -> v.getContext().startActivity(
+        new android.content.Intent(v.getContext(), PendingDetailsActivity.class).putExtra("task_id", t.getId().longValue())));
+    h.more.setVisibility(actions == null ? View.GONE : View.VISIBLE);
     h.more.setOnClickListener(
         v -> {
           PopupMenu menu = new PopupMenu(v.getContext(), v);
@@ -88,7 +104,7 @@ public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdap
   }
 
   static class Holder extends RecyclerView.ViewHolder {
-    TextView title, notes, due;
+    TextView title, notes, due, meta;
     CheckBox check;
     View icon, more;
 
@@ -96,6 +112,7 @@ public class PendingUiTaskAdapter extends RecyclerView.Adapter<PendingUiTaskAdap
       super(v);
       title = v.findViewById(R.id.pendingUiTaskTitle);
       notes = v.findViewById(R.id.pendingUiTaskNotes);
+      meta = v.findViewById(R.id.taskRowMetadata);
       due = v.findViewById(R.id.pendingUiTaskDue);
       check = v.findViewById(R.id.pendingUiTaskCheck);
       icon = v.findViewById(R.id.pendingUiTaskIcon);

@@ -336,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (pendingUi != null) pendingUi.refresh();
+        if (findViewById(R.id.completedRecyclerView) != null) refreshCompleted();
     }
 
     @Override
@@ -440,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);
 
+        refreshCompleted();
         bottomNav.setSelectedItemId(R.id.nav_completed);
 
         bottomNav.setOnItemSelectedListener(item -> {
@@ -460,6 +462,43 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return false;
+        });
+    }
+
+    private int completedRequest;
+
+    private void refreshCompleted() {
+        androidx.recyclerview.widget.RecyclerView list = findViewById(R.id.completedRecyclerView);
+        TextView message = findViewById(R.id.completedEmptyText);
+        int request = ++completedRequest;
+        if (list.getAdapter() == null) {
+            list.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+            list.setAdapter(new com.pending.ui.PendingUiTaskAdapter(false, null));
+        }
+        list.setVisibility(View.GONE);
+        message.setVisibility(View.VISIBLE);
+        message.setText("Loading completed tasks…");
+        message.setOnClickListener(null);
+        repository.fetchAllItems(new NetworkCallback<java.util.List<PendingItem>>() {
+            private boolean current() {
+                return request == completedRequest && !isDestroyed()
+                        && list == findViewById(R.id.completedRecyclerView);
+            }
+
+            public void onSuccess(java.util.List<PendingItem> items) {
+                if (!current()) return;
+                java.util.List<PendingItem> done = com.pending.ui.PendingTaskPresentation.filter(items, "", null, 2);
+                ((com.pending.ui.PendingUiTaskAdapter) list.getAdapter()).submit(done);
+                list.setVisibility(done.isEmpty() ? View.GONE : View.VISIBLE);
+                message.setText("No completed tasks yet.\nFinished tasks will appear here.");
+                message.setVisibility(done.isEmpty() ? View.VISIBLE : View.GONE);
+            }
+
+            public void onError(String error) {
+                if (!current()) return;
+                message.setText("Couldn’t load completed tasks. Tap to retry.");
+                message.setOnClickListener(v -> refreshCompleted());
+            }
         });
     }
 

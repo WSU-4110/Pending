@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/auth_background"
+    android:background="@drawable/pending_wave_canvas"
     android:fitsSystemWindows="true"
     android:theme="@style/ThemeOverlay.PendingAuth"
     app:statusBarBackground="@color/auth_ink">
@@ -44,18 +44,24 @@
                 style="@style/RedesignTitle"
                 android:text="@string/redesign_new_task"
                 android:id="@+id/taskFormHeading"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/RedesignCard"
-                android:layout_marginTop="16dp">
+                app:cardBackgroundColor="@color/pastel_mint"
+                android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp">
+                    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                        style="@style/RedesignLabel" android:text="Task details" android:textSize="20sp"
+                        android:drawableStart="@drawable/pending_ui_ic_note" android:drawablePadding="8dp"
+                        android:gravity="center_vertical" android:layout_marginBottom="12dp" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -79,7 +85,7 @@
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_waiting"
                         android:labelFor="@id/taskWaitingOnInput"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="6dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -96,7 +102,7 @@
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_details"
                         android:labelFor="@id/taskDetailsInput"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="6dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -115,18 +121,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/RedesignCard"
-                android:layout_marginTop="16dp">
+                app:cardBackgroundColor="@color/pastel_pale_pink"
+                android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_timing"
+                        android:drawableStart="@drawable/pending_ui_ic_calendar" android:drawablePadding="8dp" android:gravity="center_vertical"
                         android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/task_category"
+                        android:labelFor="@id/spinnerCategory"
+                        android:layout_marginTop="6dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/redesign_field_background"
+                        android:layout_marginTop="5dp">
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerCategory"
+                            android:minHeight="48dp"
+                            android:spinnerMode="dropdown"
+                            android:paddingStart="6dp" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -134,7 +164,7 @@
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_priority"
                         android:labelFor="@id/spinnerPriority"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="6dp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -145,7 +175,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/spinnerPriority"
-                            android:minHeight="52dp"
+                            android:minHeight="48dp"
                             android:spinnerMode="dropdown"
                             android:paddingStart="6dp" />
                     </FrameLayout>
@@ -156,7 +186,7 @@
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_expected"
                         android:labelFor="@id/taskDateInput"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="6dp" />
 
                     <EditText
                         android:layout_width="match_parent"
@@ -177,7 +207,7 @@
                         style="@style/RedesignLabel"
                         android:text="@string/redesign_reminder"
                         android:labelFor="@id/taskReminderInput"
-                        android:layout_marginTop="12dp" />
+                        android:layout_marginTop="6dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -210,7 +240,7 @@
                 style="@style/RedesignButton"
                 android:id="@+id/btnSaveTask"
                 android:text="@string/redesign_save"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="10dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"

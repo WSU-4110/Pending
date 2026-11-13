@@ -16,6 +16,22 @@ public final class PendingTaskPresentation {
     return t.getStatus() != null && t.getStatus() >= 3;
   }
 
+  public static String completionDate(PendingItem task) {
+    String value = task.getResolvedAt();
+    if (value == null) return "";
+    // Parse the offset supplied by Spring before formatting in the device time zone.
+    java.util.regex.Matcher parts = java.util.regex.Pattern.compile(
+        "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})(?:\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$").matcher(value);
+    if (!parts.matches()) return "";
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
+    format.setLenient(false);
+    try {
+      return date(format.parse(parts.group(1) + parts.group(2)));
+    } catch (java.text.ParseException invalid) {
+      return "";
+    }
+  }
+
   public static boolean active(PendingItem t) {
     return t.getDeletedAt() == null || t.getDeletedAt().isEmpty();
   }
@@ -70,14 +86,15 @@ public final class PendingTaskPresentation {
     c.add(Calendar.DATE, 6);
     String end = date(c.getTime());
     int done = 0, total = 0;
-    for (PendingItem t : tasks)
-      if (active(t)
-          && !due(t).isEmpty()
-          && due(t).compareTo(start) >= 0
-          && due(t).compareTo(end) <= 0) {
-        total++;
-        if (completed(t)) done++;
-      }
+    // Completed work belongs to the week it was resolved. Open work belongs to its due week.
+    for (PendingItem task : tasks) {
+      if (!active(task)) continue;
+      boolean resolved = completed(task);
+      String day = resolved ? completionDate(task) : due(task);
+      if (day.compareTo(start) < 0 || day.compareTo(end) > 0) continue;
+      total++;
+      if (resolved) done++;
+    }
     return new int[] {done, total};
   }
 }

@@ -78,6 +78,22 @@ public class PendingItem {
         this.deletedAt = deletedAt;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", length = 16)
+    private TaskCategory category;
+
+    public TaskCategory getCategory() {
+        return category == null ? TaskCategory.Other : category;
+    }
+
+    public void setCategory(TaskCategory category) {
+        this.category = category;
+    }
+
+    public boolean hasCategory() {
+        return category != null;
+    }
+
     public Long getId() {
         return id;
     }

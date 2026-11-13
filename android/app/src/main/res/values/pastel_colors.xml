@@ -1,0 +1,13 @@
+<resources>
+    <color name="pastel_background">#F7FAF8</color>
+    <color name="pastel_ink">#203D35</color>
+    <color name="pastel_muted">#64736E</color>
+    <color name="pastel_white">#FFFFFF</color>
+    <color name="pastel_sage">#A5D4BB</color>
+    <color name="pastel_mint">#E2F3EC</color>
+    <color name="pastel_soft">#EAF4EF</color>
+    <color name="pastel_blush">#F7DCE5</color>
+    <color name="pastel_action">#2B806B</color>
+    <color name="pastel_outline">#81968B</color>
+    <color name="pastel_pale_pink">#FCEBF0</color>
+</resources>

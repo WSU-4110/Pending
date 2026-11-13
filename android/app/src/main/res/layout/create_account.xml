@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/auth_background"
+    android:background="@drawable/pending_wave_canvas"
     android:fitsSystemWindows="true"
     android:theme="@style/ThemeOverlay.PendingAuth"
     app:statusBarBackground="@color/auth_ink">
@@ -150,7 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/pending_ui_badge_sage"
+                android:background="@drawable/pending_ui_badge_pink"
                 android:padding="12dp"
                 android:layout_marginTop="8dp">
                 <TextView
