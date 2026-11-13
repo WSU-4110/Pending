@@ -8,7 +8,7 @@
     android:fillViewport="true"
     android:isScrollContainer="true"
     android:clipToPadding="false"
-    android:background="@color/auth_background"
+    android:background="@color/verification_background"
     android:theme="@style/ThemeOverlay.PendingAuth">
 
         <LinearLayout
@@ -89,24 +89,22 @@
                 android:textColor="@color/auth_deep"
                 android:textSize="14sp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/PendingAuthInput"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:hint="@string/verification_code_hint">
-                <EditText
-                    android:id="@+id/editInboxCodeNumberSigned"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="64dp"
-                    android:ems="10"
-                    android:inputType="numberSigned"
-                    android:gravity="center"
-                    android:letterSpacing="0.18"
-                    android:textColor="@color/auth_ink"
-                    android:textSize="24sp"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="10dp"
+                android:labelFor="@id/editInboxCodeNumberSigned"
+                android:text="@string/verification_code_hint"
+                android:textColor="@color/auth_muted"
+                android:textSize="14sp"/>
+            <com.pending.ui.VerificationCodeInput
+                android:id="@+id/editInboxCodeNumberSigned"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:inputType="numberSigned"
+                android:textColor="@color/auth_ink"
+                android:textSize="24sp"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/resendCodeText"
                 style="@style/Widget.Material3.Button.OutlinedButton"
