@@ -1,0 +1,21 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="App Theme" />
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/app_themes"
+        android:entryValues="@array/app_themes_values"
+        android:key="list_pref_appTheme"
+        android:title="Theme" />
+    <PreferenceCategory android:title="Nightmode">
+
+    </PreferenceCategory>
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/app_nightmode_text"
+        android:entryValues="@array/app_nightmode_values"
+        android:key="list_pref_lightmode"
+        android:title="Lightmode" />
+
+</PreferenceScreen>

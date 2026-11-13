@@ -1,0 +1,25 @@
+<resources>
+    <!-- Theme Preference -->
+    <string-array name="app_themes">
+        <item>Green</item>
+        <item>Pink</item>
+    </string-array>
+
+    <string-array name="app_themes_values">
+        <item>green_forest</item>
+        <item>pink_bloom</item>
+    </string-array>
+
+    <!-- Nightmode Preference -->
+    <string-array name="app_nightmode_text">
+        <item>Day</item>
+        <item>Night</item>
+        <item>Follow Phone Setting</item>
+    </string-array>
+
+    <string-array name="app_nightmode_values">
+        <item>day</item>
+        <item>night</item>
+        <item>follow_phone</item>
+    </string-array>
+</resources>

@@ -389,7 +389,18 @@ public class MainActivity extends AppCompatActivity {
             showLoginScreen();
         });
 
-
+        ImageButton buttonAppearance = findViewById(R.id.setAppearance);
+        ImageButton buttonReminders = findViewById(R.id.setReminderDefaults);
+        buttonAppearance.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsMenuActivity.class);
+            intent.putExtra("SETTING_SUBMENU", SettingsMenuActivity.e_settingSubmenus.appearance);
+            startActivity(intent);
+        });
+        buttonReminders.setOnClickListener(v->{
+            Intent intent = new Intent(MainActivity.this, SettingsMenuActivity.class);
+            intent.putExtra("SETTING_SUBMENU", SettingsMenuActivity.e_settingSubmenus.reminderDefaults);
+            startActivity(intent);
+        });
 
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav =
                 findViewById(R.id.bottomNavigation);

@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginBottom="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -38,6 +39,12 @@
 
         </LinearLayout>
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/settingsFragmentContainer"
+            android:name="com.pending.SettingRemindersFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
@@ -58,7 +65,7 @@
             android:padding="24dp">
 
             <Button
-                android:id="@+id/cancelSubSetting"
+                android:id="@+id/cancelSubsetting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
