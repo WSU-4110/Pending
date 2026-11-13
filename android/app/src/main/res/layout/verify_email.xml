@@ -1,131 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/verificationScroll"
+    android:fillViewport="true"
+    android:isScrollContainer="true"
+    android:clipToPadding="false"
+    android:background="@color/auth_background"
+    android:theme="@style/ThemeOverlay.PendingAuth">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/confirmEmailVerificationButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/verifyEmailPageTitle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp">
 
-            <ImageButton
-                android:id="@+id/backButtonLogin"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="?attr/actionModeCloseDrawable" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verifyEmailPageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp">
+                <ImageButton
+                    android:id="@+id/backButtonLogin"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:background="@drawable/auth_back_background"
+                    android:contentDescription="@string/verification_back"
+                    app:srcCompat="@drawable/auth_ic_back"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/LogInHeaderText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/verifyEmail"
+                    android:textColor="@color/auth_ink"
+                    android:textSize="20sp"
+                    app:layout_constraintStart_toEndOf="@id/backButtonLogin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="112dp"
+                android:layout_height="112dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="24dp"
+                android:src="@drawable/verification_mail_hero"
+                android:contentDescription="@string/verification_mail_description"/>
             <TextView
-                android:id="@+id/LogInHeaderText"
-                android:layout_width="287dp"
-                android:layout_height="54dp"
-                android:layout_marginStart="16dp"
+                android:id="@+id/checkInboxHeaderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/CheckInbox"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/auth_ink"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/checkInboxDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/checkInboxDescrition"
+                android:textColor="@color/auth_muted"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/userEmailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/userEmail"
+                android:textColor="@color/auth_deep"
+                android:textSize="14sp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/PendingAuthInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:hint="@string/verification_code_hint">
+                <EditText
+                    android:id="@+id/editInboxCodeNumberSigned"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="64dp"
+                    android:ems="10"
+                    android:inputType="numberSigned"
+                    android:gravity="center"
+                    android:letterSpacing="0.18"
+                    android:textColor="@color/auth_ink"
+                    android:textSize="24sp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/resendCodeText"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="left|center_vertical"
+                android:text="@string/verification_resend"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textColor="@color/auth_deep"
+                app:backgroundTint="@color/auth_white"
+                app:cornerRadius="28dp"
+                app:strokeColor="@color/auth_pink"
+                app:strokeWidth="1dp"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_weight="1"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirmEmailVerificationButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:layout_marginBottom="12dp"
                 android:text="@string/verifyEmail"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/backButtonLogin"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:background="@color/secondary"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
-
-        <TextView
-            android:id="@+id/checkInboxHeaderText"
-            android:layout_width="match_parent"
-            android:layout_height="37dp"
-            android:gravity="bottom|center"
-            android:text="@string/CheckInbox"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/checkInboxDescription"
-            android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:gravity="center_horizontal|top"
-            android:text="@string/checkInboxDescrition"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/userEmailText"
-            android:layout_width="match_parent"
-            android:layout_height="47dp"
-            android:gravity="center_horizontal|top"
-            android:text="@string/userEmail" />
-
-        <EditText
-            android:id="@+id/editInboxCodeNumberSigned"
-            android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:ems="10"
-            android:inputType="numberSigned" />
-
-        <Button
-            android:id="@+id/resendCodeText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_horizontal|fill_vertical"
-            android:text="@string/resendCodeTime"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/confirmEmailVerificationButton"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/verifyEmail"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/codeExpiresText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/codeExpiresText"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center|top"
-        android:text="@string/codeExpiration"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                android:textAllCaps="false"
+                android:textColor="@color/auth_white"
+                android:textSize="16sp"
+                app:backgroundTint="@color/auth_deep"
+                app:cornerRadius="32dp"/>
+            <TextView
+                android:id="@+id/codeExpiresText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:drawableStart="@drawable/auth_ic_shield"
+                android:drawablePadding="12dp"
+                android:background="@drawable/verification_info_background"
+                android:gravity="center_vertical"
+                android:text="@string/codeExpiration"
+                android:textColor="@color/auth_muted"
+                android:textSize="12sp"
+                android:lineSpacingExtra="2dp"/>
+        </LinearLayout>
+</androidx.core.widget.NestedScrollView>
