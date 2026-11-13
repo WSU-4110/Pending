@@ -474,6 +474,22 @@ public class MainActivity extends AppCompatActivity {
     private void showVerifyEmailScreen(String email) {
         setContentView(R.layout.verify_email);
 
+        // Resize only this screen above the keyboard, then restore the shared Activity window.
+        final int previousSoftInputMode = getWindow().getAttributes().softInputMode;
+        getWindow().setSoftInputMode((previousSoftInputMode
+                & ~android.view.WindowManager.LayoutParams.SOFT_INPUT_MASK_ADJUST)
+                | android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        findViewById(R.id.verificationScroll).addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View view) { }
+
+            @Override
+            public void onViewDetachedFromWindow(View view) {
+                getWindow().setSoftInputMode(previousSoftInputMode);
+                view.removeOnAttachStateChangeListener(this);
+            }
+        });
+
         TextView recipient = findViewById(R.id.userEmailText);
         if (recipient != null) recipient.setText(email);
 

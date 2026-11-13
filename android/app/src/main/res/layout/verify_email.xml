@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/verificationScroll"
+    android:fillViewport="true"
+    android:isScrollContainer="true"
+    android:clipToPadding="false"
     android:background="@color/auth_background"
     android:theme="@style/ThemeOverlay.PendingAuth">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
-        android:clipToPadding="false"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/confirmEmailVerificationButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -127,46 +122,38 @@
                 app:cornerRadius="28dp"
                 app:strokeColor="@color/auth_pink"
                 app:strokeWidth="1dp"/>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/confirmEmailVerificationButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="56dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/verifyEmail"
-        android:textAllCaps="false"
-        android:textColor="@color/auth_white"
-        android:textSize="16sp"
-        app:backgroundTint="@color/auth_deep"
-        app:cornerRadius="32dp"
-        app:layout_constraintBottom_toTopOf="@id/codeExpiresText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:id="@+id/codeExpiresText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="14dp"
-        android:paddingBottom="14dp"
-        android:drawableStart="@drawable/auth_ic_shield"
-        android:drawablePadding="12dp"
-        android:background="@drawable/verification_info_background"
-        android:gravity="center_vertical"
-        android:text="@string/codeExpiration"
-        android:textColor="@color/auth_muted"
-        android:textSize="12sp"
-        android:lineSpacingExtra="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_weight="1"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirmEmailVerificationButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:layout_marginBottom="12dp"
+                android:text="@string/verifyEmail"
+                android:textAllCaps="false"
+                android:textColor="@color/auth_white"
+                android:textSize="16sp"
+                app:backgroundTint="@color/auth_deep"
+                app:cornerRadius="32dp"/>
+            <TextView
+                android:id="@+id/codeExpiresText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:drawableStart="@drawable/auth_ic_shield"
+                android:drawablePadding="12dp"
+                android:background="@drawable/verification_info_background"
+                android:gravity="center_vertical"
+                android:text="@string/codeExpiration"
+                android:textColor="@color/auth_muted"
+                android:textSize="12sp"
+                android:lineSpacingExtra="2dp"/>
+        </LinearLayout>
+</androidx.core.widget.NestedScrollView>
