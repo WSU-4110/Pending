@@ -154,6 +154,13 @@ public class PendingRepository {
 
     public void createItem(String title, String waitingOn, String startDate, String expectedResponseDate,
                            Integer status, String notes, Integer priority, NetworkCallback<PendingItem> callback) {
+        createItem(title, waitingOn, startDate, expectedResponseDate, status, notes, priority,
+                com.pending.model.TaskCategory.Other, callback);
+    }
+
+    public void createItem(String title, String waitingOn, String startDate, String expectedResponseDate,
+                           Integer status, String notes, Integer priority, com.pending.model.TaskCategory category,
+                           NetworkCallback<PendingItem> callback) {
 
         Long ownerId = 8L;
         if (sessionManager != null && sessionManager.getUserId() != null && sessionManager.getUserId() > 0) {
@@ -162,6 +169,7 @@ public class PendingRepository {
 
         PendingItem item = new PendingItem(ownerId, title, waitingOn, startDate, expectedResponseDate, status, notes, priority);
 
+        item.setCategory(category);
         apiService.createItem(item).enqueue(new Callback<PendingItem>() {
             @Override
             public void onResponse(Call<PendingItem> call, Response<PendingItem> response) {

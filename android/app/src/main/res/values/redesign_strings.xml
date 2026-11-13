@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="redesign_brand">Pending</string>
+    <string name="redesign_stages">Waiting   /   Reminded   /   Complete</string>
+    <string name="redesign_welcome">Every follow-up\nin sight.</string>
+    <string name="redesign_intro">Track what you’re waiting on. Set a reminder and close the loop.</string>
+    <string name="redesign_register">Create Account</string>
+    <string name="redesign_login">Log In</string>
+    <string name="redesign_back">Go back</string>
+    <string name="redesign_welcome_back">Welcome back.</string>
+    <string name="redesign_login_intro">Log in to see what’s waiting for you.</string>
+    <string name="redesign_email">Email address</string>
+    <string name="redesign_password">Password</string>
+    <string name="redesign_forgot">Forgot password?</string>
+    <string name="redesign_login_register">New to Pending?  Create account</string>
+    <string name="redesign_register_intro">Your follow-ups, together in one place.</string>
+    <string name="redesign_first">First name</string>
+    <string name="redesign_last">Last name</string>
+    <string name="redesign_req">Password requirements</string>
+    <string name="redesign_rules">○  13 or more characters\n○  1 uppercase letter\n○  1 special character</string>
+    <string name="redesign_confirm">Confirm password</string>
+    <string name="redesign_terms">By continuing, you agree to Pending’s Terms and Privacy Policy.</string>
+    <string name="redesign_registered">Already registered?  Log in</string>
+    <string name="redesign_new_task">New pending task</string>
+    <string name="redesign_title">Title</string>
+    <string name="redesign_title_hint">What are you waiting for?</string>
+    <string name="redesign_waiting">Waiting on</string>
+    <string name="redesign_waiting_hint">Person or organization</string>
+    <string name="redesign_details">Details</string>
+    <string name="redesign_details_hint">Add a note</string>
+    <string name="redesign_timing">Timing</string>
+    <string name="redesign_priority">Priority</string>
+    <string name="redesign_expected">Expected response</string>
+    <string name="redesign_date_hint">Choose date and time</string>
+    <string name="redesign_reminder">Reminder</string>
+    <string name="redesign_remind_hint">Choose reminder date and time</string>
+    <string name="redesign_save">Save pending task</string>
+    <string name="redesign_delete">Delete task</string>
+    <string name="redesign_cancel">Cancel</string>
+    <string name="redesign_edit_task">Edit task</string>
+    <string name="task_category">Category</string>
+</resources>

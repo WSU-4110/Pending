@@ -56,6 +56,11 @@ public class CreateTaskActivity extends AppCompatActivity {
         EditText details = findViewById(R.id.taskDetailsInput);
         TextView reminderInput = findViewById(R.id.taskReminderInput);
 
+        Spinner categorySpinner = findViewById(R.id.spinnerCategory);
+        com.pending.model.TaskCategory[] categories = com.pending.model.TaskCategory.values();
+        categorySpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories));
+        categorySpinner.setSelection(com.pending.model.TaskCategory.Other.ordinal());
+
         Spinner prioritySpinner = findViewById(R.id.spinnerPriority);
         String[] priorityOptions = new String[]{"Low", "Medium", "High"};
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(
@@ -76,6 +81,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             existingTaskId = intent.getLongExtra("TASK_ID", -1);
             existingTask = new com.google.gson.Gson().fromJson(
                     intent.getStringExtra("TASK_SNAPSHOT"), PendingItem.class);
+            if (existingTask != null) categorySpinner.setSelection(existingTask.getCategory().ordinal());
             waitingOn.setText(existingTask == null
                     ? intent.getStringExtra("TASK_WAITING_ON") : existingTask.getWaitingOn());
             title.setText(intent.getStringExtra("TASK_TITLE"));
@@ -98,6 +104,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 }
             }
 
+            ((TextView) findViewById(R.id.taskFormHeading)).setText(R.string.redesign_edit_task);
             save.setText("Update Task");
 
             if (delete != null) {
@@ -193,6 +200,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 toUpdate.setWaitingOn(waiting);
                 toUpdate.setExpectedResponseDate(serverDate);
                 if (existingTask == null) toUpdate.setStatus(0);
+                toUpdate.setCategory((com.pending.model.TaskCategory) categorySpinner.getSelectedItem());
                 toUpdate.setPriority(selectedPriority);
 
 
@@ -214,7 +222,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             } else {
                 String startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
 
-                repository.createItem(t, waiting, startDate, serverDate, 0, n, selectedPriority, new NetworkCallback<PendingItem>() {
+                repository.createItem(t, waiting, startDate, serverDate, 0, n, selectedPriority, (com.pending.model.TaskCategory) categorySpinner.getSelectedItem(), new NetworkCallback<PendingItem>() {
                     @Override
                     public void onSuccess(PendingItem result) {
                         save.setEnabled(true);

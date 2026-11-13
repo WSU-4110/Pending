@@ -1,14 +1,14 @@
 <?xml version="1.0" ?>
 <resources>
-    <color name="settings_sage">#769C76</color>
-    <color name="settings_ink">#203D35</color>
-    <color name="settings_deep">#2B806B</color>
-    <color name="settings_mint">#E6EFE7</color>
-    <color name="settings_soft_sage">#DEE9DB</color>
-    <color name="settings_pink">#FCE3E6</color>
+    <color name="settings_sage">@color/pastel_sage</color>
+    <color name="settings_ink">@color/pastel_ink</color>
+    <color name="settings_deep">@color/pastel_action</color>
+    <color name="settings_mint">@color/pastel_mint</color>
+    <color name="settings_soft_sage">@color/pastel_soft</color>
+    <color name="settings_pink">@color/pastel_blush</color>
     <color name="settings_accent_pink">#EF9FAF</color>
-    <color name="settings_background">#FCF7F6</color>
-    <color name="settings_white">#FFFFFF</color>
-    <color name="settings_muted">#64736E</color>
-    <color name="settings_error">#D94D5C</color>
+    <color name="settings_background">@color/pastel_background</color>
+    <color name="settings_white">@color/pastel_white</color>
+    <color name="settings_muted">@color/pastel_muted</color>
+    <color name="settings_error">#F44336</color>
 </resources>

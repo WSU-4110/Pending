@@ -24,10 +24,10 @@ public class PendingProgressRingView extends View {
     super(c, a);
     TypedArray colors = c.obtainStyledAttributes(a, R.styleable.PendingProgressRingView);
     try {
-      trackColor = colors.getColor(R.styleable.PendingProgressRingView_ringTrackColor, 0xFFF9DFE5);
-      startColor = colors.getColor(R.styleable.PendingProgressRingView_ringStartColor, 0xFFB5CBAA);
-      endColor = colors.getColor(R.styleable.PendingProgressRingView_ringEndColor, 0xFF508661);
-      textColor = colors.getColor(R.styleable.PendingProgressRingView_ringTextColor, 0xFF14291D);
+      trackColor = colors.getColor(R.styleable.PendingProgressRingView_ringTrackColor, c.getColor(R.color.pastel_blush));
+      startColor = colors.getColor(R.styleable.PendingProgressRingView_ringStartColor, c.getColor(R.color.pastel_sage));
+      endColor = colors.getColor(R.styleable.PendingProgressRingView_ringEndColor, c.getColor(R.color.pastel_action));
+      textColor = colors.getColor(R.styleable.PendingProgressRingView_ringTextColor, c.getColor(R.color.pastel_ink));
     } finally {
       colors.recycle();
     }

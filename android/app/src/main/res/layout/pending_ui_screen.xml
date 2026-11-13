@@ -1,128 +1,102 @@
 <?xml version="1.0" ?>
-<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/pendingUiRoot" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#FCF8F6">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="#FCF8F6">
-        
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/pendingUiRoot" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/pending_wave_canvas">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:background="@android:color/transparent">
+
 
         <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:paddingBottom="72dp">
-                
+
 
                 <LinearLayout android:id="@+id/pendingUiBrand" android:layout_width="match_parent" android:layout_height="52dp" android:gravity="center_vertical" android:orientation="horizontal">
-                    <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_logo" android:importantForAccessibility="no"/>
+                    <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/redesign_brand_mark" android:importantForAccessibility="no"/>
                     <TextView android:id="@+id/pendingUiBrandName" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pending" android:textSize="23sp" android:layout_marginStart="8dp" android:textStyle="bold"/>
                 </LinearLayout>
-                
+
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
                     <TextView android:id="@+id/pendingUiGreeting" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="25sp" android:layout_weight="1" android:fontFamily="sans-serif-medium"/>
                     <ImageButton android:id="@+id/pendingUiBell" android:layout_width="48dp" android:layout_height="48dp" android:padding="12dp" android:background="@drawable/pending_ui_white" android:elevation="3dp" android:src="@drawable/pending_ui_ic_bell" android:contentDescription="Notifications unavailable"/>
                 </LinearLayout>
-                
+
 
                 <TextView android:id="@+id/pendingUiSubtitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Here’s what’s waiting on you today." android:textSize="15sp" android:layout_marginTop="4dp" android:layout_marginBottom="20dp"/>
-                
 
-                <EditText android:id="@+id/pendingUiSearch" android:layout_width="match_parent" android:layout_height="52dp" android:background="@drawable/pending_ui_white" android:elevation="2dp" android:padding="14dp" android:drawableStart="@drawable/pending_ui_ic_search" android:drawablePadding="10dp" android:hint="Search your tasks…" android:textColor="#14291D" android:textColorHint="#626760" android:textSize="15sp" android:singleLine="true" android:inputType="text"/>
-                
+
+                <EditText android:id="@+id/pendingUiSearch" android:layout_width="match_parent" android:layout_height="52dp" android:background="@drawable/pending_ui_white" android:elevation="2dp" android:padding="14dp" android:drawableStart="@drawable/pending_ui_ic_search" android:drawablePadding="10dp" android:hint="Search your tasks…" android:textColor="@color/pastel_ink" android:textColorHint="@color/pastel_muted" android:textSize="15sp" android:singleLine="true" android:inputType="text"/>
+
 
                 <LinearLayout android:id="@+id/pendingUiStats" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:orientation="horizontal">
-                    <LinearLayout android:id="@+id/pendingUiOpen" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="126dp" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_sage">
+                    <LinearLayout android:id="@+id/pendingUiOpen" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="106dp" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_sage">
                         <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_calendar" android:importantForAccessibility="no"/>
                         <TextView android:id="@+id/pendingUiOpenCount" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textSize="32sp" android:textStyle="bold"/>
                         <TextView android:id="@+id/pendingUiOpenLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Open tasks" android:textSize="16sp"/>
                     </LinearLayout>
-                    <LinearLayout android:id="@+id/pendingUiDone" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="126dp" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_pink">
+                    <LinearLayout android:id="@+id/pendingUiDone" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="106dp" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_pink">
                         <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_check" android:importantForAccessibility="no"/>
                         <TextView android:id="@+id/pendingUiDoneCount" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textSize="32sp" android:textStyle="bold"/>
                         <TextView android:id="@+id/pendingUiDoneLabel" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Completed" android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>
-                
+
 
                 <LinearLayout android:id="@+id/pendingUiWeek" android:layout_width="match_parent" android:layout_height="72dp" android:orientation="horizontal"/>
-                
+
 
                 <HorizontalScrollView android:id="@+id/pendingUiFiltersScroll" android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none">
                     <LinearLayout android:id="@+id/pendingUiFilters" android:layout_width="wrap_content" android:layout_height="52dp" android:gravity="center_vertical" android:orientation="horizontal"/>
                 </HorizontalScrollView>
-                
 
-                <LinearLayout android:id="@+id/pendingUiCategories" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                        <LinearLayout android:layout_width="0dp" android:layout_height="154dp" android:layout_weight="1" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_sage">
-                            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_work" android:importantForAccessibility="no"/>
-                            <TextView android:id="@+id/pendingUiCategoryWork" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Work" android:textSize="19sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                            <TextView android:id="@+id/pendingUiCategoryStateWork" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="13sp"/>
-                            <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" android:layout_marginTop="10dp" android:progress="0" android:progressBackgroundTint="#FFFFFF" android:contentDescription="Category progress unavailable"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="154dp" android:layout_weight="1" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_pink">
-                            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_person" android:importantForAccessibility="no"/>
-                            <TextView android:id="@+id/pendingUiCategoryPersonal" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Personal" android:textSize="19sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                            <TextView android:id="@+id/pendingUiCategoryStatePersonal" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="13sp"/>
-                            <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" android:layout_marginTop="10dp" android:progress="0" android:progressBackgroundTint="#FFFFFF" android:contentDescription="Category progress unavailable"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-                        <LinearLayout android:layout_width="0dp" android:layout_height="154dp" android:layout_weight="1" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_pink">
-                            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_finance" android:importantForAccessibility="no"/>
-                            <TextView android:id="@+id/pendingUiCategoryFinance" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Finance" android:textSize="19sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                            <TextView android:id="@+id/pendingUiCategoryStateFinance" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="13sp"/>
-                            <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" android:layout_marginTop="10dp" android:progress="0" android:progressBackgroundTint="#FFFFFF" android:contentDescription="Category progress unavailable"/>
-                        </LinearLayout>
-                        <LinearLayout android:layout_width="0dp" android:layout_height="154dp" android:layout_weight="1" android:layout_margin="6dp" android:padding="16dp" android:orientation="vertical" android:background="@drawable/pending_ui_sage">
-                            <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_layers" android:importantForAccessibility="no"/>
-                            <TextView android:id="@+id/pendingUiCategoryOther" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Other" android:textSize="19sp" android:textStyle="bold" android:layout_marginTop="8dp"/>
-                            <TextView android:id="@+id/pendingUiCategoryStateOther" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Not available" android:textSize="13sp"/>
-                            <ProgressBar style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="10dp" android:layout_marginTop="10dp" android:progress="0" android:progressBackgroundTint="#FFFFFF" android:contentDescription="Category progress unavailable"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:gravity="center_vertical" android:orientation="horizontal">
-                    <TextView android:id="@+id/pendingUiListTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Today’s tasks" android:textSize="18sp" android:textStyle="bold" android:layout_weight="1"/>
-                    <TextView android:id="@+id/pendingUiSeeAll" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See all" android:textSize="15sp" android:minHeight="48dp" android:gravity="center" android:textColor="#C66A83"/>
-                </LinearLayout>
-                
-
-                <TextView android:id="@+id/pendingUiState" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Loading tasks…" android:textSize="15sp" android:padding="12dp"/>
-                
-
-                <androidx.recyclerview.widget.RecyclerView android:id="@+id/pendingUiList" android:layout_width="match_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false"/>
-                
 
                 <LinearLayout android:id="@+id/pendingUiProgressSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="12dp">
-                    <TextView android:id="@+id/pendingUiProgressHeading" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Task progress" android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="10dp"/>
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="110dp" android:padding="12dp" android:gravity="center_vertical" android:background="@drawable/pending_ui_white" android:orientation="horizontal">
-                        <com.pending.ui.PendingProgressRingView android:id="@+id/pendingUiRing" android:layout_width="80dp" android:layout_height="80dp"/>
+                    <TextView android:id="@+id/pendingUiProgressHeading" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Weekly progress" android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="10dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="98dp" android:padding="12dp" android:gravity="center_vertical" android:background="@drawable/pending_ui_badge_sage" android:orientation="horizontal">
+                        <com.pending.ui.PendingProgressRingView android:id="@+id/pendingUiRing" android:layout_width="70dp" android:layout_height="70dp" app:ringTrackColor="@color/pastel_blush" app:ringStartColor="@color/pastel_sage" app:ringEndColor="@color/pastel_action" app:ringTextColor="@color/pastel_ink"/>
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
                             <TextView android:id="@+id/pendingUiWeekTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="This week" android:textSize="17sp" android:textStyle="bold"/>
                             <TextView android:id="@+id/pendingUiWeekProgress" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="" android:textSize="13sp"/>
-                            <ProgressBar android:progressDrawable="@drawable/pending_ui_progress" android:minHeight="12dp" android:maxHeight="12dp" android:id="@+id/pendingUiBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="8dp" android:progressTint="#709C76" android:progressBackgroundTint="#FBE4EA"/>
+                            <ProgressBar android:progressDrawable="@drawable/pending_ui_progress" android:minHeight="12dp" android:maxHeight="12dp" android:id="@+id/pendingUiBar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="12dp" android:layout_marginTop="8dp" android:progressTint="@color/pastel_action" android:progressBackgroundTint="@color/pastel_blush"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-                
+
+
+                <TextView style="@style/PendingUiSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Categories" android:layout_marginTop="14dp" android:layout_marginBottom="8dp"/>
+                <HorizontalScrollView android:id="@+id/pendingUiCategories" android:layout_width="match_parent" android:layout_height="wrap_content" android:scrollbars="none">
+                    <LinearLayout android:id="@+id/categoryChoices" android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal"/>
+                </HorizontalScrollView>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="56dp" android:gravity="center_vertical" android:orientation="horizontal">
+                    <TextView android:id="@+id/pendingUiListTitle" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Today’s tasks" android:textSize="18sp" android:textStyle="bold" android:layout_weight="1"/>
+                    <TextView android:id="@+id/pendingUiSeeAll" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="See all" android:textSize="15sp" android:minHeight="48dp" android:gravity="center" android:textColor="#A35370"/>
+                </LinearLayout>
+
+
+                <TextView android:id="@+id/pendingUiState" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Loading tasks…" android:textSize="15sp" android:padding="12dp"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/pendingUiList" android:layout_width="match_parent" android:layout_height="wrap_content" android:nestedScrollingEnabled="false"/>
+
 
             </LinearLayout>
         </ScrollView>
-        
 
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="76dp" android:gravity="center" android:padding="8dp" android:background="#FFFCFA" android:orientation="horizontal">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="68dp" android:gravity="center" android:padding="8dp" android:background="@color/pastel_white" android:orientation="horizontal">
             <LinearLayout android:id="@+id/pendingUiNavPending" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:background="@drawable/pending_ui_badge_sage" android:contentDescription="Pending">
                 <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_home" android:importantForAccessibility="no"/>
                 <TextView android:id="@+id/pendingUiNavLabelPending" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pending" android:textSize="12sp"/>
             </LinearLayout>
-            <LinearLayout android:id="@+id/pendingUiNavCompleted" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:background="@drawable/pending_ui_canvas" android:contentDescription="Completed">
+            <LinearLayout android:id="@+id/pendingUiNavCompleted" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:background="@android:color/transparent" android:contentDescription="Completed">
                 <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_check" android:importantForAccessibility="no"/>
                 <TextView android:id="@+id/pendingUiNavLabelCompleted" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Completed" android:textSize="12sp"/>
             </LinearLayout>
-            <LinearLayout android:id="@+id/pendingUiNavSettings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:background="@drawable/pending_ui_canvas" android:contentDescription="Settings">
+            <LinearLayout android:id="@+id/pendingUiNavSettings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center" android:orientation="vertical" android:background="@android:color/transparent" android:contentDescription="Settings">
                 <ImageView android:layout_width="28dp" android:layout_height="28dp" android:src="@drawable/pending_ui_ic_settings" android:importantForAccessibility="no"/>
                 <TextView android:id="@+id/pendingUiNavLabelSettings" style="@style/PendingUiText" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Settings" android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <FrameLayout android:layout_width="match_parent" android:layout_height="64dp" android:layout_gravity="bottom" android:layout_marginBottom="76dp">
-        <ImageButton android:id="@+id/pendingUiAdd" android:layout_width="56dp" android:layout_height="56dp" android:layout_gravity="end|center_vertical" android:layout_marginEnd="20dp" android:padding="16dp" android:background="@drawable/pending_ui_fab" app:tint="#FFFFFF" android:elevation="4dp" android:src="@drawable/pending_ui_ic_plus" android:contentDescription="Create task"/>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="64dp" android:layout_gravity="bottom" android:layout_marginBottom="68dp">
+        <ImageButton android:id="@+id/pendingUiAdd" android:layout_width="56dp" android:layout_height="56dp" android:layout_gravity="end|center_vertical" android:layout_marginEnd="20dp" android:padding="16dp" android:background="@drawable/pending_ui_fab" app:tint="@color/pastel_ink" android:elevation="4dp" android:src="@drawable/pending_ui_ic_plus" android:contentDescription="Create task"/>
     </FrameLayout>
 </FrameLayout>

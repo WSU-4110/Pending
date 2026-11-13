@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/task_details_background"
+    android:background="@drawable/pending_wave_canvas"
     android:padding="24dp"
     android:theme="@style/ThemeOverlay.PendingTaskDetails">
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_height="48dp"
             android:padding="12dp"
             android:background="@drawable/task_details_header_button"
-            android:elevation="0dp"
+            android:elevation="1dp"
             android:src="@drawable/task_details_ic_back"
             android:contentDescription="Back"/>
         <TextView
@@ -38,7 +38,7 @@
             android:layout_height="48dp"
             android:padding="12dp"
             android:background="@drawable/task_details_header_button"
-            android:elevation="0dp"
+            android:elevation="1dp"
             android:src="@drawable/task_details_ic_edit"
             android:contentDescription="Edit task"/>
     </LinearLayout>
@@ -61,102 +61,68 @@
                 android:text="Loading task…"
                 android:textSize="16sp"
                 android:textColor="@color/task_details_muted"/>
-            <TextView
-                android:id="@+id/detailsTitleLabel" style="@style/TaskDetailsText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Task title"
-                android:textSize="12sp"
-                android:textColor="@color/task_details_muted"/>
-            <TextView
-                android:id="@+id/detailsTitle" style="@style/TaskDetailsText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginTop="6dp"
-                android:fontFamily="sans-serif-medium"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="16dp" android:background="@drawable/task_details_pink">
                 <TextView
-                    android:id="@+id/detailsPriority" style="@style/TaskDetailsText"
-                    android:layout_width="0dp"
+                    android:id="@+id/detailsTitleLabel" style="@style/TaskDetailsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Task title"
+                    android:textSize="12sp"
+                    android:textColor="@color/task_details_muted"/>
+                <TextView
+                    android:id="@+id/detailsTitle" style="@style/TaskDetailsText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textSize="13sp"
-                    android:background="@drawable/task_details_mint"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center_vertical"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"/>
-                <TextView
-                    android:id="@+id/detailsStatus" style="@style/TaskDetailsText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textSize="13sp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/task_details_pink"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center_vertical"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="@drawable/task_details_white"
-                android:elevation="0dp"
-                android:minHeight="144dp">
-                <FrameLayout
-                    android:layout_width="112dp"
-                    android:layout_height="112dp">
-                    <com.pending.ui.PendingProgressRingView
-                        android:id="@+id/detailsRing"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:ringTrackColor="@color/task_details_pink"
-                        app:ringStartColor="@color/task_details_sage"
-                        app:ringEndColor="@color/task_details_deep"
-                        app:ringTextColor="@color/task_details_ink"/>
-                </FrameLayout>
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="sans-serif-medium"/>
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="12dp">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
                     <TextView
-                        android:id="@+id/detailsProgressTitle" style="@style/TaskDetailsText"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/detailsPriority" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Task progress"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:fontFamily="sans-serif-medium"/>
-                    <TextView
-                        android:id="@+id/detailsProgressMessage" style="@style/TaskDetailsText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Not available. No step progress is recorded."
+                        android:text=""
                         android:textSize="13sp"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/task_details_muted"/>
+                        android:background="@drawable/task_details_mint"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
+                    <TextView
+                        android:id="@+id/detailsStatus" style="@style/TaskDetailsText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textSize="13sp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/task_details_pink"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_vertical"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="14dp" android:padding="16dp" android:orientation="vertical"
+                android:background="@drawable/task_details_white">
+                <TextView style="@style/TaskDetailsText" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:text="Waiting on" android:drawableStart="@drawable/pending_ui_ic_person" android:drawablePadding="8dp" android:gravity="center_vertical"/>
+                <TextView android:id="@+id/detailsWaitingOn" style="@style/TaskDetailsText" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_marginStart="32dp" android:layout_marginTop="4dp"
+                    android:textColor="@color/task_details_muted"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -288,8 +254,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/task_details_button"
-        app:backgroundTint="@color/task_details_deep"
-        android:textColor="@color/task_details_white"
+        app:backgroundTint="@color/pastel_sage"
+        android:textColor="@color/pastel_ink"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:text="✓  Mark as completed"

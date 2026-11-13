@@ -51,10 +51,13 @@ public class PendingController {
         if(item.getStatus() == null) item.setStatus(0);
         if(item.getPriority() == null) item.setPriority(0);
 
+        item.setCategory(item.getCategory());
+        item.setResolvedAt(item.getStatus() >= 3 ? item.getUpdatedAt() : null);
         PendingItem savedItem = pendingItemRepository.save(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedItem);
     }
 
+    @org.springframework.transaction.annotation.Transactional
     @PutMapping("/items/{id}")
     public ResponseEntity<PendingItem> updateItem(@PathVariable Long id,
                                                   @Valid @RequestBody PendingItem updatedItem,
@@ -66,18 +69,20 @@ public class PendingController {
                     item.setWaitingOn(updatedItem.getWaitingOn());
                     item.setStartDate(updatedItem.getStartDate());
                     item.setExpectedResponseDate(updatedItem.getExpectedResponseDate());
+                    boolean wasCompleted = item.getStatus() != null && item.getStatus() >= 3;
+                    if (updatedItem.hasCategory()) item.setCategory(updatedItem.getCategory());
                     item.setStatus(updatedItem.getStatus());
                     item.setNotes(updatedItem.getNotes());
                     item.setPriority(updatedItem.getPriority());
-                    item.setUpdatedAt(updatedItem.getUpdatedAt());
+                    item.setUpdatedAt(OffsetDateTime.now());
                     item.setDeletedAt(updatedItem.getDeletedAt());
 
                     // If status is updated, mark as resolved
                     if(updatedItem.getStatus() != null && updatedItem.getStatus() >= 3) {
-                        item.setResolvedAt(OffsetDateTime.now());
+                        if (!wasCompleted) item.setResolvedAt(item.getUpdatedAt());
                         reminderRepository.deleteByTaskId(id);
                     }else{
-                        item.setResolvedAt(updatedItem.getResolvedAt());
+                        item.setResolvedAt(null);
                     }
 
                     return ResponseEntity.ok(pendingItemRepository.save(item));

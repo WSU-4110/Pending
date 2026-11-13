@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/settings_background"
+    android:background="@drawable/pending_wave_canvas"
     android:id="@+id/settingsRoot">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,13 +12,13 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="18dp"
-        android:background="@color/settings_background">
+        android:background="@android:color/transparent">
         <TextView
             android:id="@+id/pageTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" style="@style/SettingsTitle"
             android:text="@string/settings_title"
-            android:textSize="22sp"
+            android:textSize="26sp"
             android:fontFamily="sans-serif-medium"
             android:accessibilityHeading="true"/>
         <TextView
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@color/settings_soft_sage"
+                app:cardBackgroundColor="@color/settings_mint"
                 app:strokeWidth="0dp"
                 app:cardElevation="0dp">
                 <LinearLayout
@@ -148,7 +148,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="48dp"
-                        android:background="@color/settings_mint"/>
+                        android:background="@color/pastel_blush"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="48dp"
-                        android:background="@color/settings_mint"/>
+                        android:background="@color/pastel_blush"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="48dp"
-                        android:background="@color/settings_mint"/>
+                        android:background="@color/pastel_blush"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -405,7 +405,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/settings_logout"
                 android:textColor="@color/settings_ink"
-                app:backgroundTint="@color/settings_accent_pink"
+                app:backgroundTint="@color/pastel_blush"
                 app:cornerRadius="28dp"
                 android:textAllCaps="false"/>
             <TextView

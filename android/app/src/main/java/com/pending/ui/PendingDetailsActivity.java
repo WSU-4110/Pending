@@ -61,7 +61,6 @@ public class PendingDetailsActivity extends AppCompatActivity {
                           save(copy, null);
                         })
                     .show());
-    ((PendingProgressRingView) findViewById(R.id.detailsRing)).setUnavailable();
     enable(false);
     fetch();
   }
@@ -107,9 +106,13 @@ public class PendingDetailsActivity extends AppCompatActivity {
   private void render() {
     text(R.id.detailsState).setVisibility(View.GONE);
     text(R.id.detailsTitle).setText(task.getTitle());
+    text(R.id.detailsWaitingOn).setText(android.text.TextUtils.isEmpty(task.getWaitingOn())
+        ? "Unspecified" : task.getWaitingOn());
+    text(R.id.detailsCategory).setText(task.getCategory().name());
     text(R.id.detailsPriority)
         .setText(
-            task.getPriority() == null ? "Priority unavailable" : "Priority " + task.getPriority());
+            task.getPriority() == null ? "Priority unavailable" :
+                task.getPriority() == 2 ? "High priority" : task.getPriority() == 1 ? "Medium priority" : "Low priority");
     text(R.id.detailsStatus)
         .setText(PendingTaskPresentation.completed(task) ? "Completed" : "Open");
     text(R.id.detailsDue)

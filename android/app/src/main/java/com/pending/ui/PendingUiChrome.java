@@ -12,7 +12,8 @@ final class PendingUiChrome {
   PendingUiChrome(Activity activity) {
     window=activity.getWindow(); status=window.getStatusBarColor();
     navigation=window.getNavigationBarColor(); flags=window.getDecorView().getSystemUiVisibility();
-    window.setStatusBarColor(0xFFFCF8F6); window.setNavigationBarColor(0xFFFCF8F6);
+    int canvas = activity.getColor(com.pending.R.color.pastel_background);
+    window.setStatusBarColor(canvas); window.setNavigationBarColor(canvas);
     int light=flags | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
     if(Build.VERSION.SDK_INT>=26) light |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
     window.getDecorView().setSystemUiVisibility(light);

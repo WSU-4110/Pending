@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/nav_pending"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/pending_ui_ic_home"
         android:title="@string/pendingStr" />
 
     <item
         android:id="@+id/nav_completed"
-        android:icon="@android:drawable/checkbox_on_background"
+        android:icon="@drawable/pending_ui_ic_check"
         android:title="@string/Completed" />
 
     <item
         android:id="@+id/nav_settings"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/pending_ui_ic_settings"
         android:title="@string/Settings" />
 
 </menu>
