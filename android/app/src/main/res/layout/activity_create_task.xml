@@ -1,191 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="#F7FAF8">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="‹   New pending task"
-            android:textSize="20sp"
-            android:textColor="#203D35"
-            android:paddingBottom="12dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Capture what you're waiting on"
-            android:textSize="14sp"
-            android:textColor="#64736E" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="14sp"
-            android:textColor="#203D35"
-            android:layout_marginTop="28dp" />
-
-        <EditText
-            android:id="@+id/taskTitleInput"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="Client proposal response"
-            android:inputType="textCapSentences"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:backgroundTint="#2B806B" />
-
-        <EditText
-            android:id="@+id/taskWaitingOnInput"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="Waiting on (person or organization)"
-            android:inputType="textCapSentences"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:backgroundTint="#2B806B" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Expected response date"
-            android:textSize="14sp"
-            android:textColor="#203D35"
-            android:layout_marginTop="24dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Priority"
-            android:textSize="14sp"
-            android:textColor="#203D35"
-            android:layout_marginTop="24dp" />
-
-        <Spinner
-            android:id="@+id/spinnerPriority"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:paddingStart="4dp"
-            android:paddingEnd="12dp"
-            android:backgroundTint="#2B806B"
-            android:spinnerMode="dropdown" />
-
-        <EditText
-            android:id="@+id/taskDateInput"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:hint="Select expected response date"
-            android:inputType="none"
-            android:focusable="false"
-            android:clickable="true"
-            android:drawableStart="@android:drawable/ic_menu_my_calendar"
-            android:drawablePadding="12dp"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:backgroundTint="#2B806B" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Details"
-            android:textSize="14sp"
-            android:textColor="#203D35"
-            android:layout_marginTop="24dp" />
-
-        <EditText
-            android:id="@+id/taskDetailsInput"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:hint="What are you waiting on?"
-            android:inputType="textMultiLine|textCapSentences"
-            android:gravity="top"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:backgroundTint="#2B806B" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reminder"
-            android:textSize="14sp"
-            android:textColor="#203D35"
-            android:layout_marginTop="24dp" />
-
+    android:background="@color/auth_background"
+    android:fitsSystemWindows="true"
+    android:theme="@style/ThemeOverlay.PendingAuth"
+    app:statusBarBackground="@color/auth_ink">
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:scrollbars="none">
         <LinearLayout
-            android:id="@+id/reminderContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#EAF4EF"
-            android:padding="16dp"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="24dp"
+            android:focusableInTouchMode="true">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:src="@drawable/redesign_brand_mark"
+                    android:importantForAccessibility="no" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/RedesignLabel"
+                    android:text="@string/redesign_brand"
+                    android:layout_marginStart="9dp"
+                    android:textSize="22sp"
+                    android:letterSpacing="-0.03" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REMINDER"
-                android:textSize="12sp"
-                android:textColor="#648278" />
+                style="@style/RedesignTitle"
+                android:text="@string/redesign_new_task"
+                android:id="@+id/taskFormHeading"
+                android:layout_marginTop="16dp" />
 
-            <TextView
-                android:id="@+id/taskReminderInput"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tap to choose reminder date and time"
-                android:textSize="14sp"
-                android:textColor="#203D35"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:clickable="true"
-                android:focusable="true" />
+                style="@style/RedesignCard"
+                android:layout_marginTop="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_title"
+                        android:labelFor="@id/taskTitleInput"
+                        android:layout_marginTop="0dp" />
 
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/taskTitleInput"
+                        style="@style/RedesignTaskField"
+                        android:hint="@string/redesign_title_hint"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textCapSentences" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_waiting"
+                        android:labelFor="@id/taskWaitingOnInput"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/taskWaitingOnInput"
+                        style="@style/RedesignTaskField"
+                        android:hint="@string/redesign_waiting_hint"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textCapSentences" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_details"
+                        android:labelFor="@id/taskDetailsInput"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/taskDetailsInput"
+                        style="@style/RedesignTaskField"
+                        android:hint="@string/redesign_details_hint"
+                        android:layout_marginTop="5dp"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:gravity="top|start"
+                        android:minHeight="76dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RedesignCard"
+                android:layout_marginTop="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_timing"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_priority"
+                        android:labelFor="@id/spinnerPriority"
+                        android:layout_marginTop="12dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/redesign_field_background"
+                        android:layout_marginTop="5dp">
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinnerPriority"
+                            android:minHeight="52dp"
+                            android:spinnerMode="dropdown"
+                            android:paddingStart="6dp" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_expected"
+                        android:labelFor="@id/taskDateInput"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/taskDateInput"
+                        style="@style/RedesignTaskField"
+                        android:hint="@string/redesign_date_hint"
+                        android:layout_marginTop="5dp"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:drawableStart="@drawable/pending_ui_ic_calendar"
+                        android:drawablePadding="10dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/RedesignLabel"
+                        android:text="@string/redesign_reminder"
+                        android:labelFor="@id/taskReminderInput"
+                        android:layout_marginTop="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/reminderContainer"
+                        android:background="@drawable/pending_ui_badge_pink"
+                        android:layout_marginTop="5dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/RedesignLabel"
+                            android:text="@string/redesign_remind_hint"
+                            android:id="@+id/taskReminderInput"
+                            android:minHeight="54dp"
+                            android:gravity="center_vertical"
+                            android:padding="12dp"
+                            android:drawableStart="@drawable/pending_ui_ic_bell"
+                            android:drawablePadding="10dp"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RedesignButton"
+                android:id="@+id/btnSaveTask"
+                android:text="@string/redesign_save"
+                android:layout_marginTop="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RedesignButton"
+                android:id="@+id/btnDeleteTask"
+                android:text="@string/redesign_delete"
+                app:backgroundTint="@color/auth_white"
+                app:strokeColor="@color/auth_soft_sage"
+                app:strokeWidth="1dp"
+                android:textColor="#9A3245"
+                android:visibility="gone"
+                android:layout_marginTop="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RedesignButton"
+                android:id="@+id/btnCancelTask"
+                android:text="@string/redesign_cancel"
+                app:backgroundTint="@color/auth_white"
+                app:strokeColor="@color/auth_soft_sage"
+                app:strokeWidth="1dp"
+                android:textColor="@color/auth_ink"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
-
-
-
-        <Button
-            android:id="@+id/btnSaveTask"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:text="✓  Save pending task"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#2B806B"
-            android:layout_marginTop="40dp" />
-
-        <Button
-            android:id="@+id/btnDeleteTask"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Delete task"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#C0392B"
-            android:layout_marginTop="8dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnCancelTask"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="#267A67"
-            android:backgroundTint="#F7FAF8"
-            android:layout_marginTop="8dp" />
-
-    </LinearLayout>
-
-</ScrollView>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -98,6 +98,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                 }
             }
 
+            ((TextView) findViewById(R.id.taskFormHeading)).setText(R.string.redesign_edit_task);
             save.setText("Update Task");
 
             if (delete != null) {
