@@ -48,5 +48,5 @@ public interface ApiService {
     Call<PendingItem> updateItem(@Path("id") Long id, @Body PendingItem item);
 
     @DELETE("api/items/{id}")
-    Call<String> deleteItem(@Path("id") Long id);
+    Call<ResponseBody> deleteItem(@Path("id") Long id);
 }

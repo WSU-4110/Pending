@@ -228,9 +228,9 @@ public class PendingRepository {
     }
 
     public void deleteItem(Long id, NetworkCallback<String> callback) {
-        apiService.deleteItem(id).enqueue(new Callback<String>() {
+        apiService.deleteItem(id).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess("Task deleted successfully");
                 } else {
@@ -239,7 +239,7 @@ public class PendingRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 callback.onError("Network error: " + t.getMessage());
             }
         });
