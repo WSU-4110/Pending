@@ -8,6 +8,8 @@ import com.pending.model.RegisterRequest;
 import com.pending.model.ResendVerificationRequest;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -29,6 +31,9 @@ public interface ApiService {
 
     @POST("api/auth/resend-verification")
     Call<String> resendVerification(@Body ResendVerificationRequest request);
+
+    @GET("api/auth/verify")
+    Call<ResponseBody> verifyToken();
 
     @GET("api/items")
     Call<List<PendingItem>> getAllItems();

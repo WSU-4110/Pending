@@ -41,7 +41,7 @@ public class RetrofitClient {
                         return response;
                     })
                     .addInterceptor(logging)
-                    .connectTimeout(15, TimeUnit.SECONDS)
+                    .connectTimeout(5, TimeUnit.SECONDS)
                     .readTimeout(15, TimeUnit.SECONDS)
                     .build();
 

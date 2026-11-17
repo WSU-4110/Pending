@@ -11,6 +11,8 @@ import com.pending.network.ApiService;
 import com.pending.network.RetrofitClient;
 import com.pending.network.SessionManager;
 import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,6 +108,27 @@ public class PendingRepository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 callback.onError("Network failure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void verifySession(NetworkCallback<Boolean> callback) {
+        apiService.verifyToken().enqueue(new Callback<ResponseBody>(){
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()) {
+                    callback.onSuccess(true);
+                }else{
+                    sessionManager.logout();
+                    callback.onError("INVALID_TOKEN");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                sessionManager.logout();
+                callback.onError("SERVER_DOWN");
             }
         });
     }

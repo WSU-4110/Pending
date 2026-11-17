@@ -52,22 +52,32 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = SessionManager.getInstance(this);
 
         if (sessionManager.isLoggedIn()) {
-            repository.validateSession(new NetworkCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean isValid) {
-                    showDashboardScreen();
-                }
-
-                @Override
-                public void onError(String errorMessage) {
-                    sessionManager.clearSession();
-                    Toast.makeText(MainActivity.this, "Session expired. Please log in.", Toast.LENGTH_SHORT).show();
-                    showLoginScreen();
-                }
-            });
+            validateSessionOnBoot();
         } else {
             showLandingScreen();
         }
+    }
+
+    private void validateSessionOnBoot() {
+        repository.verifySession(new NetworkCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                showDashboardScreen();
+            }
+
+            @Override
+            public void onError(String errorType) {
+                getPreferences(MODE_PRIVATE).edit().remove("first_name").apply();
+
+                if(errorType.equals("INVALID_TOKEN")) {
+                    Toast.makeText(MainActivity.this, "Your session has expired. Please sign in again.", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(MainActivity.this, "Unable to connect to the server. You have been logged out.", Toast.LENGTH_LONG).show();
+                }
+
+                showLoginScreen();
+            }
+        });
     }
 
     private void showLandingScreen() {
@@ -397,12 +407,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
+            sessionManager.logout();
             getPreferences(MODE_PRIVATE)
                     .edit()
                     .remove("first_name")
                     .apply();
 
-            sessionManager.logout();
             showLoginScreen();
         });
 
