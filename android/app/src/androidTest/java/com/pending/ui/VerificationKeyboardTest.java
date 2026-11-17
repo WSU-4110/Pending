@@ -68,53 +68,110 @@ public class VerificationKeyboardTest {
             int[] original = new int[2];
             scenario.onActivity(activity -> {
                 NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
-                View button = activity.findViewById(R.id.confirmEmailVerificationButton);
-                original[0] = button.getTop();
+                original[0] = activity.findViewById(R.id.confirmEmailVerificationButton).getTop();
                 original[1] = scroll.getChildAt(0).getHeight();
-                EditText input = activity.findViewById(R.id.editInboxCodeNumberSigned);
-                input.requestFocus();
-                ViewCompat.getWindowInsetsController(input).show(WindowInsetsCompat.Type.ime());
             });
-            awaitKeyboard(scenario, true);
-            SystemClock.sleep(600);
-            capture("open-input");
-            scenario.onActivity(activity -> {
-                NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
-                EditText input = activity.findViewById(R.id.editInboxCodeNumberSigned);
-                Rect visible = new Rect();
-                assertTrue(input.getGlobalVisibleRect(visible));
-                assertEquals("All code boxes must be visible above the keyboard: " + visible
-                        + " scrollY=" + scroll.getScrollY() + " height=" + scroll.getHeight()
-                        + " padding=" + scroll.getPaddingBottom(), input.getHeight(), visible.height());
-                input.setText("123456");
-                assertEquals("123456", input.getText().toString());
-                assertEquals(original[0], activity.findViewById(R.id.confirmEmailVerificationButton).getTop());
-                assertEquals(original[1], scroll.getChildAt(0).getHeight());
-            });
-            instrumentation.waitForIdleSync();
-            SystemClock.sleep(300);
-            scenario.onActivity(activity -> ((NestedScrollView) activity.findViewById(
-                    R.id.verificationScroll)).fullScroll(View.FOCUS_DOWN));
-            SystemClock.sleep(600);
-            capture("open-scrolled");
+            for (int cycle = 0; cycle < 3; cycle++) {
+                scenario.onActivity(activity -> {
+                    EditText input = activity.findViewById(R.id.editInboxCodeNumberSigned);
+                    input.requestFocus();
+                    ViewCompat.getWindowInsetsController(input).show(WindowInsetsCompat.Type.ime());
+                });
+                awaitKeyboard(scenario, true);
+                SystemClock.sleep(700);
+                scenario.onActivity(activity -> {
+                    NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
+                    EditText input = activity.findViewById(R.id.editInboxCodeNumberSigned);
+                    assertFullyVisible(input);
+                    input.setText("123456");
+                    assertEquals(original[0], activity.findViewById(R.id.confirmEmailVerificationButton).getTop());
+                    assertEquals(original[1], scroll.getChildAt(0).getHeight());
+                });
+                instrumentation.waitForIdleSync();
+                SystemClock.sleep(300);
+                if (cycle == 0) capture("open-input");
+                // Real touch scrolling, rather than fullScroll(), keeps the code input focused.
+                swipeToVerify(scenario, instrumentation);
+                if (cycle == 0) capture("open-scrolled");
+                int[] userScroll = new int[1];
+                scenario.onActivity(activity -> {
+                    View button = activity.findViewById(R.id.confirmEmailVerificationButton);
+                    assertFullyVisible(button);
+                    EditText input = activity.findViewById(R.id.editInboxCodeNumberSigned);
+                    assertTrue("Scrolling must retain the OTP focus", input.hasFocus());
+                    NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
+                    userScroll[0] = scroll.getScrollY();
+                    input.setSelection(3);
+                    // Repeated inset/caret events must not pull a user back from Verify.
+                    ViewCompat.requestApplyInsets(scroll);
+                });
+                SystemClock.sleep(800);
+                scenario.onActivity(activity -> {
+                    assertEquals("Manual scroll must remain stable", userScroll[0],
+                            ((NestedScrollView) activity.findViewById(R.id.verificationScroll)).getScrollY());
+                    assertFullyVisible(activity.findViewById(R.id.confirmEmailVerificationButton));
+                    assertKeyboard(activity, true);
+                });
+                if (cycle == 2) instrumentation.sendKeyDownUpSync(android.view.KeyEvent.KEYCODE_BACK);
+                else scenario.onActivity(activity -> ViewCompat.getWindowInsetsController(
+                        activity.findViewById(R.id.verificationScroll)).hide(WindowInsetsCompat.Type.ime()));
+                awaitKeyboard(scenario, false);
+                SystemClock.sleep(700);
+                scenario.onActivity(activity -> {
+                    NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
+                    assertEquals("Dismissal restores the pre-keyboard position", 0, scroll.getScrollY());
+                    assertEquals(original[0], activity.findViewById(R.id.confirmEmailVerificationButton).getTop());
+                    assertEquals("123456", ((EditText) activity.findViewById(R.id.editInboxCodeNumberSigned)).getText().toString());
+                });
+                if (cycle == 0) capture("closed-restored");
+            }
+        }
+    }
+
+    private void assertFullyVisible(View view) {
+        Rect visible = new Rect();
+        assertTrue(view.getGlobalVisibleRect(visible));
+        assertEquals("Full view height must be visible: " + visible, view.getHeight(), visible.height());
+        assertEquals("All six cells must fit horizontally", view.getWidth(), visible.width());
+        Rect window = new Rect();
+        view.getWindowVisibleDisplayFrame(window);
+        assertTrue("View must be above the keyboard", visible.bottom <= window.bottom);
+    }
+
+    private void assertKeyboard(MainActivity activity, boolean visible) {
+        assertEquals(visible, ViewCompat.getRootWindowInsets(activity.findViewById(
+                R.id.verificationScroll)).isVisible(WindowInsetsCompat.Type.ime()));
+    }
+
+    private void swipeToVerify(ActivityScenario<MainActivity> scenario, Instrumentation instrumentation) {
+        for (int attempt = 0; attempt < 5; attempt++) {
+            boolean[] visible = {false};
+            float[] points = new float[3];
             scenario.onActivity(activity -> {
                 View button = activity.findViewById(R.id.confirmEmailVerificationButton);
-                Rect visible = new Rect();
-                assertTrue(button.getGlobalVisibleRect(visible));
-                assertEquals(button.getHeight(), visible.height());
-                Rect window = new Rect();
-                button.getWindowVisibleDisplayFrame(window);
-                assertTrue("Verify must be above the keyboard", visible.bottom <= window.bottom);
-                ViewCompat.getWindowInsetsController(button).hide(WindowInsetsCompat.Type.ime());
+                Rect rect = new Rect();
+                visible[0] = button.getGlobalVisibleRect(rect) && rect.height() == button.getHeight();
+                View scroll = activity.findViewById(R.id.verificationScroll);
+                int[] location = new int[2];
+                scroll.getLocationOnScreen(location);
+                points[0] = location[0] + scroll.getWidth() / 2f;
+                points[1] = location[1] + scroll.getHeight() * .85f;
+                points[2] = location[1] + scroll.getHeight() * .2f;
             });
-            awaitKeyboard(scenario, false);
-            scenario.onActivity(activity -> {
-                NestedScrollView scroll = activity.findViewById(R.id.verificationScroll);
-                scroll.scrollTo(0, 0);
-                assertEquals(original[0], activity.findViewById(R.id.confirmEmailVerificationButton).getTop());
-                assertEquals("123456", ((EditText) activity.findViewById(R.id.editInboxCodeNumberSigned)).getText().toString());
-            });
+            if (visible[0]) return;
+            long start = SystemClock.uptimeMillis();
+            for (int step = 0; step <= 20; step++) {
+                int action = step == 0 ? android.view.MotionEvent.ACTION_DOWN
+                        : step == 20 ? android.view.MotionEvent.ACTION_UP : android.view.MotionEvent.ACTION_MOVE;
+                android.view.MotionEvent event = android.view.MotionEvent.obtain(start, SystemClock.uptimeMillis(),
+                        action, points[0], points[1] + (points[2] - points[1]) * step / 20f, 0);
+                instrumentation.sendPointerSync(event);
+                event.recycle();
+                SystemClock.sleep(20);
+            }
+            SystemClock.sleep(700);
         }
+        fail("Could not scroll Verify into view");
     }
 
     private void capture(String state) throws Exception {

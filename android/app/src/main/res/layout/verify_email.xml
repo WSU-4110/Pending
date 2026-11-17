@@ -103,7 +103,10 @@
                 android:id="@+id/editInboxCodeNumberSigned"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:inputType="numberSigned"
+                android:inputType="numberPassword"
+                android:imeOptions="actionDone|flagNoPersonalizedLearning|flagNoExtractUi"
+                android:autofillHints="emailOTPCode,smsOTPCode"
+                android:importantForAutofill="yes"
                 android:textColor="@color/auth_ink"
                 android:textSize="24sp"/>
             <com.google.android.material.button.MaterialButton

@@ -25,6 +25,9 @@ public class VerificationCodeInput extends AppCompatEditText {
         setBackground(null);
         setTypeface(Typeface.MONOSPACE);
         setSingleLine(true);
+        // Numeric password mode requests the IME's digits-only, suggestion-free keypad.
+        // OTP digits remain visible in the existing cells; OTP autofill stays enabled.
+        setTransformationMethod(null);
         setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         setTextDirection(TEXT_DIRECTION_LTR);
         setLayoutDirection(LAYOUT_DIRECTION_LTR);
