@@ -46,6 +46,7 @@ public class PendingDetailsActivity extends AppCompatActivity {
         });
     findViewById(R.id.detailsBack).setOnClickListener(v -> finish());
     findViewById(R.id.detailsEdit).setOnClickListener(v -> edit());
+    findViewById(R.id.detailsDelete).setOnClickListener(v -> confirmDelete());
     findViewById(R.id.detailsComplete)
         .setOnClickListener(
             v ->
@@ -67,6 +68,7 @@ public class PendingDetailsActivity extends AppCompatActivity {
 
   private void enable(boolean enabled) {
     findViewById(R.id.detailsEdit).setEnabled(enabled);
+    findViewById(R.id.detailsDelete).setEnabled(enabled && task != null);
     findViewById(R.id.detailsComplete)
         .setEnabled(enabled && task != null && !PendingTaskPresentation.completed(task));
   }
@@ -86,6 +88,9 @@ public class PendingDetailsActivity extends AppCompatActivity {
             if (r.isSuccessful() && r.body() != null && PendingTaskPresentation.active(r.body())) {
               task = r.body();
               render();
+            } else if (r.code() == 404 && task != null) {
+              // An item deleted from the edit form should return to the task list.
+              finish();
             } else error("Task unavailable. Tap to retry.");
           }
 
@@ -170,6 +175,36 @@ public class PendingDetailsActivity extends AppCompatActivity {
                 .show();
           }
         });
+  }
+
+  private void confirmDelete() {
+    if (task == null || saving) return;
+    new AlertDialog.Builder(this)
+        .setTitle("Delete task?")
+        .setMessage("This task will be hidden from Pending.")
+        .setNegativeButton("Cancel", null)
+        .setPositiveButton("Delete", (dialog, which) -> {
+          if (saving) return;
+          saving = true;
+          enable(false);
+          repository.deleteItem(task.getId(), new NetworkCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+              if (isFinishing() || isDestroyed()) return;
+              Toast.makeText(PendingDetailsActivity.this, "Task deleted", Toast.LENGTH_SHORT).show();
+              finish();
+            }
+
+            @Override
+            public void onError(String error) {
+              saving = false;
+              if (isFinishing() || isDestroyed()) return;
+              enable(true);
+              Toast.makeText(PendingDetailsActivity.this, "Couldn’t delete task: " + error, Toast.LENGTH_LONG).show();
+            }
+          });
+        })
+        .show();
   }
 
   private void edit() {
