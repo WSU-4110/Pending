@@ -262,4 +262,19 @@
         android:minHeight="56dp"
         android:paddingVertical="14dp"
         android:paddingHorizontal="16dp"/>
+    <Button
+        android:id="@+id/detailsDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/task_details_button"
+        app:backgroundTint="@color/pastel_pale_pink"
+        android:textColor="#9A3245"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:text="Delete task"
+        android:enabled="false"
+        android:minHeight="48dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="16dp"/>
 </LinearLayout>
