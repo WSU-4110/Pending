@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
+<com.pending.ui.VerificationScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/verificationScroll"
-    android:fillViewport="true"
+    android:fillViewport="false"
+    android:focusableInTouchMode="true"
     android:isScrollContainer="true"
     android:clipToPadding="false"
     android:background="@color/verification_background"
@@ -123,8 +124,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:layout_weight="1"/>
+                android:layout_height="24dp"/>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/confirmEmailVerificationButton"
                 android:layout_width="match_parent"
@@ -154,4 +154,4 @@
                 android:textSize="12sp"
                 android:lineSpacingExtra="2dp"/>
         </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</com.pending.ui.VerificationScrollView>
