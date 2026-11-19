@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram id="sprint2-uml" name="Sprint 2 UML">
+    <mxGraphModel grid="0" page="1" pageScale="1" pageWidth="1920" pageHeight="800" background="#ffffff" arrows="1" connect="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="AppCompatActivity" value="AppCompatActivity" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="897" y="37" width="296" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="MainActivity" value="MainActivity" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=swimlane;startSize=56;horizontal=1;swimlaneFillColor=#ffffff;collapsible=0;fontSize=30;" vertex="1" parent="1">
+          <mxGeometry x="326" y="161" width="559" height="563" as="geometry" />
+        </mxCell>
+        <mxCell id="CreateTaskActivity" value="CreateTaskActivity" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=swimlane;startSize=56;horizontal=1;swimlaneFillColor=#ffffff;collapsible=0;fontSize=30;" vertex="1" parent="1">
+          <mxGeometry x="1205" y="161" width="668" height="238" as="geometry" />
+        </mxCell>
+        <mxCell id="PendingRepository" value="PendingRepository" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="928" y="246" width="234" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="PendingItem" value="PendingItem" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="928" y="334" width="234" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="SessionManager" value="SessionManager" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="25" y="225" width="271" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="PendingOverviewController" value="PendingOverviewController" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=17;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="25" y="318" width="271" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="OnBackPressedCallback" value="OnBackPressedCallback" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=18;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="25" y="411" width="271" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="PendingUiTaskAdapter" value="PendingUiTaskAdapter" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=18;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="25" y="504" width="271" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="TaskCategory" value="TaskCategory" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="1231" y="530" width="267" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="PendingTaskUpdates" value="PendingTaskUpdates" style="rounded=0;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontColor=#000000;fontFamily=DejaVu Sans;fontStyle=1;whiteSpace=wrap;html=1;shape=rectangle;fontSize=21;spacingTop=24;" vertex="1" parent="1">
+          <mxGeometry x="1580" y="530" width="267" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="part-3" value="androidx.appcompat.app" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="AppCompatActivity">
+          <mxGeometry x="0" y="5.0" width="296" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-8" value="" style="shape=line;strokeColor=#000000;strokeWidth=2;resizable=0;editable=0;" vertex="1" parent="MainActivity">
+          <mxGeometry x="0.0" y="196.0" width="559.0" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="part-9" value="− repository: PendingRepository" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="63.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-10" value="− sessionManager: SessionManager" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="88.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-11" value="− pendingUi: PendingOverviewController" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="113.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-12" value="− pendingBack: OnBackPressedCallback" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="138.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-13" value="− completedRequest: int" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="163.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-14" value="# onCreate(savedInstanceState: Bundle): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="204.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-15" value="− validateSessionOnBoot(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="229.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-16" value="− showLandingScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="254.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-17" value="− showLoginScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="279.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-18" value="− showRegisterScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="304.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-19" value="− showDashboardScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="329.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-20" value="− showPendingScreen(overview: boolean): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="354.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-21" value="# onResume(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="379.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-22" value="# onDestroy(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="404.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-23" value="− showSettingsScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="429.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-24" value="− showCompletedScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="454.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-25" value="− refreshCompleted(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="479.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-26" value="− disposePendingScreen(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="504.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-27" value="− showVerifyEmailScreen(email: String): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="MainActivity">
+          <mxGeometry x="18.0" y="529.0" width="536.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-31" value="" style="shape=line;strokeColor=#000000;strokeWidth=2;resizable=0;editable=0;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="0.0" y="146.0" width="668.0" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="part-32" value="− repository: PendingRepository" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="63.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-33" value="− existingTaskId: Long" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="88.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-34" value="− existingTask: PendingItem" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="113.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-35" value="+ newIntent(context: Context, task: PendingItem): Intent" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;fontStyle=4;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="154.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-37" value="# onCreate(savedInstanceState: Bundle): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="179.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-38" value="− confirmDeleteTask(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans Mono;fontSize=19;fontColor=#000000;" vertex="1" parent="CreateTaskActivity">
+          <mxGeometry x="18.0" y="204.0" width="645.0" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-39" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=block;endFill=0;endSize=12;exitX=0.49910555;exitY=0.00000000;exitPerimeter=0;entryX=0.23310811;entryY=1.00000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="AppCompatActivity">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="605.0" y="126.0" />
+              <mxPoint x="966.0" y="126.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-40" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=block;endFill=0;endSize=12;exitX=0.50000000;exitY=0.00000000;exitPerimeter=0;entryX=0.76689189;entryY=1.00000000;entryPerimeter=0;" edge="1" parent="1" source="CreateTaskActivity" target="AppCompatActivity">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1539.0" y="126.0" />
+              <mxPoint x="1124.0" y="126.0" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-41" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;exitX=1.00000000;exitY=0.05506217;exitPerimeter=0;entryX=0.00000000;entryY=0.13025210;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="CreateTaskActivity">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="launch-label" value="launches for create or edit" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontFamily=DejaVu Sans;fontSize=18;fontColor=#000000;" vertex="1" connectable="0" parent="part-41">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="0" y="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-44" value="com.pending.repository" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="PendingRepository">
+          <mxGeometry x="0" y="5.0" width="234" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-46" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=1.00000000;exitY=0.20781528;exitPerimeter=0;entryX=0.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="PendingRepository">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-47" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=0.00000000;exitY=0.49159664;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="CreateTaskActivity" target="PendingRepository">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-49" value="com.pending.model" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="PendingItem">
+          <mxGeometry x="0" y="5.0" width="234" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-51" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;exitX=1.00000000;exitY=0.36412078;exitPerimeter=0;entryX=0.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="PendingItem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-52" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=0.00000000;exitY=0.86134454;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="CreateTaskActivity" target="PendingItem">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-54" value="com.pending.network" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="SessionManager">
+          <mxGeometry x="0" y="5.0" width="271" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-56" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=0.00000000;exitY=0.17051510;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="SessionManager">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-58" value="com.pending.ui" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="PendingOverviewController">
+          <mxGeometry x="0" y="5.0" width="271" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-60" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=0.00000000;exitY=0.33570160;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="PendingOverviewController">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-62" value="androidx.activity" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="OnBackPressedCallback">
+          <mxGeometry x="0" y="5.0" width="271" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-64" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;exitX=0.00000000;exitY=0.50088810;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="OnBackPressedCallback">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-66" value="com.pending.ui" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="PendingUiTaskAdapter">
+          <mxGeometry x="0" y="5.0" width="271" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-68" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;exitX=0.00000000;exitY=0.66607460;exitPerimeter=0;entryX=1.00000000;entryY=0.50000000;entryPerimeter=0;" edge="1" parent="1" source="MainActivity" target="PendingUiTaskAdapter">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-70" value="«enumeration»" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="TaskCategory">
+          <mxGeometry x="0" y="5.0" width="267" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-73" value="com.pending.ui" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=16;fontColor=#000000;" vertex="1" parent="PendingTaskUpdates">
+          <mxGeometry x="0" y="5.0" width="267" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-75" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;exitX=0.23802395;exitY=1.00000000;exitPerimeter=0;entryX=0.49812734;entryY=0.00000000;entryPerimeter=0;" edge="1" parent="1" source="CreateTaskActivity" target="TaskCategory">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-76" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;exitX=0.76197605;exitY=1.00000000;exitPerimeter=0;entryX=0.50187266;entryY=0.00000000;entryPerimeter=0;" edge="1" parent="1" source="CreateTaskActivity" target="PendingTaskUpdates">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="part-77" value="" style="shape=line;strokeColor=#000000;strokeWidth=2;resizable=0;editable=0;" vertex="1" parent="1">
+          <mxGeometry x="35.0" y="733.0" width="1838.0" height="2" as="geometry" />
+        </mxCell>
+        <mxCell id="part-78" value="+ Public     − Private     # Protected" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=19;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="35.0" y="753.0" width="380" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-79" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=block;endFill=0;endSize=12;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="427.0" y="766.0" as="sourcePoint" />
+            <mxPoint x="481.0" y="766.0" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-80" value="Generalization" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=19;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="496.0" y="753.0" width="380" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-81" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="687.0" y="766.0" as="sourcePoint" />
+            <mxPoint x="741.0" y="766.0" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-82" value="Navigable association" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=19;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="756.0" y="753.0" width="380" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-83" style="edgeStyle=none;html=1;rounded=0;strokeColor=#000000;strokeWidth=2;fontColor=#000000;endArrow=open;endFill=0;endSize=8;dashed=1;dashPattern=4 3.5;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1033.0" y="766.0" as="sourcePoint" />
+            <mxPoint x="1087.0" y="766.0" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="part-84" value="Dependency" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=19;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1102.0" y="753.0" width="380" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="part-85" value="Underlined operation = static" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacing=0;fontFamily=DejaVu Sans;fontSize=19;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="1344.0" y="753.0" width="380" height="25" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
