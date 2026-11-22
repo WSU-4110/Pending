@@ -26,6 +26,10 @@ public class PendingRepository {
         this.sessionManager = SessionManager.getInstance(context);
     }
 
+    public PendingRepository(ApiService apiService, SessionManager sessionManager) {
+        this.apiService = apiService;
+        this.sessionManager = sessionManager;
+    }
     public void register(String email, String password, String firstName, String lastName, NetworkCallback<AuthResponse> callback) {
         RegisterRequest request = new RegisterRequest(email, password, firstName, lastName);
         apiService.register(request).enqueue(new Callback<AuthResponse>() {
