@@ -33,10 +33,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    useLibrary( "android.test.runner")
 }
 
 dependencies {
     implementation(libs.appcompat)
+    implementation(libs.ext.junit)
     implementation(libs.fragment)
     implementation(libs.legacy.support.v4)
     implementation(libs.lifecycle.livedata.ktx)
@@ -52,4 +54,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    testImplementation("org.mockito:mockito-core:5.11.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+    androidTestImplementation("androidx.test:runner:1.1.0")
+    androidTestUtil("androidx.test:orchestrator:1.1.0")
+    testImplementation("org.assertj:assertj-core:3.26.3")
 }
