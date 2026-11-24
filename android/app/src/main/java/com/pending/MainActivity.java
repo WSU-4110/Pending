@@ -21,11 +21,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.pending.model.AuthResponse;
 import com.pending.model.PendingItem;
 import com.pending.network.SessionManager;
 import com.pending.repository.NetworkCallback;
 import com.pending.repository.PendingRepository;
+import com.pending.settings.NotificationPreferences;
+import com.pending.settings.NotificationSettingsActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -405,6 +408,18 @@ public class MainActivity extends AppCompatActivity {
         } catch (android.content.pm.PackageManager.NameNotFoundException ignored) {
             version.setVisibility(View.GONE);
         }
+
+        NotificationPreferences notificationPreferences = NotificationPreferences.forSignedInUser(this);
+        MaterialSwitch notifications = findViewById(R.id.settingsNotificationsSwitch);
+        notifications.setEnabled(notificationPreferences != null);
+        if (notificationPreferences != null) {
+            notifications.setChecked(notificationPreferences.isNotificationsEnabled());
+            notifications.setOnCheckedChangeListener((button, checked) ->
+                    notificationPreferences.setNotificationsEnabled(checked));
+        }
+
+        findViewById(R.id.settingsNotificationsEntry).setOnClickListener(v ->
+                startActivity(new Intent(this, NotificationSettingsActivity.class)));
 
         findViewById(R.id.logoutButton).setOnClickListener(v -> {
             sessionManager.logout();

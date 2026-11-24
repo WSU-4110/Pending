@@ -2,6 +2,15 @@ package com.pending.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
+
+import androidx.annotation.Nullable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class SessionManager {
     private static final String PREF_NAME = "pending_user_session";
@@ -40,6 +49,37 @@ public class SessionManager {
     public Long getUserId() {
         long id = pref.getLong(KEY_USER_ID, -1L);
         return id != -1L ? id : null;
+    }
+
+    /** Returns the account ID for local preference scoping, including sessions saved before userId was mapped. */
+    @Nullable
+    public Long getSignedInUserId() {
+        Map<String, ?> session = pref.getAll();
+        Object token = session.get(KEY_TOKEN);
+        if (!(token instanceof String) || ((String) token).isEmpty()) {
+            return null;
+        }
+
+        Object id = session.get(KEY_USER_ID);
+        if (id instanceof Long && (Long) id > 0) {
+            return (Long) id;
+        }
+
+        // Older installs received this token from the server but stored no account ID.
+        // The payload is used only as a local storage namespace. The server validates the token.
+        String[] tokenParts = ((String) token).split("\\.", -1);
+        if (tokenParts.length != 3) {
+            return null;
+        }
+
+        try {
+            byte[] payload = Base64.decode(tokenParts[1], Base64.URL_SAFE | Base64.NO_WRAP);
+            JSONObject claims = new JSONObject(new String(payload, StandardCharsets.UTF_8));
+            long userId = claims.optLong("userId", -1L);
+            return userId > 0 ? userId : null;
+        } catch (IllegalArgumentException | JSONException invalidToken) {
+            return null;
+        }
     }
 
     public String getUserEmail() {

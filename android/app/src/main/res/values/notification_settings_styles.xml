@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Pending.NotificationSettings" parent="Theme.Pending">
+        <item name="android:windowBackground">@color/notification_settings_background</item>
+    </style>
+
+    <style name="NotificationSettingsCard" parent="SettingsCard">
+        <item name="cardBackgroundColor">@color/notification_settings_card</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">@color/notification_settings_soft_sage</item>
+    </style>
+
+    <style name="NotificationIconOption" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/notification_icon_option</item>
+        <item name="android:button">@null</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">100dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:textColor">@color/notification_settings_text</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="NotificationSettingsSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawableTint">@color/notification_settings_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:saveEnabled">false</item>
+        <item name="android:textColor">@color/notification_settings_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="switchPadding">12dp</item>
+        <item name="thumbTint">@color/notification_switch_thumb</item>
+        <item name="trackTint">@color/notification_switch_track</item>
+        <item name="trackDecorationTint">@color/notification_switch_outline</item>
+    </style>
+</resources>

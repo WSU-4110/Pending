@@ -6,7 +6,7 @@ public class AuthResponse {
     @SerializedName("token")
     private String token;
 
-    @SerializedName("id")
+    @SerializedName(value = "userId", alternate = {"id"})
     private Long id;
 
     @SerializedName("email")

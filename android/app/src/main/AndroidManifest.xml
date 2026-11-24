@@ -18,6 +18,12 @@
         <activity android:name=".ui.PendingDetailsActivity" android:exported="false" />
 
         <activity
+            android:name=".settings.NotificationSettingsActivity"
+            android:exported="false"
+            android:label="@string/settings_notifications_title"
+            android:theme="@style/Theme.Pending.NotificationSettings" />
+
+        <activity
             android:name=".TaskDetailsActivity"
             android:exported="false" />
 

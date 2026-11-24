@@ -102,11 +102,45 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="9dp"
+                            android:background="@drawable/settings_icon_tile"
+                            android:src="@drawable/settings_ic_bell"
+                            app:tint="@color/settings_ink"
+                            android:importantForAccessibility="no"/>
+                        <com.google.android.material.materialswitch.MaterialSwitch
+                            android:id="@+id/settingsNotificationsSwitch"
+                            style="@style/NotificationSettingsSwitch"
+                            android:layout_width="0dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:paddingStart="0dp"
+                            android:paddingEnd="0dp"
+                            android:text="@string/settings_notifications_master"
+                            android:textColor="@color/settings_ink"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="48dp"
+                        android:background="@color/pastel_blush"/>
+                    <LinearLayout
+                        android:id="@+id/settingsNotificationsEntry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:minHeight="64dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:paddingVertical="10dp"
-                        android:enabled="false">
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:contentDescription="@string/settings_notifications_title">
                         <ImageView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
@@ -120,67 +154,18 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:importantForAccessibility="noHideDescendants"
                             android:layout_marginStart="12dp"
                             android:layout_marginEnd="8dp">
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" style="@style/SettingsTitle"
-                                android:text="@string/settings_notifications"
+                                android:text="@string/settings_notifications_title"
                                 android:textColor="@color/settings_ink"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content" style="@style/SettingsDetail"
-                                android:text="@string/settings_notifications_detail"
-                                android:layout_marginTop="3dp"/>
-                        </LinearLayout>
-                        <com.google.android.material.materialswitch.MaterialSwitch
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:enabled="false"
-                            android:checked="false"
-                            android:contentDescription="@string/settings_notifications"
-                            android:alpha="0.45"
-                            app:thumbTint="@color/settings_muted"
-                            app:trackTint="@color/settings_mint"
-                            app:trackDecorationTint="@color/settings_soft_sage"/>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="48dp"
-                        android:background="@color/pastel_blush"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="64dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingVertical="10dp"
-                        android:enabled="false">
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:padding="9dp"
-                            android:background="@drawable/settings_icon_tile"
-                            android:src="@drawable/settings_ic_clock"
-                            app:tint="@color/settings_ink"
-                            android:importantForAccessibility="no"/>
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp"
-                            android:layout_marginEnd="8dp">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" style="@style/SettingsTitle"
-                                android:text="@string/settings_reminders"
-                                android:textColor="@color/settings_ink"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" style="@style/SettingsDetail"
-                                android:text="@string/settings_reminders_detail"
+                                android:text="@string/settings_notifications_entry_detail"
                                 android:layout_marginTop="3dp"/>
                         </LinearLayout>
                         <ImageView
