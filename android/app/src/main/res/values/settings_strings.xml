@@ -2,10 +2,18 @@
 <resources>
     <string name="settings_title">Account &amp; preferences</string>
     <string name="settings_subtitle">Manage Pending your way</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_detail">Not available yet</string>
-    <string name="settings_reminders">Reminder defaults</string>
-    <string name="settings_reminders_detail">Default reminder timing</string>
+    <string name="settings_notifications_master">Notifications</string>
+    <string name="settings_notifications_title">Notifications Settings</string>
+    <string name="settings_notifications_entry_detail">Icon style, sound, vibration, and email</string>
+    <string name="settings_notifications_back">Back to account and preferences</string>
+    <string name="settings_notifications_icon_style">Icon Style</string>
+    <string name="settings_notifications_icon_small">Small</string>
+    <string name="settings_notifications_icon_large">Large</string>
+    <string name="settings_notifications_sound">Sound</string>
+    <string name="settings_notifications_vibration">Vibration</string>
+    <string name="settings_notifications_email">Email Notifications</string>
+    <string name="settings_notifications_email_detail">When enabled, app notifications will also be sent to your email.</string>
+    <string name="settings_notifications_sign_in">Sign in again to manage notifications for your account.</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_appearance_detail">Theme preferences</string>
     <string name="settings_privacy">Privacy &amp; data</string>
@@ -14,7 +22,7 @@
     <string name="settings_security_detail">Password and active sessions</string>
     <string name="settings_delete">Delete account</string>
     <string name="settings_delete_detail">Permanently remove account and data</string>
-    <string name="settings_unavailable">Preferences and account deletion are not implemented yet.</string>
+    <string name="settings_unavailable">Appearance, privacy, security, and account deletion are not available yet.</string>
     <string name="settings_logout">Log out</string>
     <string name="settings_profile_fallback">Your account</string>
     <string name="settings_email_fallback">No email available</string>

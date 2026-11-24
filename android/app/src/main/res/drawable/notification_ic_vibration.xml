@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M9,3 H15 Q17,3 17,5 V19 Q17,21 15,21 H9 Q7,21 7,19 V5 Q7,3 9,3 Z M3,8 V16 M21,8 V16 M10,18 H14"
+        android:strokeColor="@color/notification_settings_text"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="1.8" />
+</vector>

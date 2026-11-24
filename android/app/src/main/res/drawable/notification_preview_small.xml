@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="@color/notification_settings_soft_sage"
+        android:pathData="M24,0 A24,24 0,1 1,24,48 A24,24 0,1 1,24,0 Z" />
+    <group
+        android:scaleX="0.833333"
+        android:scaleY="0.833333"
+        android:translateX="14"
+        android:translateY="14">
+        <path
+            android:fillColor="@android:color/transparent"
+            android:pathData="M18,8a6,6 0,0 0,-12,0c0,7 -3,7 -3,9h18c0,-2 -3,-2 -3,-9 M10,21h4"
+            android:strokeColor="@color/notification_settings_text"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:strokeWidth="1.8" />
+    </group>
+</vector>

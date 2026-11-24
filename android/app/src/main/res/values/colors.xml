@@ -11,4 +11,14 @@
     <color name="taskOverdue">#F44336</color>
     <color name="taskCloseToDue">#FFC107</color>
     <color name="taskPending">#51FF06</color>
+    <color name="notification_settings_background">#FCF7F6</color>
+    <color name="notification_settings_card">@color/white</color>
+    <color name="notification_settings_text">@color/darkText</color>
+    <color name="notification_settings_muted">@color/mutedText</color>
+    <color name="notification_settings_action">@color/primary</color>
+    <color name="notification_settings_mint">#E6EFE7</color>
+    <color name="notification_settings_soft_sage">#DEE9DB</color>
+    <color name="notification_settings_pink">#FCE3E6</color>
+    <color name="notification_settings_accent_pink">#EF9FAF</color>
+    <color name="notification_settings_switch_on_thumb">@color/white</color>
 </resources>
